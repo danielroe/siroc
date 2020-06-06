@@ -1,16 +1,14 @@
 import { resolve } from 'path'
-import spawn from 'cross-spawn'
 import { existsSync, readJSONSync, writeFile, copy, remove } from 'fs-extra'
 
 import consola, { Consola } from 'consola'
-import _glob from 'glob'
-import pify from 'pify'
+import execa from 'execa'
 import { rollup, watch, RollupOptions, RollupError } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
 import type { PackageJson } from '../config/package-json'
 import { rollupConfig, NuxtRollupOptions } from '../config/rollup'
-import { sortObjectKeys, tryRequire, RequireProperties } from '../utils'
+import { sortObjectKeys, tryRequire, RequireProperties, glob } from '../utils'
 import type { PackageHooks, HookOptions } from './hooks'
 
 export interface PackageOptions {
@@ -36,7 +34,6 @@ const DEFAULTS: PackageOptions = {
   hooks: {},
 }
 
-const glob = pify(_glob)
 export class Package {
   options: PackageOptions
   logger: Consola
@@ -326,31 +323,24 @@ export class Package {
   }
 
   exec(command: string, args: string, silent = false) {
-    const r = spawn.sync(command, args.split(' '), {
+    const fullCommand = `${command} ${args}`
+    const r = execa.commandSync(fullCommand, {
       cwd: this.options.rootDir,
       env: process.env,
     })
 
     if (!silent) {
-      const fullCommand = command + ' ' + args
-      if (r.error) {
-        this.logger.error(fullCommand, r.error)
+      if (r.failed) {
+        this.logger.error(fullCommand, r.stderr.trim())
       } else {
-        this.logger.success(fullCommand, r.output)
+        this.logger.success(fullCommand, r.stdout.trim())
       }
     }
 
     return {
-      error: r.error,
-      pid: r.pid,
-      status: r.status,
       signal: r.signal,
       stdout: String(r.stdout).trim(),
       stderr: String(r.stderr).trim(),
-      output: (r.output || [])
-        .map(l => String(l).trim())
-        .filter(l => l.length)
-        .join('\n'),
     }
   }
 

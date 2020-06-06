@@ -1,5 +1,15 @@
 import _esm from 'esm'
+import _glob from 'glob'
+
 const esm = _esm(module)
+
+export const glob = (pattern: string) =>
+  new Promise<string[]>((resolve, reject) =>
+    _glob(pattern, (err, matches) => {
+      if (err) return reject(err)
+      resolve(matches)
+    })
+  )
 
 export const sortObjectKeys = <T>(obj: Record<string, T>) =>
   Object.fromEntries(
