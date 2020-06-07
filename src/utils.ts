@@ -56,3 +56,8 @@ export const includeDefinedProperties = <T extends Record<string, any>>(
   ) as ExcludeNullable<T>
 
 export const includeIf = <T>(test: any, item: T) => (test ? [item] : [])
+
+export const runInParallel = async <T, R extends any>(
+  items: T[],
+  cb: (item: T) => Promise<R>
+) => Promise.all(items.map(async item => cb(item)))

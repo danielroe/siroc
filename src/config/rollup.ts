@@ -141,6 +141,7 @@ export function rollupConfig(
         file: resolve(rootDir, 'dist', 'index.d.ts'),
         format: 'es' as const,
       },
+      external,
       plugins: [
         jsonPlugin(),
         dts({
