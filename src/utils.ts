@@ -42,3 +42,17 @@ export const groupBy = <T extends Record<string, any>, K extends keyof T>(
   })
   return groups
 }
+
+type ExcludeNullable<T extends Record<string, any>> = {
+  [P in keyof T]: NonNullable<T[P]>
+}
+
+export const includeDefinedProperties = <T extends Record<string, any>>(
+  options: T
+) =>
+  Object.fromEntries(
+    // eslint-disable-next-line
+    Object.entries(options).filter(([_, value]) => value !== undefined)
+  ) as ExcludeNullable<T>
+
+export const includeIf = <T>(test: any, item: T) => (test ? [item] : [])

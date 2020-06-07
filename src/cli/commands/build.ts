@@ -2,12 +2,16 @@ import consola from 'consola'
 
 import { Package } from '../../package'
 
-export async function build() {
+export interface BuildOptions {
+  watch?: boolean
+}
+
+export async function build(options: BuildOptions = {}) {
   // Read package at current directory
   const rootPackage = new Package()
   const workspacePackages = await rootPackage.getWorkspacePackages()
 
-  const watch = process.argv.includes('--watch')
+  const { watch } = options
   consola.info('starting')
   if (watch) consola.info('Watch mode')
 

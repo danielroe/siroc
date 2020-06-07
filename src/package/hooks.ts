@@ -8,7 +8,7 @@ export interface HookOptions {
     config: RequireProperties<NuxtRollupOptions, 'alias' | 'replace'>
   }
   'build:extendRollup': {
-    rollupConfig: NuxtRollupConfig
+    rollupConfig: NuxtRollupConfig[]
   }
   'build:done': { bundle: RollupBuild }
 }

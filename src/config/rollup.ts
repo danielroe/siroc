@@ -1,5 +1,4 @@
-import path from 'path'
-import { readJSONSync } from 'fs-extra'
+import { resolve, dirname, basename } from 'path'
 
 import aliasPlugin from '@rollup/plugin-alias'
 import commonjsPlugin from '@rollup/plugin-commonjs'
@@ -8,20 +7,30 @@ import replacePlugin, { Replacement } from '@rollup/plugin-replace'
 import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
-
-import licensePlugin from 'rollup-plugin-license'
 import defu from 'defu'
-
+import { readJSONSync } from 'fs-extra'
 import type { OutputOptions, RollupOptions } from 'rollup'
+import dts from 'rollup-plugin-dts'
+import esbuild from 'rollup-plugin-esbuild'
+import licensePlugin from 'rollup-plugin-license'
 
-import type { RequireProperties } from '../utils'
+import {
+  RequireProperties,
+  includeDefinedProperties,
+  includeIf,
+} from '../utils'
 import { builtins } from './node-builtins'
 import type { PackageJson } from './package-json'
+
+const __NODE_ENV__ = process.env.NODE_ENV
 
 export interface NuxtRollupOptions {
   rootDir?: string
   replace?: Record<string, Replacement>
   alias?: { [find: string]: string }
+  /**
+   * Explicit externals
+   */
   externals?: (string | RegExp)[]
   resolve?: RollupNodeResolveOptions
   input?: string
@@ -39,36 +48,48 @@ export function rollupConfig(
     replace = {},
     alias = {},
     externals = [],
-    resolve = {
+    resolve: resolveOptions = {
       resolveOnly: [/lodash/, /^((?!node_modules).)*$/],
+      preferBuiltins: true,
     },
     ...options
   }: RollupOptions & NuxtRollupOptions,
   pkg: RequireProperties<PackageJson, 'name'>
-): NuxtRollupConfig {
-  if (!pkg) {
-    pkg = readJSONSync(path.resolve(rootDir, 'package.json'))
+): NuxtRollupConfig[] {
+  if (!pkg) pkg = readJSONSync(resolve(rootDir, 'package.json'))
+
+  const name = basename(pkg.name.replace('-edge', ''))
+
+  const external = [
+    // Dependencies that will be installed alongside the package
+    ...Object.keys(pkg.dependencies || {}),
+    // Builtin node modules
+    ...builtins,
+    ...externals,
+  ]
+
+  const getFilenames = (filename: string | undefined, defaultSuffix = '') => {
+    return {
+      dir: filename
+        ? resolve(rootDir, filename ? dirname(filename) : 'dist')
+        : resolve(rootDir, 'dist'),
+      entryFileNames: filename
+        ? basename(filename)
+        : `${name}${defaultSuffix}.js`,
+      chunkFileNames: filename
+        ? `${basename(filename)}-[name].js`
+        : `${name}-[name]${defaultSuffix}.js`,
+    } as const
   }
 
-  const name = path.basename(pkg.name.replace('-edge', ''))
-
-  return defu({}, options, {
-    input: path.resolve(rootDir, input),
+  const baseConfig: NuxtRollupConfig = defu({}, options, {
+    input: resolve(rootDir, input),
     output: {
-      dir: path.resolve(rootDir, 'dist'),
-      entryFileNames: `${name}.js`,
-      chunkFileNames: `${name}-[name].js`,
+      ...getFilenames(pkg.main),
       format: 'cjs',
       preferConst: true,
     },
-    external: [
-      // Dependencies that will be installed alongise with the nuxt package
-      ...Object.keys(pkg.dependencies || {}),
-      // Builtin node modules
-      ...builtins,
-      // Explicit externals
-      ...externals,
-    ],
+    external,
     plugins: [
       aliasPlugin({
         entries: alias,
@@ -77,12 +98,17 @@ export function rollupConfig(
         exclude: 'node_modules/**',
         delimiters: ['', ''],
         values: {
-          __NODE_ENV__: process.env.NODE_ENV || '',
+          ...includeDefinedProperties({ __NODE_ENV__ }),
           ...replace,
         },
       }),
-      nodeResolvePlugin(resolve),
+      nodeResolvePlugin(resolveOptions),
       commonjsPlugin({ include: /node_modules/ }),
+      esbuild({
+        watch: process.argv.includes('--watch'),
+        minify: process.env.NODE_ENV === 'production',
+        target: 'es2018',
+      }),
       jsonPlugin(),
       licensePlugin({
         banner: [
@@ -99,4 +125,30 @@ export function rollupConfig(
       }),
     ].concat(plugins),
   })
+
+  return [
+    baseConfig,
+    ...includeIf(pkg.module, {
+      ...baseConfig,
+      output: {
+        ...getFilenames(pkg.module, '-es'),
+        format: 'es' as const,
+      },
+    }),
+    ...includeIf(pkg.types, {
+      input: baseConfig.input,
+      output: {
+        file: resolve(rootDir, 'dist', 'index.d.ts'),
+        format: 'es' as const,
+      },
+      plugins: [
+        jsonPlugin(),
+        dts({
+          compilerOptions: {
+            allowJs: true,
+          },
+        }),
+      ],
+    }),
+  ]
 }

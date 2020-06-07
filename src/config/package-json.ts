@@ -23,7 +23,9 @@ export interface PackageJson {
   author?: PackageJsonPerson
   contributors?: PackageJsonPerson[]
   files?: string[]
+  types?: string
   main?: string
+  module?: string
   bin?: string | Record<string, string>
   browser?: string
   man?: string | string[]

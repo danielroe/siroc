@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { dirname, resolve } from 'path'
 import { existsSync, readJSONSync, writeFile, copy, remove } from 'fs-extra'
 
 import consola, { Consola } from 'consola'
@@ -7,7 +7,11 @@ import { rollup, watch, RollupOptions, RollupError } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
 import type { PackageJson } from '../config/package-json'
-import { rollupConfig, NuxtRollupOptions } from '../config/rollup'
+import {
+  rollupConfig,
+  NuxtRollupOptions,
+  NuxtRollupConfig,
+} from '../config/rollup'
 import { sortObjectKeys, tryRequire, RequireProperties, glob } from '../utils'
 import type { PackageHooks, HookOptions } from './hooks'
 
@@ -191,6 +195,16 @@ export class Package {
     return packages
   }
 
+  async removeBuildFolders(config: NuxtRollupConfig[]) {
+    const directories = new Set<string>()
+    config.forEach(conf => {
+      directories.add(conf.output.dir || dirname(conf.output.file || ''))
+    })
+    for (const dir of directories) {
+      await remove(dir)
+    }
+  }
+
   async build(_watch = false) {
     // Prepare rollup config
     const config: RequireProperties<NuxtRollupOptions, 'alias' | 'replace'> = {
@@ -219,6 +233,8 @@ export class Package {
     await this.callHook('build:extendRollup', {
       rollupConfig: _rollupConfig,
     })
+
+    await this.removeBuildFolders(_rollupConfig)
 
     if (_watch) {
       // Watch
@@ -254,17 +270,18 @@ export class Package {
     } else {
       // Build
       this.logger.info('Building bundle')
-      try {
-        const bundle = await rollup(_rollupConfig)
-        if (_rollupConfig.output.dir) await remove(_rollupConfig.output.dir)
-        await bundle.write(_rollupConfig.output)
+      for (const config of _rollupConfig) {
+        try {
+          const bundle = await rollup(config)
+          await bundle.write(config.output)
 
-        this.logger.success('Bundle built')
-        await this.callHook('build:done', { bundle })
-      } catch (err) {
-        const formattedError = this.formatError(err)
-        this.logger.error(formattedError)
-        throw formattedError
+          this.logger.success('Bundle built')
+          await this.callHook('build:done', { bundle })
+        } catch (err) {
+          const formattedError = this.formatError(err)
+          this.logger.error(formattedError)
+          throw formattedError
+        }
       }
     }
   }
