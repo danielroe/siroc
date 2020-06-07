@@ -1,6 +1,7 @@
 import jsonPlugin from '@rollup/plugin-json'
-import esbuild from 'rollup-plugin-esbuild'
+import copy from 'rollup-plugin-copy'
 import dts from 'rollup-plugin-dts'
+import esbuild from 'rollup-plugin-esbuild'
 
 import pkg from './package.json'
 
@@ -8,8 +9,8 @@ export default [
   {
     input: 'src/cli/index.ts',
     output: {
-      file: pkg.bin.packager,
-      format: 'cjs',
+      file: 'lib/cli.js',
+      format: 'es',
     },
     external: Object.keys(pkg.dependencies || {}),
     plugins: [
@@ -19,6 +20,14 @@ export default [
         minify: process.env.NODE_ENV === 'production',
         target: 'es2018',
       }),
+      copy({
+        targets: [
+          {
+            src: 'src/cli/pkg.js',
+            dest: 'lib',
+          },
+        ],
+      }),
     ],
   },
   {
@@ -27,11 +36,7 @@ export default [
       file: pkg.main,
       format: 'cjs',
     },
-    external: [
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {}),
-    ],
-
+    external: [...Object.keys(pkg.dependencies || {})],
     plugins: [
       esbuild({
         watch: process.argv.includes('--watch'),
