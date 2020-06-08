@@ -21,7 +21,6 @@ import type { PackageHooks, PackageHookOptions } from './hooks'
 
 export interface PackageOptions {
   rootDir: string
-  configPath: string
   build: boolean
   suffix: string
   hooks: PackageHooks
@@ -30,9 +29,11 @@ export interface PackageOptions {
   rollup?: BuildConfigOptions & RollupOptions
 }
 
+// 'package.js' is legacy and will go
+const configPaths = ['siroc.config.js', 'package.js']
+
 const DEFAULTS: PackageOptions = {
   rootDir: process.cwd(),
-  configPath: 'siroc.config.js',
   build: false,
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
   hooks: {},
@@ -66,10 +67,13 @@ export class Package {
   }
 
   loadConfig() {
-    const configPath = this.resolvePath(this.options.configPath)
-    const config = tryRequire<PackageOptions>(configPath)
+    configPaths.some(path => {
+      const configPath = this.resolvePath(path)
+      const config = tryRequire<PackageOptions>(configPath)
+      if (!config) return false
 
-    Object.assign(this.options, config)
+      Object.assign(this.options, config)
+    })
   }
 
   async callHook<H extends keyof PackageHookOptions>(
@@ -244,13 +248,16 @@ export class Package {
 
           // Unknown event
           default:
-            return this.logger.info(JSON.stringify(event))
+            // If rollup adds more events, TypeScript will let us know
+            // eslint-disable-next-line
+            const _event: never = event
+            return this.logger.info(JSON.stringify(_event))
         }
       })
     } else {
       // Build
       this.logger.debug(`Building ${this.pkg.name}`)
-      for (const config of _rollupConfig) {
+      await runInParallel(_rollupConfig, async config => {
         try {
           const bundle = await rollup(config)
           await runInParallel(asArray(config.output), async outputConfig => {
@@ -273,7 +280,7 @@ export class Package {
           this.logger.error(formattedError)
           throw formattedError
         }
-      }
+      })
     }
   }
 
