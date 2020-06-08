@@ -3,17 +3,14 @@ import { PerformanceObserver, performance } from 'perf_hooks'
 import chalk from 'chalk'
 import consola from 'consola'
 
-import { Package } from '../../package'
+import { Package, BuildOptions } from '../../package'
 import { runInParallel } from '../../utils'
-
-export interface BuildOptions {
-  watch?: boolean
-}
 
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
   const seconds = (duration / 1000).toFixed(1)
-  consola.success(`${name} in ${chalk.bold(seconds + 's')}`)
+  const time = duration > 1000 ? seconds + 's' : duration + 'ms'
+  consola.success(`${name} in ${chalk.bold(time)}`)
 })
 obs.observe({ entryTypes: ['measure'] })
 
@@ -47,9 +44,9 @@ export async function build(options: BuildOptions = {}) {
     // Step 2: Build packages
     if (pkg.options.build) {
       if (watch) {
-        pkg.watch()
+        pkg.watch(options)
       } else {
-        await pkg.build()
+        await pkg.build(options)
       }
     }
     // Step 3: Link dependencies and Fix packages

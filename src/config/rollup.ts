@@ -28,6 +28,7 @@ export interface BuildConfigOptions extends RollupOptions {
   rootDir?: string
   replace?: Record<string, Replacement>
   alias?: { [find: string]: string }
+  dev?: boolean
   /**
    * Explicit externals
    */
@@ -44,6 +45,7 @@ export function rollupConfig(
     replace = {},
     alias = {},
     externals = [],
+    dev = false,
     resolve: resolveOptions = {
       resolveOnly: [/lodash/, /^((?!node_modules).)*$/],
       preferBuiltins: true,
@@ -86,7 +88,7 @@ export function rollupConfig(
         format: 'cjs',
         preferConst: true,
       },
-      ...includeIf(pkg.module, {
+      ...includeIf(pkg.module && !dev, {
         ...getFilenames(pkg.module, '-es'),
         format: 'es',
       }),

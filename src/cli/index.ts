@@ -23,6 +23,9 @@ cli
   .option('--watch', 'Watch files in bundle and rebuild on changes', {
     default: false,
   })
+  .option('--dev', 'Build development bundle (only CJS)', {
+    default: false,
+  })
   .action((options: BuildOptions) => run(build, options))
 cli.command('changelog', 'Generate changelog').action(() => run(changelog))
 

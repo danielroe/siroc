@@ -29,6 +29,11 @@ export interface PackageOptions {
   rollup?: BuildConfigOptions & RollupOptions
 }
 
+export interface BuildOptions {
+  dev?: boolean
+  watch?: boolean
+}
+
 // 'package.js' is legacy and will go
 const configPaths = ['siroc.config.js', 'package.js']
 
@@ -189,12 +194,13 @@ export class Package {
     }
   }
 
-  async build(_watch = false) {
+  async build({ watch: _watch = false, dev = _watch }: BuildOptions = {}) {
     // Prepare rollup config
     const config: RequireProperties<BuildConfigOptions, 'alias' | 'replace'> = {
       rootDir: this.options.rootDir,
       alias: {},
       replace: {},
+      dev,
       ...this.options.rollup,
     }
 
@@ -297,8 +303,8 @@ export class Package {
     return error
   }
 
-  watch() {
-    return this.build(true)
+  watch({ dev = true }) {
+    return this.build({ watch: true, dev })
   }
 
   publish(tag = 'latest') {
