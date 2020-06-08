@@ -45,7 +45,7 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
     }
   })
 
-  await runInParallel(workspacePackages, async pkg => {
+  for (const pkg of workspacePackages) {
     // Step 2: Build packages
     if (pkg.options.build) {
       if (watch) {
@@ -58,7 +58,7 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
     pkg.syncLinkedDependencies()
     pkg.autoFix()
     await Promise.all([...pkg.setBinaryPermissions(), pkg.writePackage()])
-  })
+  }
   if (watch) return
 
   performance.mark('Stop build')

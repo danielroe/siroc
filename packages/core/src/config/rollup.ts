@@ -46,7 +46,7 @@ export function rollupConfig(
     externals = [],
     dev = false,
     resolve: resolveOptions = {
-      resolveOnly: [/lodash/, /^((?!node_modules).)*$/],
+      resolveOnly: [/^((?!node_modules).)*$/],
       preferBuiltins: true,
     },
     plugins = [],
