@@ -1,5 +1,5 @@
 <h1 align="center">🌬️ Siroc</h1>
-<p align="center">Zero-config build tooling for Node applications</p>
+<p align="center">Zero-config build tooling for Node</p>
 
 <p align="center">
 <a href="https://npmjs.com/package/siroc">

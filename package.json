@@ -1,12 +1,15 @@
 {
   "name": "siroc",
   "version": "0.0.1",
-  "description": "Build tooling",
+  "description": "Zero-config build tooling for Node",
   "keywords": [
     "node",
     "nodejs",
     "typescript",
-    "javascript"
+    "javascript",
+    "rollup",
+    "bundle",
+    "package"
   ],
   "repository": "nuxt-contrib/siroc",
   "workspaces": [
