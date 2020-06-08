@@ -8,32 +8,31 @@ import { rollup, watch, RollupOptions, RollupError } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
 import type { PackageJson } from '../config/package-json'
+import { rollupConfig, BuildConfigOptions } from '../config/rollup'
 import {
-  rollupConfig,
-  NuxtRollupOptions,
-  NuxtRollupConfig,
-} from '../config/rollup'
-import { sortObjectKeys, tryRequire, RequireProperties, glob } from '../utils'
+  sortObjectKeys,
+  tryRequire,
+  RequireProperties,
+  glob,
+  runInParallel,
+  asArray,
+} from '../utils'
 import type { PackageHooks, PackageHookOptions } from './hooks'
 
 export interface PackageOptions {
   rootDir: string
-  pkgPath: string
   configPath: string
-  distDir: string
   build: boolean
   suffix: string
   hooks: PackageHooks
   linkedDependencies?: string[]
   sortDependencies?: boolean
-  rollup?: NuxtRollupOptions & RollupOptions
+  rollup?: BuildConfigOptions & RollupOptions
 }
 
 const DEFAULTS: PackageOptions = {
   rootDir: process.cwd(),
-  pkgPath: 'package.json',
-  configPath: 'package.js',
-  distDir: 'dist',
+  configPath: 'siroc.config.js',
   build: false,
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
   hooks: {},
@@ -50,7 +49,7 @@ export class Package {
     // Basic logger
     this.logger = consola
 
-    this.pkg = this.readPackageJSON(this.options.pkgPath)
+    this.pkg = this.readPackageJSON()
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
@@ -58,8 +57,8 @@ export class Package {
     this.loadConfig()
   }
 
-  private readPackageJSON(packagePath: string): this['pkg'] {
-    return readJSONSync(this.resolvePath(packagePath))
+  private readPackageJSON(): this['pkg'] {
+    return readJSONSync(this.resolvePath('package.json'))
   }
 
   resolvePath(...pathSegments: string[]) {
@@ -83,9 +82,7 @@ export class Package {
 
     const fnArray = Array.isArray(fns) ? fns : [fns]
 
-    for (const fn of fnArray) {
-      await fn(this, options)
-    }
+    await runInParallel(fnArray, async fn => fn(this, options))
   }
 
   load(relativePath: string, opts?: PackageOptions) {
@@ -102,7 +99,7 @@ export class Package {
   async writePackage() {
     if (this.options.sortDependencies) this.sortDependencies()
 
-    const pkgPath = this.resolvePath(this.options.pkgPath)
+    const pkgPath = this.resolvePath('package.json')
     this.logger.debug('Writing', pkgPath)
     await writeFile(pkgPath, JSON.stringify(this.pkg, null, 2) + '\n')
   }
@@ -176,10 +173,12 @@ export class Package {
     }
   }
 
-  async removeBuildFolders(config: NuxtRollupConfig[]) {
+  async removeBuildFolders(config: RollupOptions[]) {
     const directories = new Set<string>()
     config.forEach(conf => {
-      directories.add(conf.output.dir || dirname(conf.output.file || ''))
+      asArray(conf.output).forEach(conf => {
+        if (conf) directories.add(conf.dir || dirname(conf.file || ''))
+      })
     })
     for (const dir of directories) {
       await remove(dir)
@@ -188,7 +187,7 @@ export class Package {
 
   async build(_watch = false) {
     // Prepare rollup config
-    const config: RequireProperties<NuxtRollupOptions, 'alias' | 'replace'> = {
+    const config: RequireProperties<BuildConfigOptions, 'alias' | 'replace'> = {
       rootDir: this.options.rootDir,
       alias: {},
       replace: {},
@@ -254,13 +253,20 @@ export class Package {
       for (const config of _rollupConfig) {
         try {
           const bundle = await rollup(config)
-          const { output } = await bundle.write(config.output)
+          await runInParallel(asArray(config.output), async outputConfig => {
+            if (!outputConfig) {
+              consola.error('No build defined in generated config.')
+              return
+            }
 
-          this.logger.success(
-            `Built ${chalk.bold(this.pkg.name)} ${chalk.gray(
-              output[0].fileName
-            )}`
-          )
+            const { output } = await bundle.write(outputConfig)
+
+            this.logger.success(
+              `Built ${chalk.bold(this.pkg.name)} ${chalk.gray(
+                output[0].fileName
+              )}`
+            )
+          })
           await this.callHook('build:done', { bundle })
         } catch (err) {
           const formattedError = this.formatError(err)
@@ -351,7 +357,7 @@ export class Package {
 
     const dirs = new Set<string>()
     await Promise.all(
-      (this.pkg.workspaces || []).map(async workspace =>
+      (this.pkg.workspaces || ['.']).map(async workspace =>
         (await glob(workspace)).forEach(dir => dirs.add(dir))
       )
     )

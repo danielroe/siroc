@@ -9,7 +9,7 @@ import nodeResolvePlugin, {
 } from '@rollup/plugin-node-resolve'
 import defu from 'defu'
 import { readJSONSync } from 'fs-extra'
-import type { OutputOptions, RollupOptions } from 'rollup'
+import type { RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import licensePlugin from 'rollup-plugin-license'
@@ -24,7 +24,7 @@ import type { PackageJson } from './package-json'
 
 const __NODE_ENV__ = process.env.NODE_ENV
 
-export interface NuxtRollupOptions {
+export interface BuildConfigOptions extends RollupOptions {
   rootDir?: string
   replace?: Record<string, Replacement>
   alias?: { [find: string]: string }
@@ -34,10 +34,6 @@ export interface NuxtRollupOptions {
   externals?: (string | RegExp)[]
   resolve?: RollupNodeResolveOptions
   input?: string
-}
-
-export type NuxtRollupConfig = Omit<RollupOptions, 'output'> & {
-  output: OutputOptions
 }
 
 export function rollupConfig(
@@ -53,9 +49,9 @@ export function rollupConfig(
       preferBuiltins: true,
     },
     ...options
-  }: RollupOptions & NuxtRollupOptions,
+  }: BuildConfigOptions,
   pkg: RequireProperties<PackageJson, 'name'>
-): NuxtRollupConfig[] {
+): RollupOptions[] {
   if (!pkg) pkg = readJSONSync(resolve(rootDir, 'package.json'))
 
   const name = basename(pkg.name.replace('-edge', ''))
@@ -82,13 +78,19 @@ export function rollupConfig(
     } as const
   }
 
-  const baseConfig: NuxtRollupConfig = defu({}, options, {
+  const baseConfig: RollupOptions = defu({}, options, {
     input: resolve(rootDir, input),
-    output: {
-      ...getFilenames(pkg.main),
-      format: 'cjs',
-      preferConst: true,
-    },
+    output: [
+      {
+        ...getFilenames(pkg.main),
+        format: 'cjs',
+        preferConst: true,
+      },
+      ...includeIf(pkg.module, {
+        ...getFilenames(pkg.module, '-es'),
+        format: 'es',
+      }),
+    ],
     external,
     plugins: [
       aliasPlugin({
@@ -106,7 +108,6 @@ export function rollupConfig(
       commonjsPlugin({ include: /node_modules/ }),
       esbuild({
         watch: process.argv.includes('--watch'),
-        minify: process.env.NODE_ENV === 'production',
         target: 'es2018',
       }),
       jsonPlugin(),
@@ -128,13 +129,6 @@ export function rollupConfig(
 
   return [
     baseConfig,
-    ...includeIf(pkg.module, {
-      ...baseConfig,
-      output: {
-        ...getFilenames(pkg.module, '-es'),
-        format: 'es' as const,
-      },
-    }),
     ...includeIf(pkg.types, {
       input: baseConfig.input,
       output: {

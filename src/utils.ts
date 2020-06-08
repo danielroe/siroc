@@ -61,3 +61,6 @@ export const runInParallel = async <T, R extends any>(
   items: T[],
   cb: (item: T) => Promise<R>
 ) => Promise.all(items.map(async item => cb(item)))
+
+export const asArray = <T>(item: T | T[] | undefined): T[] =>
+  item ? (Array.isArray(item) ? item : [item]) : []

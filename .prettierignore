@@ -1,9 +1,2 @@
-lib
-test/fixture
-test/e2e
-example
-.nuxt
-./dist
-docs
+dist
 coverage
-src/plugin.js

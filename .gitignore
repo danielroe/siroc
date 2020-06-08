@@ -1,6 +1,5 @@
-lib/*
-!lib/.gitkeep
+dist/*
+!dist/.gitkeep
 node_modules
 coverage
 yarn-error.log
-dist
