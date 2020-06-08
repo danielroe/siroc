@@ -1,3 +1,6 @@
+import { PerformanceObserver, performance } from 'perf_hooks'
+
+import chalk from 'chalk'
 import consola from 'consola'
 
 import { Package } from '../../package'
@@ -7,6 +10,13 @@ export interface BuildOptions {
   watch?: boolean
 }
 
+const obs = new PerformanceObserver(items => {
+  const { duration, name } = items.getEntries()[0]
+  const seconds = (duration / 1000).toFixed(1)
+  consola.success(`${name} in ${chalk.bold(seconds + 's')}`)
+})
+obs.observe({ entryTypes: ['measure'] })
+
 export async function build(options: BuildOptions = {}) {
   // Read package at current directory
   const rootPackage = new Package()
@@ -14,6 +24,7 @@ export async function build(options: BuildOptions = {}) {
 
   const { watch } = options
   consola.info(`Beginning build${watch ? ' (watching)' : ''}`)
+  performance.mark('Start build')
 
   // Universal linkedDependencies based on workspace
   const linkedDependencies = workspacePackages.map(p =>
@@ -46,4 +57,7 @@ export async function build(options: BuildOptions = {}) {
     pkg.autoFix()
     pkg.writePackage()
   })
+  performance.mark('Stop build')
+
+  performance.measure('Finished build', 'Start build', 'Stop build')
 }
