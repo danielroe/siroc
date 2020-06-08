@@ -9,15 +9,22 @@ import { runInParallel } from '../../utils'
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
   const seconds = (duration / 1000).toFixed(1)
-  const time = duration > 1000 ? seconds + 's' : duration + 'ms'
+  const time = duration > 1000 ? seconds + 's' : Math.round(duration) + 'ms'
   consola.success(`${name} in ${chalk.bold(time)}`)
 })
 obs.observe({ entryTypes: ['measure'] })
 
-export async function build(options: BuildOptions = {}) {
+export interface BuildCommandOptions extends BuildOptions {
+  packages: string[]
+}
+
+export async function build({ packages, ...options }: BuildCommandOptions) {
   // Read package at current directory
   const rootPackage = new Package()
-  const workspacePackages = await rootPackage.getWorkspacePackages()
+
+  const workspacePackages = await rootPackage.getWorkspacePackages(
+    packages.length ? packages : undefined
+  )
 
   const { watch } = options
   consola.info(`Beginning build${watch ? ' (watching)' : ''}`)

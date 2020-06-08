@@ -3,7 +3,7 @@ import consola from 'consola'
 
 import { version } from '../../package.json'
 
-import { build, BuildOptions } from './commands/build'
+import { build, BuildCommandOptions } from './commands/build'
 import { changelog } from './commands/changelog'
 
 const cli = cac('packager')
@@ -19,14 +19,17 @@ const run = async <A extends (...args: any[]) => Promise<void>>(
 }
 
 cli
-  .command('build', 'Bundle input files')
+  .command('build [...packages]', 'Bundle input files')
   .option('--watch', 'Watch files in bundle and rebuild on changes', {
     default: false,
   })
   .option('--dev', 'Build development bundle (only CJS)', {
     default: false,
   })
-  .action((options: BuildOptions) => run(build, options))
+  .action((packages: string[], options: BuildCommandOptions) =>
+    run(build, { ...options, packages })
+  )
+
 cli.command('changelog', 'Generate changelog').action(() => run(changelog))
 
 cli.version(version)

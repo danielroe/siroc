@@ -1,4 +1,4 @@
-import { resolve, dirname, basename } from 'path'
+import { resolve as _resolve, basename } from 'path'
 
 import aliasPlugin from '@rollup/plugin-alias'
 import commonjsPlugin from '@rollup/plugin-commonjs'
@@ -8,11 +8,10 @@ import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
 import defu from 'defu'
-import { readJSONSync } from 'fs-extra'
+import { readJSONSync, existsSync } from 'fs-extra'
 import type { RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-import licensePlugin from 'rollup-plugin-license'
 
 import {
   RequireProperties,
@@ -21,6 +20,7 @@ import {
 } from '../utils'
 import { builtins } from './node-builtins'
 import type { PackageJson } from './package-json'
+import { getNameFunction } from './utils'
 
 const __NODE_ENV__ = process.env.NODE_ENV
 
@@ -40,8 +40,7 @@ export interface BuildConfigOptions extends RollupOptions {
 export function rollupConfig(
   {
     rootDir = process.cwd(),
-    plugins = [],
-    input = 'src/index.js',
+    input,
     replace = {},
     alias = {},
     externals = [],
@@ -50,13 +49,17 @@ export function rollupConfig(
       resolveOnly: [/lodash/, /^((?!node_modules).)*$/],
       preferBuiltins: true,
     },
+    plugins = [],
     ...options
   }: BuildConfigOptions,
   pkg: RequireProperties<PackageJson, 'name'>
 ): RollupOptions[] {
-  if (!pkg) pkg = readJSONSync(resolve(rootDir, 'package.json'))
+  const resolve = (...path: string[]) => _resolve(rootDir, ...path)
+
+  if (!pkg) pkg = readJSONSync(resolve('package.json'))
 
   const name = basename(pkg.name.replace('-edge', ''))
+  const getFilenames = getNameFunction(rootDir, name)
 
   const external = [
     // Dependencies that will be installed alongside the package
@@ -66,35 +69,8 @@ export function rollupConfig(
     ...externals,
   ]
 
-  const getFilenames = (filename: string | undefined, defaultSuffix = '') => {
-    return {
-      dir: filename
-        ? resolve(rootDir, filename ? dirname(filename) : 'dist')
-        : resolve(rootDir, 'dist'),
-      entryFileNames: filename
-        ? basename(filename)
-        : `${name}${defaultSuffix}.js`,
-      chunkFileNames: filename
-        ? `${basename(filename)}-[name].js`
-        : `${name}-[name]${defaultSuffix}.js`,
-    } as const
-  }
-
-  const baseConfig: RollupOptions = defu({}, options, {
-    input: resolve(rootDir, input),
-    output: [
-      {
-        ...getFilenames(pkg.main),
-        format: 'cjs',
-        preferConst: true,
-      },
-      ...includeIf(pkg.module && !dev, {
-        ...getFilenames(pkg.module, '-es'),
-        format: 'es',
-      }),
-    ],
-    external,
-    plugins: [
+  const getPlugins = () =>
+    [
       aliasPlugin({
         entries: alias,
       }),
@@ -113,28 +89,69 @@ export function rollupConfig(
         target: 'es2018',
       }),
       jsonPlugin(),
-      licensePlugin({
-        banner: [
-          '/*!',
-          ` * ${pkg.name} v${pkg.version} (c) 2016-${new Date().getFullYear()}`,
-          `${(pkg.contributors || [])
-            .map(c => typeof c !== 'string' && ` * - ${c.name}`)
-            .join('\n')}`,
-          ' * - All the amazing contributors',
-          ' * Released under the MIT License.',
-          ' * Website: https://nuxtjs.org',
-          '*/',
-        ].join('\n'),
-      }),
-    ].concat(plugins),
-  })
+    ].concat(plugins)
+
+  input = input
+    ? resolve(input)
+    : ['src/index.ts', 'src/index.js']
+        .map(input => resolve(input))
+        .find(input => existsSync(input))
+
+  const binaries = pkg.bin
+    ? typeof pkg.bin === 'string'
+      ? [pkg.bin]
+      : Object.values(pkg.bin)
+    : []
+
+  if (!input && !binaries.length) return []
+
+  const defaultOutputs = [
+    {
+      ...getFilenames(pkg.main),
+      format: 'cjs',
+      preferConst: true,
+    },
+    ...includeIf(pkg.module && !dev, {
+      ...getFilenames(pkg.module, '-es'),
+      format: 'es',
+    }),
+  ]
 
   return [
-    baseConfig,
-    ...includeIf(pkg.types, {
-      input: baseConfig.input,
+    ...binaries.map(path => {
+      const basefile = basename(path).split('.').slice(0, -1).join()
+      let input!: string
+      const filenames = [basefile, `${basefile}/index`, 'index']
+        .map(name => [`${name}.ts`, `${name}.js`])
+        .flat()
+      filenames.some(filename => {
+        input = resolve('src', filename)
+        return existsSync(input)
+      })
+      return defu({}, options, {
+        input,
+        output: {
+          ...getFilenames(path),
+          format: 'cjs',
+          preferConst: true,
+        },
+        external,
+        plugins: getPlugins(),
+      })
+    }),
+    ...includeIf(
+      input,
+      defu({}, options, {
+        input,
+        output: defaultOutputs,
+        external,
+        plugins: getPlugins(),
+      })
+    ),
+    ...includeIf(pkg.types && input, {
+      input,
       output: {
-        file: resolve(rootDir, 'dist', 'index.d.ts'),
+        file: pkg.types,
         format: 'es' as const,
       },
       external,

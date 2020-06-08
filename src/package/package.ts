@@ -39,7 +39,7 @@ const configPaths = ['siroc.config.js', 'package.js']
 
 const DEFAULTS: PackageOptions = {
   rootDir: process.cwd(),
-  build: false,
+  build: true,
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
   hooks: {},
 }
@@ -90,8 +90,11 @@ export class Package {
     if (!fns) return
 
     const fnArray = Array.isArray(fns) ? fns : [fns]
-
-    await runInParallel(fnArray, async fn => fn(this, options))
+    try {
+      await runInParallel(fnArray, async fn => fn(this, options))
+    } catch (e) {
+      this.logger.error(`Couldn't run hook for ${this.pkg.name}.`)
+    }
   }
 
   load(relativePath: string, opts?: PackageOptions) {
@@ -186,7 +189,9 @@ export class Package {
     const directories = new Set<string>()
     config.forEach(conf => {
       asArray(conf.output).forEach(conf => {
-        if (conf) directories.add(conf.dir || dirname(conf.file || ''))
+        if (!conf) return
+        const dir = conf.dir || dirname(conf.file || '')
+        if (!dir.includes('src')) directories.add(dir)
       })
     })
     for (const dir of directories) {
@@ -365,7 +370,7 @@ export class Package {
     }
   }
 
-  async getWorkspacePackages() {
+  async getWorkspacePackages(packageNames?: string[]) {
     const packages: Package[] = []
 
     const dirs = new Set<string>()
@@ -380,7 +385,9 @@ export class Package {
         const pkg = new Package({
           rootDir: this.resolvePath(dir),
         })
-        packages.push(pkg)
+        if (!packageNames || packageNames.includes(pkg.pkg.name)) {
+          packages.push(pkg)
+        }
       } else {
         this.logger.warn('Invalid workspace package:', dir)
       }
