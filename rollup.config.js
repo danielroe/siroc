@@ -2,16 +2,18 @@ import jsonPlugin from '@rollup/plugin-json'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
-import pkg from './package.json'
+import cli from './packages/cli/package.json'
+import core from './packages/core/package.json'
 
 export default [
   {
-    input: 'src/cli/index.ts',
+    input: 'packages/cli/src/index.ts',
     output: {
-      file: pkg.bin.siroc,
+      file: 'packages/cli/bin/cli.js',
       format: 'cjs',
+      banner: '#!/usr/bin/env node\n',
     },
-    external: Object.keys(pkg.dependencies || {}),
+    external: Object.keys(cli.dependencies || {}),
     plugins: [
       jsonPlugin(),
       esbuild({
@@ -21,12 +23,12 @@ export default [
     ],
   },
   {
-    input: 'src/index.ts',
+    input: 'packages/core/src/index.ts',
     output: {
-      file: pkg.main,
+      file: 'packages/core/dist/index.js',
       format: 'cjs',
     },
-    external: [...Object.keys(pkg.dependencies || {})],
+    external: [...Object.keys(core.dependencies || {})],
     plugins: [
       esbuild({
         watch: process.argv.includes('--watch'),
@@ -35,8 +37,8 @@ export default [
     ],
   },
   {
-    input: 'src/index.ts',
-    output: [{ file: pkg.types, format: 'es' }],
+    input: 'packages/core/src/index.ts',
+    output: [{ file: 'packages/core/dist/index.d.ts', format: 'es' }],
     plugins: [dts()],
   },
 ]

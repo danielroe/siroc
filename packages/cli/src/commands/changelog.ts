@@ -1,5 +1,5 @@
 import { writeFile } from 'fs-extra'
-import { getChangelog } from '../../version/changelog'
+import { getChangelog } from '@siroc/core'
 
 export async function changelog() {
   const changelog = await getChangelog()

@@ -1,16 +1,14 @@
 import { PerformanceObserver, performance } from 'perf_hooks'
 
-import chalk from 'chalk'
+import { Package, BuildOptions, runInParallel } from '@siroc/core'
+import { bold } from 'chalk'
 import consola from 'consola'
-
-import { Package, BuildOptions } from '../../package'
-import { runInParallel } from '../../utils'
 
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
   const seconds = (duration / 1000).toFixed(1)
   const time = duration > 1000 ? seconds + 's' : Math.round(duration) + 'ms'
-  consola.success(`${name} in ${chalk.bold(time)}`)
+  consola.success(`${name} in ${bold(time)}`)
 })
 obs.observe({ entryTypes: ['measure'] })
 

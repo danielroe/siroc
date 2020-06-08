@@ -1,0 +1,56 @@
+{
+  "name": "@siroc/cli",
+  "version": "0.0.1",
+  "description": "Build tooling",
+  "keywords": [
+    "node",
+    "nodejs",
+    "typescript",
+    "javascript"
+  ],
+  "repository": "nuxt-contrib/siroc",
+  "license": "MIT",
+  "sideEffects": false,
+  "bin": {
+    "siroc": "bin/cli.js"
+  },
+  "files": [
+    "dist/**/*",
+    "dist/index.d.ts",
+    "!**/*.map"
+  ],
+  "scripts": {
+    "build": "yarn clean && yarn compile",
+    "clean": "rm -rf dist/*",
+    "compile": "rollup -c",
+    "lint": "run-s lint:all:*",
+    "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
+    "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
+    "lint:eslint": "eslint --fix",
+    "lint:prettier": "prettier --write --loglevel warn",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn lint && yarn test",
+    "release": "release-it",
+    "test": "run-s test:*",
+    "test:types": "tsd",
+    "test:unit": "jest",
+    "watch": "yarn compile -w"
+  },
+  "dependencies": {
+    "@siroc/core": "0.0.1",
+    "cac": "^6.5.10",
+    "chalk": "^4.0.0",
+    "consola": "^2.12.2",
+    "fs-extra": "^9.0.1",
+    "v8-compile-cache": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1"
+  },
+  "tsd": {
+    "directory": "test/tsd",
+    "compilerOptions": {
+      "rootDir": "."
+    }
+  }
+}

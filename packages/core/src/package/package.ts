@@ -2,24 +2,43 @@ import { dirname, resolve } from 'path'
 import { readJSONSync, writeFile, copy, remove, existsSync } from 'fs-extra'
 
 import consola, { Consola } from 'consola'
-import chalk from 'chalk'
+import { bold, gray } from 'chalk'
 import execa from 'execa'
-import { rollup, watch, RollupOptions, RollupError } from 'rollup'
+import { rollup, watch, RollupBuild, RollupError, RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
 import type { PackageJson } from '../config/package-json'
 import { rollupConfig, BuildConfigOptions } from '../config/rollup'
 import {
+  asArray,
+  glob,
+  runInParallel,
   sortObjectKeys,
   tryRequire,
   RequireProperties,
-  glob,
-  runInParallel,
-  asArray,
 } from '../utils'
-import type { PackageHooks, PackageHookOptions } from './hooks'
 
-export interface PackageOptions {
+export type Hook<T> = {
+  (pkg: Package, options: T): Promise<void> | void
+}
+
+export type Hooks<T extends Record<string, any>> = {
+  [P in keyof T]?: Hook<T[P]> | Array<Hook<T[P]>>
+}
+
+export type PackageHookOptions = {
+  'build:extend': {
+    config: RequireProperties<BuildConfigOptions, 'alias' | 'replace'>
+  }
+  'build:extendRollup': {
+    rollupConfig: RollupOptions[]
+  }
+  'build:done': { bundle: RollupBuild }
+}
+
+export type PackageHooks = Hooks<PackageHookOptions>
+
+interface DefaultPackageOptions {
   rootDir: string
   build: boolean
   suffix: string
@@ -29,6 +48,8 @@ export interface PackageOptions {
   rollup?: BuildConfigOptions & RollupOptions
 }
 
+export type PackageOptions = Partial<DefaultPackageOptions>
+
 export interface BuildOptions {
   dev?: boolean
   watch?: boolean
@@ -37,7 +58,7 @@ export interface BuildOptions {
 // 'package.js' is legacy and will go
 const configPaths = ['siroc.config.js', 'package.js']
 
-const DEFAULTS: PackageOptions = {
+const DEFAULTS: DefaultPackageOptions = {
   rootDir: process.cwd(),
   build: true,
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
@@ -45,11 +66,11 @@ const DEFAULTS: PackageOptions = {
 }
 
 export class Package {
-  options: PackageOptions
+  options: DefaultPackageOptions
   logger: Consola
   pkg: RequireProperties<PackageJson, 'name' | 'version'>
 
-  constructor(options: Partial<PackageOptions> = {}) {
+  constructor(options: PackageOptions = {}) {
     this.options = Object.assign({}, DEFAULTS, options)
 
     // Basic logger
@@ -250,7 +271,7 @@ export class Package {
 
           // Finished building all bundles
           case 'END':
-            return this.logger.success(`Built ${chalk.bold(this.pkg.name)}`)
+            return this.logger.success(`Built ${bold(this.pkg.name)}`)
 
           // Encountered an error while bundling
           case 'ERROR':
@@ -280,9 +301,7 @@ export class Package {
             const { output } = await bundle.write(outputConfig)
 
             this.logger.success(
-              `Built ${chalk.bold(this.pkg.name)} ${chalk.gray(
-                output[0].fileName
-              )}`
+              `Built ${bold(this.pkg.name)} ${gray(output[0].fileName)}`
             )
           })
           await this.callHook('build:done', { bundle })

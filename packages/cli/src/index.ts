@@ -1,12 +1,12 @@
 import cac from 'cac'
 import consola from 'consola'
 
-import { version } from '../../package.json'
+import { version } from '../package.json'
 
 import { build, BuildCommandOptions } from './commands/build'
 import { changelog } from './commands/changelog'
 
-const cli = cac('packager')
+const cli = cac('siroc')
 
 const run = async <A extends (...args: any[]) => Promise<void>>(
   action: A,

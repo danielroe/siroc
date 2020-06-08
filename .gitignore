@@ -1,5 +1,6 @@
 bin
-dist/*
+dist
+packages/*/dist
 !dist/.gitkeep
 node_modules
 coverage

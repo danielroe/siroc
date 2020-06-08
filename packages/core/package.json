@@ -1,0 +1,68 @@
+{
+  "name": "@siroc/core",
+  "version": "0.0.1",
+  "description": "Build tooling",
+  "keywords": [
+    "node",
+    "nodejs",
+    "typescript",
+    "javascript"
+  ],
+  "repository": "nuxt-contrib/siroc",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "dist/index.d.ts",
+    "!**/*.map"
+  ],
+  "scripts": {
+    "build": "yarn clean && yarn compile",
+    "clean": "rm -rf packages/*/dist packages/*/bin",
+    "compile": "rollup -c",
+    "lint": "run-s lint:all:*",
+    "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
+    "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
+    "lint:eslint": "eslint --fix",
+    "lint:prettier": "prettier --write --loglevel warn",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn lint && yarn test",
+    "release": "release-it",
+    "test": "run-s test:*",
+    "test:types": "tsd",
+    "test:unit": "jest",
+    "watch": "yarn compile -w"
+  },
+  "dependencies": {
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.0.1",
+    "@rollup/plugin-replace": "^2.3.3",
+    "chalk": "^4.0.0",
+    "consola": "^2.12.2",
+    "defu": "^2.0.4",
+    "esm": "^3.2.25",
+    "execa": "^4.0.2",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "rollup": "^2.14.0",
+    "rollup-plugin-dts": "^1.4.7",
+    "rollup-plugin-esbuild": "^1.4.1",
+    "sort-package-json": "^1.44.0",
+    "v8-compile-cache": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/execa": "^2.0.0",
+    "@types/fs-extra": "^9.0.1"
+  },
+  "tsd": {
+    "directory": "test/tsd",
+    "compilerOptions": {
+      "rootDir": "."
+    }
+  }
+}

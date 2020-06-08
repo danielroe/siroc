@@ -91,11 +91,21 @@ export function rollupConfig(
       jsonPlugin(),
     ].concat(plugins)
 
-  input = input
-    ? resolve(input)
-    : ['src/index.ts', 'src/index.js']
-        .map(input => resolve(input))
-        .find(input => existsSync(input))
+  function getEntrypoint(path?: string) {
+    if (!path) return undefined
+    const basefile = basename(path).split('.').slice(0, -1).join()
+    let input!: string
+    const filenames = [basefile, `${basefile}/index`, 'index']
+      .map(name => [`${name}.ts`, `${name}.js`])
+      .flat()
+    filenames.some(filename => {
+      input = resolve('src', filename)
+      return existsSync(input)
+    })
+    return input
+  }
+
+  input = input ? resolve(input) : getEntrypoint(pkg.main)
 
   const binaries = pkg.bin
     ? typeof pkg.bin === 'string'
@@ -119,21 +129,13 @@ export function rollupConfig(
 
   return [
     ...binaries.map(path => {
-      const basefile = basename(path).split('.').slice(0, -1).join()
-      let input!: string
-      const filenames = [basefile, `${basefile}/index`, 'index']
-        .map(name => [`${name}.ts`, `${name}.js`])
-        .flat()
-      filenames.some(filename => {
-        input = resolve('src', filename)
-        return existsSync(input)
-      })
       return defu({}, options, {
-        input,
+        input: getEntrypoint(path),
         output: {
           ...getFilenames(path),
           format: 'cjs',
           preferConst: true,
+          banner: '#!/usr/bin/env node\n',
         },
         external,
         plugins: getPlugins(),
@@ -151,7 +153,7 @@ export function rollupConfig(
     ...includeIf(pkg.types && input, {
       input,
       output: {
-        file: pkg.types,
+        file: resolve(pkg.types || ''),
         format: 'es' as const,
       },
       external,
