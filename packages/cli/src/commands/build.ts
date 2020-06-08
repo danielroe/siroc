@@ -57,9 +57,10 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
     // Step 3: Link dependencies and Fix packages
     pkg.syncLinkedDependencies()
     pkg.autoFix()
-    pkg.writePackage()
+    await Promise.all([...pkg.setBinaryPermissions(), pkg.writePackage()])
   })
-  performance.mark('Stop build')
+  if (watch) return
 
+  performance.mark('Stop build')
   performance.measure('Finished build', 'Start build', 'Stop build')
 }

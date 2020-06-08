@@ -1,5 +1,12 @@
 import { dirname, resolve } from 'path'
-import { readJSONSync, writeFile, copy, remove, existsSync } from 'fs-extra'
+import {
+  chmod,
+  copy,
+  existsSync,
+  readJSONSync,
+  remove,
+  writeFile,
+} from 'fs-extra'
 
 import consola, { Consola } from 'consola'
 import { bold, gray } from 'chalk'
@@ -389,6 +396,20 @@ export class Package {
     }
   }
 
+  get binaries() {
+    const { bin } = this.pkg
+    const files = !bin
+      ? []
+      : typeof bin === 'string'
+      ? [bin]
+      : Object.values(bin)
+    return Array.from(new Set(files.map(file => this.resolvePath(file))))
+  }
+
+  setBinaryPermissions() {
+    return this.binaries.map(file => chmod(file, 0o777))
+  }
+
   async getWorkspacePackages(packageNames?: string[]) {
     const packages: Package[] = []
 
@@ -402,6 +423,7 @@ export class Package {
     for (const dir of dirs) {
       if (existsSync(this.resolvePath(dir, 'package.json'))) {
         const pkg = new Package({
+          ...this.options,
           rootDir: this.resolvePath(dir),
         })
         if (!packageNames || packageNames.includes(pkg.pkg.name)) {
