@@ -97,7 +97,10 @@ export function rollupConfig(
     let input!: string
     const filenames = [basefile, `${basefile}/index`, 'index']
       .map(name => [`${name}.ts`, `${name}.js`])
-      .flat()
+      .reduce((names, arr) => {
+        arr.forEach(name => names.push(name))
+        return names
+      }, [] as string[])
     filenames.some(filename => {
       input = resolve('src', filename)
       return existsSync(input)
