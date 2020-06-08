@@ -1,36 +1,29 @@
 {
-  "name": "nuxt-packager",
+  "name": "siroc",
   "version": "0.0.1",
-  "description": "Build tooling for Nuxt packages",
-  "license": "MIT",
-  "repository": "danielroe/nuxt-packager",
-  "author": {
-    "name": "Daniel Roe",
-    "email": "daniel@roe.dev",
-    "url": "https://github.com/danielroe"
-  },
+  "description": "Build tooling",
   "keywords": [
-    "vue",
-    "vuejs",
-    "nuxt",
+    "node",
+    "nodejs",
     "typescript",
     "javascript"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "repository": "nuxt-contrib/siroc",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "pkg": "lib/pkg.js"
+    "siroc": "dist/cli.js"
   },
   "files": [
-    "lib/**/*",
-    "lib/index.d.ts",
+    "dist/**/*",
+    "dist/index.d.ts",
     "!**/*.map"
   ],
-  "sideEffects": false,
   "scripts": {
     "build": "yarn clean && yarn compile",
-    "watch": "yarn compile -w",
-    "clean": "rm -rf lib/*",
+    "clean": "rm -rf dist/*",
     "compile": "rollup -c",
     "lint": "run-s lint:all:*",
     "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
@@ -42,16 +35,8 @@
     "release": "release-it",
     "test": "run-s test:*",
     "test:types": "tsd",
-    "test:unit": "jest"
-  },
-  "tsd": {
-    "directory": "test/tsd",
-    "compilerOptions": {
-      "rootDir": "."
-    }
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+    "test:unit": "jest",
+    "watch": "yarn compile -w"
   },
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.1",
@@ -92,11 +77,19 @@
     "prettier": "^2.0.5",
     "release-it": "13.6.2",
     "rollup": "^2.14.0",
-    "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-dts": "^1.4.7",
     "rollup-plugin-esbuild": "^1.4.1",
     "tsd": "^0.11.0",
     "typescript": "^3.9.5",
     "yorkie": "^2.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "tsd": {
+    "directory": "test/tsd",
+    "compilerOptions": {
+      "rootDir": "."
+    }
   }
 }

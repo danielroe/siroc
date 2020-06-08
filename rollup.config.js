@@ -1,5 +1,4 @@
 import jsonPlugin from '@rollup/plugin-json'
-import copy from 'rollup-plugin-copy'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
@@ -9,24 +8,15 @@ export default [
   {
     input: 'src/cli/index.ts',
     output: {
-      file: 'lib/cli.js',
-      format: 'es',
+      file: pkg.bin.siroc,
+      format: 'cjs',
     },
     external: Object.keys(pkg.dependencies || {}),
     plugins: [
       jsonPlugin(),
       esbuild({
         watch: process.argv.includes('--watch'),
-        minify: process.env.NODE_ENV === 'production',
         target: 'es2018',
-      }),
-      copy({
-        targets: [
-          {
-            src: 'src/cli/pkg.js',
-            dest: 'lib',
-          },
-        ],
       }),
     ],
   },
@@ -40,7 +30,6 @@ export default [
     plugins: [
       esbuild({
         watch: process.argv.includes('--watch'),
-        minify: process.env.NODE_ENV === 'production',
         target: 'es2018',
       }),
     ],
