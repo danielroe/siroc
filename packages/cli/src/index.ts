@@ -5,6 +5,7 @@ import { version } from '../package.json'
 
 import { build, BuildCommandOptions } from './commands/build'
 import { changelog } from './commands/changelog'
+import { run as runFile } from './commands/run'
 
 const cli = cac('siroc')
 
@@ -20,7 +21,7 @@ const run = async <A extends (...args: any[]) => Promise<void>>(
 
 cli
   .command('build [...packages]', 'Bundle input files')
-  .option('--watch', 'Watch files in bundle and rebuild on changes', {
+  .option('-w, --watch', 'Watch files in bundle and rebuild on changes', {
     default: false,
   })
   .option('--dev', 'Build development bundle (only CJS)', {
@@ -31,6 +32,10 @@ cli
   )
 
 cli.command('changelog', 'Generate changelog').action(() => run(changelog))
+
+cli
+  .command('run <file> [...args]', 'Run Node script')
+  .action((file, args) => run(runFile, { file, args }))
 
 cli.version(version)
 cli.help()
