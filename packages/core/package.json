@@ -50,8 +50,7 @@
     "rollup": "^2.15.0",
     "rollup-plugin-dts": "^1.4.7",
     "rollup-plugin-esbuild": "^1.4.1",
-    "sort-package-json": "^1.44.0",
-    "v8-compile-cache": "^2.1.1"
+    "sort-package-json": "^1.44.0"
   },
   "devDependencies": {
     "@types/execa": "^2.0.0",

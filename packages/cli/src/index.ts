@@ -1,3 +1,5 @@
+import 'v8-compile-cache'
+
 import cac from 'cac'
 import consola from 'consola'
 
