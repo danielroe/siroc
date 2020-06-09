@@ -20,9 +20,7 @@
     "!**/*.map"
   ],
   "scripts": {
-    "build": "yarn clean && yarn compile",
-    "clean": "rm -rf packages/*/dist packages/*/bin",
-    "compile": "rollup -c",
+    "build": "siroc build",
     "lint": "run-s lint:all:*",
     "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
     "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
@@ -34,7 +32,7 @@
     "test": "run-s test:*",
     "test:types": "tsd",
     "test:unit": "jest",
-    "watch": "yarn compile -w"
+    "watch": "yarn build -w"
   },
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.1",
