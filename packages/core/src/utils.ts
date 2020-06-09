@@ -3,6 +3,18 @@ import _glob from 'glob'
 
 const esm = _esm(module)
 
+if (!Object.entries) {
+  Object.entries = function (obj: Record<string, any>) {
+    const ownProps = Object.keys(obj)
+    const ownValues = Object.values(obj)
+    let i = ownProps.length
+    const resArray = new Array(i) // preallocate the Array
+    while (i--) resArray[i] = [ownProps[i], ownValues[i]]
+
+    return resArray
+  }
+}
+
 export const glob = (pattern: string) =>
   new Promise<string[]>((resolve, reject) =>
     _glob(pattern, (err, matches) => {
