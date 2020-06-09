@@ -3,15 +3,15 @@ import _glob from 'glob'
 
 const esm = _esm(module)
 
-if (!Object.entries) {
-  Object.entries = function (obj: Record<string, any>) {
-    const ownProps = Object.keys(obj)
-    const ownValues = Object.values(obj)
-    let i = ownProps.length
-    const resArray = new Array(i) // preallocate the Array
-    while (i--) resArray[i] = [ownProps[i], ownValues[i]]
-
-    return resArray
+if (!Object.fromEntries) {
+  Object.fromEntries = function <T = any>(
+    entries: Iterable<readonly [PropertyKey, T]>
+  ): { [k: string]: T } {
+    const newObject: Record<string, T> = {}
+    for (const [key, value] of entries) {
+      if (typeof key === 'string') newObject[key] = value
+    }
+    return newObject
   }
 }
 
