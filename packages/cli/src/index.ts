@@ -27,6 +27,8 @@ cli
   .option('--dev', 'Build development bundle (only CJS)', {
     default: false,
   })
+  .example(bin => `  ${bin} build`)
+  .example(bin => `  ${bin} build @siroc/cli -w`)
   .action((packages: string[], options: BuildCommandOptions) =>
     run(build, { ...options, packages })
   )
@@ -35,7 +37,10 @@ cli.command('changelog', 'Generate changelog').action(() => run(changelog))
 
 cli
   .command('run <file> [...args]', 'Run Node script')
+  .allowUnknownOptions()
   .option('-w, --workspaces', 'Run command in all yarn workspaces.')
+  .example(bin => `  ${bin} src/test.ts`)
+  .example(bin => `  ${bin} --workspaces ls`)
   .action((file, args, options) => run(runFile, { file, args, options }))
 
 cli.version(version)
