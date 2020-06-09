@@ -1,19 +1,11 @@
 import _esm from 'esm'
 import _glob from 'glob'
+import { loadAllSettled, loadFromEntries } from './polyfills'
 
 const esm = _esm(module)
 
-if (!Object.fromEntries) {
-  Object.fromEntries = function <T = any>(
-    entries: Iterable<readonly [PropertyKey, T]>
-  ): { [k: string]: T } {
-    const newObject: Record<string, T> = {}
-    for (const [key, value] of entries) {
-      if (typeof key === 'string') newObject[key] = value
-    }
-    return newObject
-  }
-}
+if (!Object.fromEntries) loadFromEntries()
+if (!Promise.allSettled) loadAllSettled()
 
 export const glob = (pattern: string) =>
   new Promise<string[]>((resolve, reject) =>
@@ -72,7 +64,7 @@ export const includeIf = <T>(test: any, item: T) => (test ? [item] : [])
 export const runInParallel = async <T, R extends any>(
   items: T[],
   cb: (item: T) => Promise<R>
-) => Promise.all(items.map(async item => cb(item)))
+) => Promise.allSettled(items.map(async item => cb(item)))
 
 export const asArray = <T>(item: T | T[] | undefined): T[] =>
-  item ? (Array.isArray(item) ? item : [item]) : []
+  item !== undefined ? (Array.isArray(item) ? item : [item]) : []
