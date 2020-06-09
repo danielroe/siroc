@@ -17,7 +17,6 @@
   },
   "files": [
     "dist/**/*",
-    "dist/index.d.ts",
     "!**/*.map"
   ],
   "scripts": {
@@ -31,7 +30,6 @@
     "prepublishOnly": "yarn lint && yarn test",
     "release": "release-it",
     "test": "run-s test:*",
-    "test:types": "tsd",
     "test:unit": "jest",
     "watch": "yarn build -w"
   },
