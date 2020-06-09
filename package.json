@@ -18,7 +18,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "siroc build",
+    "build": "yarn siroc build",
     "lint": "run-s lint:all:*",
     "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
     "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
