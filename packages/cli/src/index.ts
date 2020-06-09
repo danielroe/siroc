@@ -35,7 +35,8 @@ cli.command('changelog', 'Generate changelog').action(() => run(changelog))
 
 cli
   .command('run <file> [...args]', 'Run Node script')
-  .action((file, args) => run(runFile, { file, args }))
+  .option('-w, --workspaces', 'Run command in all yarn workspaces.')
+  .action((file, args, options) => run(runFile, { file, args, options }))
 
 cli.version(version)
 cli.help()

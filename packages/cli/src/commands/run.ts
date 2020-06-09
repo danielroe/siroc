@@ -1,32 +1,48 @@
 import { resolve } from 'path'
 
-import consola from 'consola'
+import { Package } from '@siroc/core'
 import { bold, gray } from 'chalk'
+import consola from 'consola'
 import { existsSync } from 'fs-extra'
 
 interface RunCommandOptions {
   file: string
   args: string[]
+  options: {
+    workspaces?: boolean
+  }
 }
 
-export async function run({ file, args }: RunCommandOptions) {
+export async function run({
+  file,
+  args,
+  options: { workspaces },
+}: RunCommandOptions) {
+  const fullCommand = `${file} ${args.join()}`.trim()
   const filepath = resolve(process.cwd(), file)
-  if (!(file.endsWith('.js') || file.endsWith('.ts'))) {
-    return consola.error(`${bold('siroc run')} should take a .js or .ts file.`)
+  const isLocalFile =
+    (file.endsWith('.js') || file.endsWith('.ts')) && existsSync(filepath)
+
+  function runCommand(pkg: Package) {
+    try {
+      const { stdout } = isLocalFile
+        ? pkg.exec('yarn', `siroc-runner ${filepath} ${args.join()}`, true)
+        : pkg.exec(file, args.join(), true)
+      consola.success(
+        `Ran ${bold(fullCommand)} in ${bold(pkg.pkg.name)}.`,
+        stdout ? '\n' : '',
+        stdout ? gray(stdout) : ''
+      )
+    } catch (e) {
+      consola.error(`Error running ${bold(fullCommand)}\n`, gray(e))
+    }
   }
-  if (!existsSync(filepath)) {
-    return consola.error(`${bold(filepath)} could not be found.`)
-  }
-  process.argv = [filepath, ...args]
-  try {
-    // eslint-disable-next-line
-    const jiti = require('jiti')(__filename)
-    jiti(filepath)
-    consola.success(`Ran ${bold(file)}\n`)
-  } catch (e) {
-    consola.error(
-      `Error running ${bold(file)}\n`,
-      gray(process.stderr.toString().trim())
-    )
-  }
+
+  const rootPackage = new Package()
+
+  const packages = workspaces
+    ? await rootPackage.getWorkspacePackages()
+    : [rootPackage]
+
+  packages.forEach(pkg => runCommand(pkg))
 }

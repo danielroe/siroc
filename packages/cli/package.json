@@ -12,7 +12,8 @@
   "license": "MIT",
   "sideEffects": false,
   "bin": {
-    "siroc": "bin/cli.js"
+    "siroc": "bin/cli.js",
+    "siroc-runner": "bin/runtime.js"
   },
   "files": [
     "dist/**/*",
