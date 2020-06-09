@@ -1,11 +1,10 @@
 import _esm from 'esm'
 import _glob from 'glob'
-import { loadAllSettled, loadFromEntries } from './polyfills'
+import { loadFromEntries } from './polyfills'
 
 const esm = _esm(module)
 
 if (!Object.fromEntries) loadFromEntries()
-if (!Promise.allSettled) loadAllSettled()
 
 export const glob = (pattern: string) =>
   new Promise<string[]>((resolve, reject) =>
@@ -64,7 +63,7 @@ export const includeIf = <T>(test: any, item: T) => (test ? [item] : [])
 export const runInParallel = async <T, R extends any>(
   items: T[],
   cb: (item: T) => Promise<R>
-) => Promise.allSettled(items.map(async item => cb(item)))
+) => Promise.all(items.map(async item => cb(item)))
 
 export const asArray = <T>(item: T | T[] | undefined): T[] =>
   item !== undefined ? (Array.isArray(item) ? item : [item]) : []
