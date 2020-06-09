@@ -1,4 +1,4 @@
-<h1 align="center">🌬️ Siroc</h1>
+<h1 align="center">🌬️ siroc</h1>
 <p align="center">Zero-config build tooling for Node</p>
 
 <p align="center">

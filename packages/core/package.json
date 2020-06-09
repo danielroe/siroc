@@ -1,7 +1,7 @@
 {
   "name": "@siroc/core",
   "version": "0.0.1",
-  "description": "Build tooling",
+  "description": "Zero-config build tooling for Node",
   "keywords": [
     "node",
     "nodejs",
