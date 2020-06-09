@@ -18,14 +18,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "bootstrap": "rollup -c && packages/cli/bin/cli.js build",
     "build": "siroc build",
     "lint": "run-s lint:all:*",
     "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
     "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
     "lint:eslint": "eslint --fix",
     "lint:prettier": "prettier --write --loglevel warn",
-    "prepare": "yarn bootstrap",
+    "prepare": "yarn build",
     "prepublishOnly": "yarn lint && yarn test",
     "release": "release-it",
     "test": "run-s test:*",
@@ -65,5 +64,8 @@
     "compilerOptions": {
       "rootDir": "."
     }
+  },
+  "dependencies": {
+    "siroc": "^0.0.2"
   }
 }
