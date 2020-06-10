@@ -12,6 +12,7 @@ import {
   tryRequire,
 } from '../../src/utils'
 import { PackageJson } from '../../src/config/package-json'
+import { loadAllSettled, loadFromEntries } from '../../src/polyfills'
 
 describe('asArray', () => {
   it('should return an array if passed an undefined value', () => {
@@ -69,7 +70,7 @@ describe('groupBy', () => {
   })
 })
 
-describe('includeDefinedProperties', () => {
+const definedPropertiesTest = () => {
   it('should omit undefined properties', () => {
     const obj = {
       val: 3,
@@ -82,7 +83,9 @@ describe('includeDefinedProperties', () => {
       another: false,
     })
   })
-})
+}
+
+describe('includeDefinedProperties', definedPropertiesTest)
 
 describe('includeIf', () => {
   it('should return an empty array when falsy', () => {
@@ -99,7 +102,7 @@ describe('includeIf', () => {
   })
 })
 
-describe('runInParallel', () => {
+const runInParallelTest = () => {
   it('should run tasks in parallel', async () => {
     let i = 0
     await runInParallel([1, 2, 3], async num => (i = i + num))
@@ -111,9 +114,11 @@ describe('runInParallel', () => {
     })
     expect(result.length).toBe(3)
   })
-})
+}
 
-describe('sortObjectKeys', () => {
+describe('runInParallel', runInParallelTest)
+
+const sortObjectKeysTest = () => {
   const obj = {
     c: '',
     '@a': '',
@@ -127,7 +132,8 @@ describe('sortObjectKeys', () => {
       Z$: '',
     })
   })
-})
+}
+describe('sortObjectKeys', sortObjectKeysTest)
 
 describe('tryRequire', () => {
   it('should not throw an error when passed nonsense', () => {
@@ -145,5 +151,40 @@ describe('tryRequire', () => {
       path.resolve(__dirname, '../../package.json')
     )
     expect(result!.name).toBeDefined()
+  })
+})
+
+describe('utils with polyfills', () => {
+  let fromEntries: any
+  let allSettled: any
+  beforeAll(() => {
+    fromEntries = Object.fromEntries
+    allSettled = Promise.allSettled
+    loadAllSettled()
+    loadFromEntries()
+  })
+  afterAll(() => {
+    Object.fromEntries = fromEntries
+    Promise.allSettled = allSettled
+  })
+  // Object.fromEntries
+  definedPropertiesTest()
+  it('should not include non-string values', () => {
+    const result = Object.fromEntries([
+      ['key', 'value'],
+      [2, 'value'],
+    ])
+    expect(result).toEqual({ key: 'value' })
+  })
+  // Promise.allSettled
+  runInParallelTest()
+  sortObjectKeysTest()
+  it('should return bare value if not a promise', async () => {
+    const fn = async () => 'another'
+    const result = await Promise.allSettled(['test', fn()])
+    expect(result).toEqual([
+      { status: 'fulfilled', value: 'test' },
+      { status: 'fulfilled', value: 'another' },
+    ])
   })
 })
