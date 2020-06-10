@@ -142,13 +142,13 @@ describe('tryRequire', () => {
   })
   it('should resolve JS', () => {
     const result = tryRequire(
-      path.resolve(__dirname, '../../../babel.config.js')
+      path.resolve(__dirname, '../../../../babel.config.js')
     )
     expect(result).toBeDefined()
   })
   it('should resolve JSON', () => {
     const result = tryRequire<PackageJson>(
-      path.resolve(__dirname, '../package.json')
+      path.resolve(__dirname, '../../package.json')
     )
     expect(result!.name).toBeDefined()
   })
