@@ -5,9 +5,6 @@
 <a href="https://npmjs.com/package/siroc">
     <img alt="" src="https://img.shields.io/npm/v/siroc/latest.svg?style=flat-square">
 </a>
-<a href="https://bundlephobia.com/result?p=siroc">
-    <img alt="" src="https://img.shields.io/bundlephobia/minzip/siroc?style=flat-square">
-</a>
 <a href="https://npmjs.com/package/siroc">
     <img alt="" src="https://img.shields.io/npm/dt/siroc.svg?style=flat-square">
 </a>
@@ -16,9 +13,6 @@
 </a>
 <a href="https://lgtm.com/projects/g/nuxt-contrib/siroc">
     <img alt="" src="https://img.shields.io/lgtm/grade/javascript/github/nuxt-contrib/siroc?style=flat-square">
-</a>
-<a href="https://david-dm.org/nuxt-contrib/siroc">
-    <img alt="" src="https://img.shields.io/david/nuxt-contrib/siroc.svg?style=flat-square">
 </a>
 </p>
 
