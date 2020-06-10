@@ -1,31 +1,23 @@
-import { dirname, resolve } from 'path'
-import {
-  chmod,
-  copy,
-  existsSync,
-  readJSONSync,
-  remove,
-  writeFile,
-} from 'fs-extra'
+import { resolve } from 'path'
 
 import consola, { Consola } from 'consola'
 import execa from 'execa'
+import { chmod, copy, existsSync, readJSONSync, writeFile } from 'fs-extra'
 import { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
+import type {
+  BuildConfigOptions,
+  PackageHookOptions,
+  PackageHooks,
+} from '../build'
 import {
-  asArray,
   glob,
   runInParallel,
   sortObjectKeys,
   tryRequire,
   RequireProperties,
 } from '../utils'
-import type {
-  BuildConfigOptions,
-  PackageHookOptions,
-  PackageHooks,
-} from '../build'
 import type { PackageJson } from './types'
 
 interface DefaultPackageOptions {
@@ -33,6 +25,7 @@ interface DefaultPackageOptions {
   build: boolean
   suffix: string
   hooks: PackageHooks
+  pkg?: PackageJson
   linkedDependencies?: string[]
   sortDependencies?: boolean
   rollup?: BuildConfigOptions & RollupOptions
@@ -66,7 +59,7 @@ export class Package {
     // Basic logger
     this.logger = consola
 
-    this.pkg = this.readPackageJSON()
+    this.pkg = readJSONSync(this.resolvePath('package.json'))
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
@@ -74,14 +67,16 @@ export class Package {
     this.loadConfig()
   }
 
-  private readPackageJSON(): this['pkg'] {
-    return readJSONSync(this.resolvePath('package.json'))
-  }
-
+  /**
+   * Resolve path relative to this package
+   */
   resolvePath(...pathSegments: string[]) {
     return resolve(this.options.rootDir, ...pathSegments)
   }
 
+  /**
+   * Load options from the `siroc.config.js` in the package directory
+   */
   loadConfig() {
     configPaths.some(path => {
       const configPath = this.resolvePath(path)
@@ -92,6 +87,9 @@ export class Package {
     })
   }
 
+  /**
+   * Call hooks defined in config file
+   */
   async callHook<H extends keyof PackageHookOptions>(
     name: H,
     options: PackageHookOptions[H]
@@ -108,6 +106,9 @@ export class Package {
     }
   }
 
+  /**
+   * Return a new package in a directory relative to the current package
+   */
   load(relativePath: string, opts?: PackageOptions) {
     return new Package(
       Object.assign(
@@ -119,21 +120,28 @@ export class Package {
     )
   }
 
+  /**
+   * Write updated `package.json`
+   */
   async writePackage() {
-    if (this.options.sortDependencies) this.sortDependencies()
-
     const pkgPath = this.resolvePath('package.json')
     this.logger.debug('Writing', pkgPath)
     await writeFile(pkgPath, JSON.stringify(this.pkg, null, 2) + '\n')
   }
 
-  generateVersion() {
+  /**
+   * Generate a version string unique to the current git commit and date
+   */
+  getVersion() {
     const date = Math.round(Date.now() / (1000 * 60))
     const gitCommit = this.gitShortCommit()
     const baseVersion = this.pkg.version.split('-')[0]
-    this.pkg.version = `${baseVersion}-${date}.${gitCommit}`
+    return `${baseVersion}-${date}.${gitCommit}`
   }
 
+  /**
+   * Add suffix to all dependencies and set new version
+   */
   suffixAndVersion() {
     this.logger.info(`Adding suffix ${this.options.suffix}`)
 
@@ -164,9 +172,12 @@ export class Package {
       }
     }
 
-    this.generateVersion()
+    this.pkg.version = this.getVersion()
   }
 
+  /**
+   * Synchronise version across all packages in monorepo
+   */
   syncLinkedDependencies() {
     // Apply suffix to all linkedDependencies
     for (const _name of this.options.linkedDependencies || []) {
@@ -196,20 +207,6 @@ export class Package {
     }
   }
 
-  async removeBuildFolders(config: RollupOptions[]) {
-    const directories = new Set<string>()
-    config.forEach(conf => {
-      asArray(conf.output).forEach(conf => {
-        if (!conf) return
-        const dir = conf.dir || dirname(conf.file || '')
-        if (!dir.includes('src')) directories.add(dir)
-      })
-    })
-    for (const dir of directories) {
-      await remove(dir)
-    }
-  }
-
   publish(tag = 'latest') {
     this.logger.info(
       `publishing ${this.pkg.name}@${this.pkg.version} with tag ${tag}`
@@ -217,12 +214,18 @@ export class Package {
     this.exec('npm', `publish --tag ${tag}`)
   }
 
+  /**
+   * Synchronise fields from another package to this package
+   */
   copyFieldsFrom(source: Package, fields: Array<keyof PackageJson> = []) {
     for (const field of fields) {
       ;(this.pkg[field] as any) = source.pkg[field] as any
     }
   }
 
+  /**
+   * Copy files from another package's directory
+   */
   async copyFilesFrom(source: Package, files: string[]) {
     for (const file of files || source.pkg.files || []) {
       const src = resolve(source.options.rootDir, file)
@@ -231,11 +234,17 @@ export class Package {
     }
   }
 
+  /**
+   * Sort `package.json` and sort package dependencies alphabetically (if enabled in options)
+   */
   autoFix() {
     this.pkg = sortPackageJson(this.pkg)
-    this.sortDependencies()
+    if (this.options.sortDependencies) this.sortDependencies()
   }
 
+  /**
+   * Sort package depndencies alphabetically by object key
+   */
   sortDependencies() {
     if (this.pkg.dependencies) {
       this.pkg.dependencies = sortObjectKeys(this.pkg.dependencies)
@@ -246,6 +255,9 @@ export class Package {
     }
   }
 
+  /**
+   * Execute command in the package root directory
+   */
   exec(command: string, args: string, silent = false) {
     const fullCommand = `${command} ${args}`
     const r = execa.commandSync(fullCommand, {
@@ -268,6 +280,9 @@ export class Package {
     }
   }
 
+  /**
+   * An array of built package binaries
+   */
   get binaries() {
     const { bin } = this.pkg
     const files = !bin
@@ -278,10 +293,17 @@ export class Package {
     return Array.from(new Set(files.map(file => this.resolvePath(file))))
   }
 
+  /**
+   * Mark binaries as executable
+   */
   setBinaryPermissions() {
     return this.binaries.map(file => chmod(file, 0o777))
   }
 
+  /**
+   * Return the child packages of this workspace (or, if there are no workspaces specified, just this package)
+   * @param packageNames If package names are provided, these will serve to limit the packages that are returned
+   */
   async getWorkspacePackages(packageNames?: string[]) {
     const packages: Package[] = []
 

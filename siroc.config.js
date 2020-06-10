@@ -1,7 +1,8 @@
 // @ts-check
 
-import { copy } from 'fs-extra'
-import { resolve } from 'path'
+import { Package } from 'siroc'
+
+const source = new Package({ rootDir: __dirname })
 
 /**
  * @type {import('@siroc/core').PackageOptions} config
@@ -9,10 +10,7 @@ import { resolve } from 'path'
 const config = {
   hooks: {
     'build:done'(pkg) {
-      const readme = resolve(__dirname, 'README.md')
-      const destination = resolve(pkg.options.rootDir, 'README.md')
-
-      copy(readme, destination)
+      pkg.copyFilesFrom(source, ['README.md'])
     },
   },
 }
