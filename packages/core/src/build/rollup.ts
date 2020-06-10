@@ -1,4 +1,4 @@
-import { resolve as _resolve, basename } from 'path'
+import { resolve, basename } from 'path'
 
 import aliasPlugin from '@rollup/plugin-alias'
 import commonjsPlugin from '@rollup/plugin-commonjs'
@@ -8,17 +8,13 @@ import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
 import defu from 'defu'
-import { readJSONSync, existsSync } from 'fs-extra'
+import { existsSync } from 'fs-extra'
 import type { RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
-import type { PackageJson } from '../package'
-import {
-  RequireProperties,
-  includeDefinedProperties,
-  includeIf,
-} from '../utils'
+import { Package } from '../package'
+import { includeDefinedProperties, includeIf } from '../utils'
 import { builtins } from './builtins'
 import { getNameFunction } from './utils'
 
@@ -29,6 +25,7 @@ export interface BuildConfigOptions extends RollupOptions {
   replace?: Record<string, Replacement>
   alias?: { [find: string]: string }
   dev?: boolean
+  shouldWatch?: boolean
   /**
    * Explicit externals
    */
@@ -37,14 +34,14 @@ export interface BuildConfigOptions extends RollupOptions {
   input?: string
 }
 
-export function rollupConfig(
+export function getRollupConfig(
   {
-    rootDir = process.cwd(),
     input,
     replace = {},
     alias = {},
     externals = [],
     dev = false,
+    shouldWatch: watch = false,
     resolve: resolveOptions = {
       resolveOnly: [/^((?!node_modules).)*$/],
       preferBuiltins: true,
@@ -52,13 +49,10 @@ export function rollupConfig(
     plugins = [],
     ...options
   }: BuildConfigOptions,
-  pkg: RequireProperties<PackageJson, 'name'>
+  { pkg, binaries, options: { rootDir, suffix } }: Package = new Package()
 ): RollupOptions[] {
-  const resolve = (...path: string[]) => _resolve(rootDir, ...path)
-
-  if (!pkg) pkg = readJSONSync(resolve('package.json'))
-
-  const name = basename(pkg.name.replace('-edge', ''))
+  const resolvePath = (...path: string[]) => resolve(rootDir, ...path)
+  const name = basename(pkg.name.replace(suffix, ''))
   const getFilenames = getNameFunction(rootDir, name)
 
   const external = [
@@ -85,7 +79,7 @@ export function rollupConfig(
       nodeResolvePlugin(resolveOptions),
       commonjsPlugin({ include: /node_modules/ }),
       esbuild({
-        watch: process.argv.includes('--watch'),
+        watch,
         target: 'es2018',
       }),
       jsonPlugin(),
@@ -102,19 +96,13 @@ export function rollupConfig(
         return names
       }, [] as string[])
     filenames.some(filename => {
-      input = resolve('src', filename)
+      input = resolvePath('src', filename)
       return existsSync(input)
     })
     return input
   }
 
-  input = input ? resolve(input) : getEntrypoint(pkg.main)
-
-  const binaries = pkg.bin
-    ? typeof pkg.bin === 'string'
-      ? [pkg.bin]
-      : Object.values(pkg.bin)
-    : []
+  input = input ? resolvePath(input) : getEntrypoint(pkg.main)
 
   if (!input && !binaries.length) return []
 
@@ -156,7 +144,7 @@ export function rollupConfig(
     ...includeIf(pkg.types && input, {
       input,
       output: {
-        file: resolve(pkg.types || ''),
+        file: resolvePath(pkg.types || ''),
         format: 'es' as const,
       },
       external,

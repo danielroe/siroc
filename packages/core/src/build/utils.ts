@@ -6,7 +6,7 @@ export const getNameFunction = (rootDir: string, packageName: string) => (
 ) => {
   return {
     dir: filename
-      ? resolve(rootDir, filename ? dirname(filename) : 'dist')
+      ? resolve(rootDir, dirname(filename))
       : resolve(rootDir, 'dist'),
     entryFileNames: filename
       ? basename(filename)

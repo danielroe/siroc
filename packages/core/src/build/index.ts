@@ -7,7 +7,7 @@ import { rollup, watch, RollupError, RollupOptions } from 'rollup'
 
 import type { BuildOptions, Package } from '../package'
 import { asArray, runInParallel, RequireProperties } from '../utils'
-import { BuildConfigOptions, rollupConfig } from './rollup'
+import { BuildConfigOptions, getRollupConfig } from './rollup'
 
 export * from './hooks'
 export * from './rollup'
@@ -35,10 +35,10 @@ export const build = async (
 ) => {
   // Prepare rollup config
   const config: RequireProperties<BuildConfigOptions, 'alias' | 'replace'> = {
-    rootDir: pkg.options.rootDir,
     alias: {},
     replace: {},
     dev,
+    shouldWatch: _watch,
     ...pkg.options.rollup,
   }
 
@@ -55,7 +55,7 @@ export const build = async (
   await pkg.callHook('build:extend', { config })
 
   // Create rollup config
-  const _rollupConfig = rollupConfig(config, pkg.pkg)
+  const _rollupConfig = getRollupConfig(config, pkg)
 
   // Allow extending rollup config
   await pkg.callHook('build:extendRollup', {

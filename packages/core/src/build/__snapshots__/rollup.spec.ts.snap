@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rollupConfig should generate appropriately named outputs 1`] = `
+Object {
+  "chunkFileNames": "fname-[name].js",
+  "dir": "/customdist",
+  "entryFileNames": "fname",
+}
+`;
+
+exports[`rollupConfig should generate outputs without defined paths 1`] = `
+Object {
+  "chunkFileNames": "pkg-[name].js",
+  "dir": "/dist",
+  "entryFileNames": "pkg.js",
+}
+`;
+
+exports[`rollupConfig should generate outputs without defined paths 2`] = `
+Object {
+  "chunkFileNames": "pkg-[name]-suffix.js",
+  "dir": "/dist",
+  "entryFileNames": "pkg-suffix.js",
+}
+`;

@@ -13,12 +13,12 @@ export const builtins = Module.builtinModules
   )
   .sort()
 
-const builtinsObj: Record<string, boolean> = {}
+let builtinsObj: Record<string, boolean>
 
 const convertToObj = () =>
   builtins.reduce((obj, builtin) => {
     obj[builtin] = true
     return obj
-  }, builtinsObj)
+  }, (builtinsObj = {} as Record<string, boolean>))
 
 export const builtinsMap = () => builtinsObj || convertToObj()
