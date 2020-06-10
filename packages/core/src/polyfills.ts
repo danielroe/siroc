@@ -3,7 +3,7 @@ export function loadAllSettled() {
     values: Iterable<T>
   ): Promise<PromiseSettledResult<T extends PromiseLike<infer U> ? U : T>[]> {
     return Promise.all(
-      Array(values).map(promise => {
+      Array.from(values).map(promise => {
         if (promise instanceof Promise) {
           return promise
             .then(value => ({
