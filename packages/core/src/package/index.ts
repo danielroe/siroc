@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 
+import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
 import execa from 'execa'
 import { chmod, copy, existsSync, readJSONSync, writeFile } from 'fs-extra'
@@ -59,12 +60,31 @@ export class Package {
     // Basic logger
     this.logger = consola
 
-    this.pkg = readJSONSync(this.resolvePath('package.json'))
+    this.pkg = this.loadPackageJSON()
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
 
     this.loadConfig()
+  }
+
+  loadPackageJSON(): this['pkg'] {
+    try {
+      return readJSONSync(this.resolvePath('package.json'))
+    } catch {
+      if (this.options.rootDir === '/') {
+        this.logger.error(
+          `Could not locate a ${bold('package.json')} in ${bold(
+            DEFAULTS.rootDir
+          )} or its parent directories.`
+        )
+        throw new Error(
+          `Could not locate a package.json in ${DEFAULTS.rootDir} or its parent directories.`
+        )
+      }
+      this.options.rootDir = this.resolvePath('..')
+      return this.loadPackageJSON()
+    }
   }
 
   /**

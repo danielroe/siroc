@@ -1,10 +1,9 @@
-import { resolve } from 'path'
 import { RollupBuild } from 'rollup'
 
 import { Package, PackageOptions } from '.'
 
 const loadPackage = (options?: PackageOptions) =>
-  new Package({ rootDir: resolve(__dirname, '../..'), ...options })
+  new Package({ rootDir: __dirname, ...options })
 
 describe('package class', () => {
   let core: Package
