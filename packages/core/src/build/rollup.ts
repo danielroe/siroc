@@ -13,13 +13,13 @@ import type { RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
+import type { PackageJson } from '../package'
 import {
   RequireProperties,
   includeDefinedProperties,
   includeIf,
 } from '../utils'
-import { builtins } from './node-builtins'
-import type { PackageJson } from './package-json'
+import { builtins } from './builtins'
 import { getNameFunction } from './utils'
 
 const __NODE_ENV__ = process.env.NODE_ENV

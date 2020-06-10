@@ -1,6 +1,11 @@
 import { PerformanceObserver, performance } from 'perf_hooks'
 
-import { Package, BuildOptions, runInParallel } from '@siroc/core'
+import {
+  Package,
+  BuildOptions,
+  runInParallel,
+  build as buildPackage,
+} from '@siroc/core'
 import { bold } from 'chalk'
 import consola from 'consola'
 
@@ -49,9 +54,9 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
     // Step 2: Build packages
     if (pkg.options.build) {
       if (watch) {
-        pkg.watch(options)
+        buildPackage(pkg, { dev: true, ...options, watch })
       } else {
-        await pkg.build(options)
+        await buildPackage(pkg, options)
       }
     }
     // Step 3: Link dependencies and Fix packages

@@ -1,5 +1,7 @@
 import path from 'path'
 
+import type { PackageJson } from '../package'
+import { loadAllSettled, loadFromEntries } from './polyfills'
 import {
   asArray,
   ensureUnique,
@@ -10,9 +12,7 @@ import {
   runInParallel,
   sortObjectKeys,
   tryRequire,
-} from '../../src/utils'
-import { PackageJson } from '../../src/config/package-json'
-import { loadAllSettled, loadFromEntries } from '../../src/polyfills'
+} from '.'
 
 describe('asArray', () => {
   it('should return an array if passed an undefined value', () => {
@@ -142,13 +142,13 @@ describe('tryRequire', () => {
   })
   it('should resolve JS', () => {
     const result = tryRequire(
-      path.resolve(__dirname, '../../../../babel.config.js')
+      path.resolve(__dirname, '../../../babel.config.js')
     )
     expect(result).toBeDefined()
   })
   it('should resolve JSON', () => {
     const result = tryRequire<PackageJson>(
-      path.resolve(__dirname, '../../package.json')
+      path.resolve(__dirname, '../package.json')
     )
     expect(result!.name).toBeDefined()
   })

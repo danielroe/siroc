@@ -1,5 +1,6 @@
 import _esm from 'esm'
 import _glob from 'glob'
+
 import { loadAllSettled, loadFromEntries } from './polyfills'
 
 const esm = _esm(module)
