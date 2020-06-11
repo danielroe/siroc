@@ -1,4 +1,4 @@
-import { basename, dirname, resolve } from 'path'
+import { basename, dirname, relative, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
@@ -261,10 +261,10 @@ export class Package {
 
       const outDir = dirname(binary)
       if (!existsSync(outDir)) await mkdirp(outDir)
-      const bareEntrypoint = entrypoint.replace(/(\.[jt]s)$/, '')
+      const absPath = entrypoint.replace(/(\.[jt]s)$/, '')
       await writeFile(
         binary,
-        `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('${bareEntrypoint}')`
+        `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('${absPath}')`
       )
       await this.setBinaryPermissions()
     })
@@ -276,8 +276,11 @@ export class Package {
     const outFile = this.resolvePath(path)
     const outDir = dirname(outFile)
     if (!existsSync(outDir)) await mkdirp(outDir)
-    const bareEntrypoint = this.entrypoint.replace(/(\.[jt]s)$/, '')
-    await writeFile(outFile, `export * from '${bareEntrypoint}'`)
+    const relativeEntrypoint = relative(outDir, this.entrypoint).replace(
+      /(\.[jt]s)$/,
+      ''
+    )
+    await writeFile(outFile, `export * from './${relativeEntrypoint}'`)
   }
 
   async createStubs() {
