@@ -1,4 +1,4 @@
-import { basename, dirname, relative, resolve } from 'path'
+import { basename, dirname, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
@@ -23,6 +23,7 @@ import {
   glob,
   runInParallel,
   sortObjectKeys,
+  tryJSON,
   tryRequire,
   RequireProperties,
 } from '../utils'
@@ -47,7 +48,7 @@ export interface BuildOptions {
 }
 
 // 'package.js' is legacy and will go
-const configPaths = ['siroc.config.js', 'package.js']
+const configPaths = ['siroc.config.ts', 'siroc.config.js', 'package.js']
 
 const DEFAULTS: DefaultPackageOptions = {
   rootDir: process.cwd(),
@@ -212,8 +213,8 @@ export class Package {
 
       // Try to read pkg
       const pkg =
-        tryRequire<PackageJson>(`${name}/package.json`) ||
-        tryRequire<PackageJson>(`${_name}/package.json`)
+        tryJSON<PackageJson>(`${name}/package.json`) ||
+        tryJSON<PackageJson>(`${_name}/package.json`)
 
       // Skip if pkg or dependency not found
       if (
@@ -260,13 +261,10 @@ export class Package {
 
       const outDir = dirname(binary)
       if (!existsSync(outDir)) await mkdirp(outDir)
-      const relativeEntrypoint = relative(outDir, entrypoint).replace(
-        /(\.[jt]s)$/,
-        ''
-      )
+      const bareEntrypoint = entrypoint.replace(/(\.[jt]s)$/, '')
       await writeFile(
         binary,
-        `#!/usr/bin/env node\nconst jiti = require('jiti')(__filename)\nmodule.exports = jiti('./${relativeEntrypoint}')`
+        `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('${bareEntrypoint}')`
       )
       await this.setBinaryPermissions()
     })
@@ -278,11 +276,8 @@ export class Package {
     const outFile = this.resolvePath(path)
     const outDir = dirname(outFile)
     if (!existsSync(outDir)) await mkdirp(outDir)
-    const relativeEntrypoint = relative(outDir, this.entrypoint).replace(
-      /(\.[jt]s)$/,
-      ''
-    )
-    await writeFile(outFile, `export * from './${relativeEntrypoint}'`)
+    const bareEntrypoint = this.entrypoint.replace(/(\.[jt]s)$/, '')
+    await writeFile(outFile, `export * from '${bareEntrypoint}'`)
   }
 
   async createStubs() {

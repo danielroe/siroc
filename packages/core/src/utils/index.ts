@@ -1,9 +1,11 @@
-import _esm from 'esm'
+import { readJSONSync } from 'fs-extra'
 import _glob from 'glob'
+import _jiti from 'jiti'
 
 import { loadAllSettled, loadFromEntries } from './polyfills'
 
-const esm = _esm(module)
+// TODO: remove empty args
+const jiti = _jiti(undefined, {})
 
 if (!Object.fromEntries) loadFromEntries()
 if (!Promise.allSettled) loadAllSettled()
@@ -21,9 +23,17 @@ export const sortObjectKeys = <T>(obj: Record<string, T>) =>
     Object.entries(obj).sort(([key1], [key2]) => +key2 - +key1)
   )
 
+export const tryJSON = <T = unknown>(id: string) => {
+  try {
+    return readJSONSync(id) as T
+  } catch {
+    return undefined
+  }
+}
+
 export const tryRequire = <T = unknown>(id: string) => {
   try {
-    const contents = esm<T | { default: T }>(id)
+    const contents = jiti(id) as T | { default: T }
     if ('default' in contents) return contents.default
     return contents
   } catch {

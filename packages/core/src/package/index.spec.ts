@@ -66,9 +66,11 @@ describe('package class', () => {
     await core.createStubs()
 
     for (const file of files) {
-      expect(readFileSync(file).toString()).toBe(
-        `export * from './../src/index'`
-      )
+      expect(
+        readFileSync(file)
+          .toString()
+          .replace(/from '.*\/packages/, "from '/packages")
+      ).toBe(`export * from '/packages/core/src/index'`)
     }
   })
 
@@ -78,8 +80,12 @@ describe('package class', () => {
     await remove(file)
     expect(existsSync(file)).toBeFalsy()
     await cli.createStubs()
-    expect(readFileSync(file).toString()).toBe(
-      `#!/usr/bin/env node\nconst jiti = require('jiti')(__filename)\nmodule.exports = jiti('./../src/index')`
+    expect(
+      readFileSync(file)
+        .toString()
+        .replace(/jiti\('.*\/packages/, "jiti('/packages")
+    ).toBe(
+      `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('/packages/cli/src/index')`
     )
   })
 })

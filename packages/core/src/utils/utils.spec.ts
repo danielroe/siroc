@@ -11,6 +11,7 @@ import {
   includeIf,
   runInParallel,
   sortObjectKeys,
+  tryJSON,
   tryRequire,
 } from '.'
 
@@ -134,6 +135,19 @@ const sortObjectKeysTest = () => {
   })
 }
 describe('sortObjectKeys', sortObjectKeysTest)
+
+describe('tryJSON', () => {
+  it('should not throw an error when passed nonsense', () => {
+    const result = tryJSON('require this if you dare')
+    expect(result).toBeFalsy()
+  })
+  it('should resolve JSON', () => {
+    const result = tryJSON<PackageJson>(
+      path.resolve(__dirname, '../../package.json')
+    )
+    expect(result!.name).toBeDefined()
+  })
+})
 
 describe('tryRequire', () => {
   it('should not throw an error when passed nonsense', () => {

@@ -1,4 +1,6 @@
-// eslint-disable-next-line
-const jiti = require('jiti')(__filename)
+import _jiti from 'jiti'
+
+// TODO: remove empty args
+const jiti = _jiti(undefined, {})
 
 jiti(process.argv[2])

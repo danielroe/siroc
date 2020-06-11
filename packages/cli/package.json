@@ -39,6 +39,7 @@
     "chalk": "^4.1.0",
     "consola": "^2.12.2",
     "fs-extra": "^9.0.1",
+    "jiti": "^0.1.7",
     "v8-compile-cache": "^2.1.1"
   },
   "devDependencies": {
