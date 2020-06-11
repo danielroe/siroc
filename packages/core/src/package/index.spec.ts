@@ -70,7 +70,7 @@ describe('package class', () => {
         readFileSync(file)
           .toString()
           .replace(/from '.*\/packages/, "from '/packages")
-      ).toBe(`export * from '/packages/core/src/index'`)
+      ).toBe(`export * from './../src/index'`)
     }
   })
 
