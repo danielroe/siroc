@@ -56,6 +56,9 @@ export function getRollupConfig(
   }: Package = new Package()
 ): RollupOptions[] {
   const resolvePath = (...path: string[]) => resolve(rootDir, ...path)
+  input = input ? resolvePath(input) : entrypoint
+  if (!input && !binaries.length) return []
+
   const name = basename(pkg.name.replace(suffix, ''))
   const getFilenames = getNameFunction(rootDir, name)
 
@@ -89,20 +92,16 @@ export function getRollupConfig(
       jsonPlugin(),
     ].concat(plugins)
 
-  input = input ? resolvePath(input) : entrypoint
-
-  if (!input && !binaries.length) return []
-
   const defaultOutputs = [
     {
       ...getFilenames(pkg.main),
       format: 'cjs',
       preferConst: true,
     },
-    ...includeIf(pkg.module && !dev, {
-      ...getFilenames(pkg.module, '-es'),
+    ...includeIf(!dev && pkg.module, pkgModule => ({
+      ...getFilenames(pkgModule, '-es'),
       format: 'es',
-    }),
+    })),
   ]
 
   return [
@@ -119,8 +118,7 @@ export function getRollupConfig(
         plugins: getPlugins(),
       })
     }),
-    ...includeIf(
-      input,
+    ...includeIf(input, input =>
       defu({}, options, {
         input,
         output: defaultOutputs,
@@ -128,7 +126,7 @@ export function getRollupConfig(
         plugins: getPlugins(),
       })
     ),
-    ...includeIf(pkg.types && input, {
+    ...includeIf(pkg.types && input, input => ({
       input,
       output: {
         file: resolvePath(pkg.types || ''),
@@ -143,6 +141,6 @@ export function getRollupConfig(
           },
         }),
       ],
-    }),
+    })),
   ]
 }

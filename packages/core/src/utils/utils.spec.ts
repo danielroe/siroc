@@ -90,14 +90,14 @@ describe('includeDefinedProperties', definedPropertiesTest)
 describe('includeIf', () => {
   it('should return an empty array when falsy', () => {
     const results = [
-      includeIf(false, 'test'),
-      includeIf(null, 'test'),
-      includeIf(undefined, 'test'),
+      includeIf(false, () => 'test'),
+      includeIf(null, () => 'test'),
+      includeIf(undefined, () => 'test'),
     ]
     expect(results).toEqual([[], [], []])
   })
   it('should return the item in an array when true', () => {
-    const result = includeIf(true, 'test')
+    const result = includeIf(true, () => 'test')
     expect(result).toEqual(['test'])
   })
 })

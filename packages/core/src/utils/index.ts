@@ -60,7 +60,12 @@ export const includeDefinedProperties = <T extends Record<string, any>>(
     Object.entries(options).filter(([_, value]) => value !== undefined)
   ) as ExcludeNullable<T>
 
-export const includeIf = <T>(test: any, item: T) => (test ? [item] : [])
+type NonFalsy<T> = T extends null | undefined | false ? never : T
+
+export const includeIf = <T, I>(
+  test: T,
+  itemFactory: (outcome: NonFalsy<T>) => I
+) => (test ? [itemFactory(test as any)] : [])
 
 export const runInParallel = async <T, R extends any>(
   items: T[],
