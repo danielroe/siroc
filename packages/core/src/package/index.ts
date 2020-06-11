@@ -3,7 +3,7 @@ import { basename, resolve } from 'path'
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
 import execa from 'execa'
-import { chmod, copy, existsSync, readJSONSync, writeFile } from 'fs-extra'
+import { copy, existsSync, readJSONSync, writeFile } from 'fs-extra'
 import { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
@@ -343,13 +343,6 @@ export class Package {
         ])
       )
     )
-  }
-
-  /**
-   * Mark binaries as executable
-   */
-  setBinaryPermissions() {
-    return this.binaries.map(([binary]) => chmod(binary, 0o777))
   }
 
   /**

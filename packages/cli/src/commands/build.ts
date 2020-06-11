@@ -8,6 +8,7 @@ import {
 } from '@siroc/core'
 import { bold } from 'chalk'
 import consola from 'consola'
+import { chmod } from 'fs-extra'
 
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
@@ -62,7 +63,10 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
     // Step 3: Link dependencies and Fix packages
     pkg.syncLinkedDependencies()
     pkg.autoFix()
-    await Promise.all([...pkg.setBinaryPermissions(), pkg.writePackage()])
+    await Promise.all([
+      ...pkg.binaries.map(([binary]) => chmod(binary, 0o777)),
+      pkg.writePackage(),
+    ])
   }
   if (watch) return
 
