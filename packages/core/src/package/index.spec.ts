@@ -24,7 +24,7 @@ describe('package class', () => {
   })
   test('should generate a package version', () => {
     const { version } = core.pkg
-    const newVersion = core.getVersion()
+    const newVersion = core.version
     expect(version === newVersion).toBeFalsy()
     expect(newVersion.includes(version)).toBeTruthy()
     core.suffixAndVersion()
@@ -39,9 +39,8 @@ describe('package class', () => {
     expect(core.pkg.name).toBe('@siroc/core-test')
   })
   test('should get git commit and branch', () => {
-    const commit = core.gitShortCommit()
-    const branch = core.gitBranch()
-    expect(typeof commit).toBe('string')
+    const { shortCommit, branch } = core
+    expect(typeof shortCommit).toBe('string')
     expect(typeof branch).toBe('string')
   })
 })

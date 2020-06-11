@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { basename, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
@@ -150,11 +150,11 @@ export class Package {
   }
 
   /**
-   * Generate a version string unique to the current git commit and date
+   * A version string unique to the current git commit and date
    */
-  getVersion() {
+  get version() {
     const date = Math.round(Date.now() / (1000 * 60))
-    const gitCommit = this.gitShortCommit()
+    const gitCommit = this.shortCommit
     const baseVersion = this.pkg.version.split('-')[0]
     return `${baseVersion}-${date}.${gitCommit}`
   }
@@ -192,7 +192,7 @@ export class Package {
       }
     }
 
-    this.pkg.version = this.getVersion()
+    this.pkg.version = this.version
   }
 
   /**
@@ -300,8 +300,33 @@ export class Package {
     }
   }
 
+  private resolveEntrypoint(path = this.pkg.main) {
+    if (!path) return undefined
+
+    const basefile = basename(path).split('.').slice(0, -1).join()
+    let input!: string
+    const filenames = [basefile, `${basefile}/index`, 'index']
+      .map(name => [`${name}.ts`, `${name}.js`])
+      .reduce((names, arr) => {
+        arr.forEach(name => names.push(name))
+        return names
+      }, [] as string[])
+    filenames.some(filename => {
+      input = this.resolvePath('src', filename)
+      return existsSync(input)
+    })
+    return input
+  }
+
   /**
-   * An array of built package binaries
+   * The main package entrypoint (source)
+   */
+  get entrypoint() {
+    return this.resolveEntrypoint()
+  }
+
+  /**
+   * An array of built package binary paths and their entrypoints
    */
   get binaries() {
     const { bin } = this.pkg
@@ -310,14 +335,21 @@ export class Package {
       : typeof bin === 'string'
       ? [bin]
       : Object.values(bin)
-    return Array.from(new Set(files.map(file => this.resolvePath(file))))
+    return Array.from(
+      new Set<[string, string | undefined]>(
+        files.map(file => [
+          this.resolvePath(file),
+          this.resolveEntrypoint(file),
+        ])
+      )
+    )
   }
 
   /**
    * Mark binaries as executable
    */
   setBinaryPermissions() {
-    return this.binaries.map(file => chmod(file, 0o777))
+    return this.binaries.map(([binary]) => chmod(binary, 0o777))
   }
 
   /**
@@ -325,8 +357,6 @@ export class Package {
    * @param packageNames If package names are provided, these will serve to limit the packages that are returned
    */
   async getWorkspacePackages(packageNames?: string[]) {
-    const packages: Package[] = []
-
     const dirs = new Set<string>()
     await Promise.all(
       (this.pkg.workspaces || ['.']).map(async workspace =>
@@ -334,29 +364,31 @@ export class Package {
       )
     )
 
-    for (const dir of dirs) {
-      if (existsSync(this.resolvePath(dir, 'package.json'))) {
+    const packages = await Promise.allSettled(
+      Array.from(dirs).map(async dir => {
+        if (!existsSync(this.resolvePath(dir, 'package.json')))
+          throw new Error('Not a package directory.')
         const pkg = new Package({
           ...this.options,
           rootDir: this.resolvePath(dir),
         })
-        if (!packageNames || packageNames.includes(pkg.pkg.name)) {
-          packages.push(pkg)
-        }
-      } else {
-        this.logger.warn('Invalid workspace package:', dir)
-      }
-    }
+        if (packageNames && !packageNames.includes(pkg.pkg.name))
+          throw new Error('Not a selected package.')
+        return pkg
+      })
+    )
 
     return packages
+      .filter(pkg => pkg.status === 'fulfilled')
+      .map(pkg => (pkg as PromiseFulfilledResult<Package>).value)
   }
 
-  gitShortCommit() {
+  get shortCommit() {
     const { stdout } = this.exec('git', 'rev-parse --short HEAD', true)
     return stdout
   }
 
-  gitBranch() {
+  get branch() {
     const { stdout } = this.exec('git', 'rev-parse --abbrev-ref HEAD', true)
     return stdout
   }

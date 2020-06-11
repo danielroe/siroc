@@ -31,21 +31,24 @@ async function removeBuildFolders(config: RollupOptions[]) {
 
 export const build = async (
   pkg: Package,
-  { watch: _watch = false, dev = _watch }: BuildOptions = {}
+  { watch: shouldWatch = false, dev = shouldWatch }: BuildOptions = {}
 ) => {
+  const {
+    options: { suffix, linkedDependencies, rootDir, rollup: rollupOptions },
+  } = pkg
   // Prepare rollup config
   const config: RequireProperties<BuildConfigOptions, 'alias' | 'replace'> = {
     alias: {},
     replace: {},
     dev,
-    shouldWatch: _watch,
-    ...pkg.options.rollup,
+    shouldWatch,
+    ...rollupOptions,
   }
 
   // Replace linkedDependencies with their suffixed version
-  if (pkg.options.suffix && pkg.options.suffix.length) {
-    for (const _name of pkg.options.linkedDependencies || []) {
-      const name = _name + pkg.options.suffix
+  if (suffix) {
+    for (const _name of linkedDependencies || []) {
+      const name = _name + suffix
       config.replace[`'${_name}'`] = `'${name}'`
       config.alias[_name] = name
     }
@@ -55,18 +58,18 @@ export const build = async (
   await pkg.callHook('build:extend', { config })
 
   // Create rollup config
-  const _rollupConfig = getRollupConfig(config, pkg)
+  const rollupConfig = getRollupConfig(config, pkg)
 
   // Allow extending rollup config
   await pkg.callHook('build:extendRollup', {
-    rollupConfig: _rollupConfig,
+    rollupConfig,
   })
 
-  await removeBuildFolders(_rollupConfig)
+  await removeBuildFolders(rollupConfig)
 
-  if (_watch) {
+  if (shouldWatch) {
     // Watch
-    const watcher = watch(_rollupConfig)
+    const watcher = watch(rollupConfig)
     watcher.on('event', event => {
       switch (event.code) {
         // The watcher is (re)starting
@@ -87,7 +90,7 @@ export const build = async (
 
         // Encountered an error while bundling
         case 'ERROR':
-          formatError(pkg, event.error)
+          formatError(rootDir, event.error)
           return pkg.logger.error(event.error)
 
         // Unknown event
@@ -101,7 +104,7 @@ export const build = async (
   } else {
     // Build
     pkg.logger.debug(`Building ${pkg.pkg.name}`)
-    await runInParallel(_rollupConfig, async config => {
+    await runInParallel(rollupConfig, async config => {
       try {
         const bundle = await rollup(config)
         await runInParallel(asArray(config.output), async outputConfig => {
@@ -118,9 +121,8 @@ export const build = async (
         })
         await pkg.callHook('build:done', { bundle })
       } catch (err) {
-        const formattedError = formatError(pkg, err)
-        pkg.logger.error(formattedError)
-        throw formattedError
+        const formattedError = formatError(rootDir, err)
+        throw pkg.logger.error(formattedError)
       }
     })
   }
@@ -129,8 +131,8 @@ export const build = async (
 /**
  * Format rollup error
  */
-const formatError = (pkg: Package, error: RollupError) => {
-  let loc = pkg.options.rootDir
+const formatError = (rootDir: string, error: RollupError) => {
+  let loc = rootDir
   if (error.loc) {
     const { file, column, line } = error.loc
     loc = `${file}:${line}:${column}`

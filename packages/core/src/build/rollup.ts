@@ -8,7 +8,6 @@ import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
 import defu from 'defu'
-import { existsSync } from 'fs-extra'
 import type { RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
@@ -49,7 +48,12 @@ export function getRollupConfig(
     plugins = [],
     ...options
   }: BuildConfigOptions,
-  { pkg, binaries, options: { rootDir, suffix } }: Package = new Package()
+  {
+    binaries,
+    entrypoint,
+    pkg,
+    options: { rootDir, suffix },
+  }: Package = new Package()
 ): RollupOptions[] {
   const resolvePath = (...path: string[]) => resolve(rootDir, ...path)
   const name = basename(pkg.name.replace(suffix, ''))
@@ -85,24 +89,7 @@ export function getRollupConfig(
       jsonPlugin(),
     ].concat(plugins)
 
-  function getEntrypoint(path?: string) {
-    if (!path) return undefined
-    const basefile = basename(path).split('.').slice(0, -1).join()
-    let input!: string
-    const filenames = [basefile, `${basefile}/index`, 'index']
-      .map(name => [`${name}.ts`, `${name}.js`])
-      .reduce((names, arr) => {
-        arr.forEach(name => names.push(name))
-        return names
-      }, [] as string[])
-    filenames.some(filename => {
-      input = resolvePath('src', filename)
-      return existsSync(input)
-    })
-    return input
-  }
-
-  input = input ? resolvePath(input) : getEntrypoint(pkg.main)
+  input = input ? resolvePath(input) : entrypoint
 
   if (!input && !binaries.length) return []
 
@@ -119,11 +106,11 @@ export function getRollupConfig(
   ]
 
   return [
-    ...binaries.map(path => {
+    ...binaries.map(([binary, input]) => {
       return defu({}, options, {
-        input: getEntrypoint(path),
+        input,
         output: {
-          ...getFilenames(path),
+          ...getFilenames(binary),
           format: 'cjs',
           preferConst: true,
           banner: '#!/usr/bin/env node\n',
