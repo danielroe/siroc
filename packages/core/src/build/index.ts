@@ -3,11 +3,17 @@ import { dirname } from 'path'
 import { bold, gray } from 'chalk'
 import consola from 'consola'
 import { remove } from 'fs-extra'
-import { rollup, watch, RollupError, RollupOptions } from 'rollup'
+import { rollup, watch, RollupError } from 'rollup'
 
 import type { BuildOptions, Package } from '../package'
-import { asArray, runInParallel, RequireProperties } from '../utils'
-import { BuildConfigOptions, getRollupConfig } from './rollup'
+import {
+  asArray,
+  ensureUnique,
+  includeIf,
+  runInParallel,
+  RequireProperties,
+} from '../utils'
+import { getRollupConfig, BuildConfigOptions } from './rollup'
 
 export * from './hooks'
 export * from './rollup'
@@ -15,18 +21,17 @@ export * from './rollup'
 /**
  * Remove folders for build destinations
  */
-async function removeBuildFolders(config: RollupOptions[]) {
-  const directories = new Set<string>()
-  config.forEach(conf => {
-    asArray(conf.output).forEach(conf => {
-      if (!conf) return
-      const dir = conf.dir || dirname(conf.file || '')
-      if (!dir.includes('src')) directories.add(dir)
-    })
-  })
-  for (const dir of directories) {
-    await remove(dir)
-  }
+export async function removeBuildFolders(pkg: Package) {
+  const directories = ensureUnique(
+    [
+      ...pkg.binaries.map(([bin]) => bin),
+      ...includeIf(pkg.pkg.main, main => main),
+    ]
+      .map(file => dirname(file))
+      .filter(dir => !dir.includes('src'))
+  )
+
+  await runInParallel(directories, remove)
 }
 
 export const build = async (
@@ -64,8 +69,6 @@ export const build = async (
   await pkg.callHook('build:extendRollup', {
     rollupConfig,
   })
-
-  await removeBuildFolders(rollupConfig)
 
   if (shouldWatch) {
     // Watch

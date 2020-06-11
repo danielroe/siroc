@@ -1,22 +1,11 @@
-import { PerformanceObserver, performance } from 'perf_hooks'
-
 import {
-  Package,
-  BuildOptions,
-  runInParallel,
   build as buildPackage,
+  Package,
+  removeBuildFolders,
+  runInParallel,
+  BuildOptions,
 } from '@siroc/core'
-import { bold } from 'chalk'
 import consola from 'consola'
-import { chmod } from 'fs-extra'
-
-const obs = new PerformanceObserver(items => {
-  const { duration, name } = items.getEntries()[0]
-  const seconds = (duration / 1000).toFixed(1)
-  const time = duration > 1000 ? seconds + 's' : Math.round(duration) + 'ms'
-  consola.success(`${name} in ${bold(time)}`)
-})
-obs.observe({ entryTypes: ['measure'] })
 
 export interface BuildCommandOptions extends BuildOptions {
   packages: string[]
@@ -32,12 +21,17 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
 
   const { watch } = options
   consola.info(`Beginning build${watch ? ' (watching)' : ''}`)
-  performance.mark('Start build')
 
   // Universal linkedDependencies based on workspace
   const linkedDependencies = workspacePackages.map(p =>
     p.pkg.name.replace(p.options.suffix, '')
   )
+
+  // Create package stubs so we can build in parallel
+  await runInParallel(workspacePackages, async pkg => {
+    await removeBuildFolders(pkg)
+    await pkg.createStubs()
+  })
 
   await runInParallel(workspacePackages, async pkg => {
     pkg.options.linkedDependencies = (
@@ -49,9 +43,7 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
       pkg.suffixAndVersion()
       await pkg.writePackage()
     }
-  })
 
-  for (const pkg of workspacePackages) {
     // Step 2: Build packages
     if (pkg.options.build) {
       if (watch) {
@@ -60,16 +52,10 @@ export async function build({ packages, ...options }: BuildCommandOptions) {
         await buildPackage(pkg, options)
       }
     }
+
     // Step 3: Link dependencies and Fix packages
     pkg.syncLinkedDependencies()
     pkg.autoFix()
-    await Promise.all([
-      ...pkg.binaries.map(([binary]) => chmod(binary, 0o777)),
-      pkg.writePackage(),
-    ])
-  }
-  if (watch) return
-
-  performance.mark('Stop build')
-  performance.measure('Finished build', 'Start build', 'Stop build')
+    await Promise.all([pkg.setBinaryPermissions(), pkg.writePackage()])
+  })
 }

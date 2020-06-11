@@ -1,9 +1,16 @@
-import { basename, resolve } from 'path'
+import { basename, dirname, relative, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
 import execa from 'execa'
-import { copy, existsSync, readJSONSync, writeFile } from 'fs-extra'
+import {
+  copy,
+  existsSync,
+  readJSONSync,
+  writeFile,
+  mkdirp,
+  chmod,
+} from 'fs-extra'
 import { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
@@ -243,6 +250,50 @@ export class Package {
     }
   }
 
+  async setBinaryPermissions() {
+    await Promise.all(this.binaries.map(([binary]) => chmod(binary, 0o777)))
+  }
+
+  async createBinaryStubs() {
+    await runInParallel(this.binaries, async ([binary, entrypoint]) => {
+      if (!entrypoint) return
+
+      const outDir = dirname(binary)
+      if (!existsSync(outDir)) await mkdirp(outDir)
+      const relativeEntrypoint = relative(outDir, entrypoint).replace(
+        /(\.[jt]s)$/,
+        ''
+      )
+      await writeFile(
+        binary,
+        `#!/usr/bin/env node\nconst jiti = require('jiti')(__filename)\nmodule.exports = jiti('./${relativeEntrypoint}')`
+      )
+      await this.setBinaryPermissions()
+    })
+  }
+
+  async createStub(path: string | undefined) {
+    if (!path || !this.entrypoint) return
+
+    const outFile = this.resolvePath(path)
+    const outDir = dirname(outFile)
+    if (!existsSync(outDir)) await mkdirp(outDir)
+    const relativeEntrypoint = relative(outDir, this.entrypoint).replace(
+      /(\.[jt]s)$/,
+      ''
+    )
+    await writeFile(outFile, `export * from './${relativeEntrypoint}'`)
+  }
+
+  async createStubs() {
+    return Promise.all([
+      this.createBinaryStubs(),
+      this.createStub(this.pkg.main),
+      this.createStub(this.pkg.module),
+      this.createStub(this.pkg.types),
+    ])
+  }
+
   /**
    * Copy files from another package's directory
    */
@@ -327,16 +378,20 @@ export class Package {
 
   /**
    * An array of built package binary paths and their entrypoints
+   * @returns an array of tuples of the binary and its corresponding entrypoint
    */
   get binaries() {
+    type Binary = string
+    type Entrypoint = string | undefined
     const { bin } = this.pkg
     const files = !bin
       ? []
       : typeof bin === 'string'
       ? [bin]
       : Object.values(bin)
+
     return Array.from(
-      new Set<[string, string | undefined]>(
+      new Set<[Binary, Entrypoint]>(
         files.map(file => [
           this.resolvePath(file),
           this.resolveEntrypoint(file),

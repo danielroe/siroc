@@ -120,7 +120,8 @@ function parseCommits(commits: Commit[]): ConventionalCommit[] {
       message = message.replace(referencesRegex, '').replace(/\(\)/g, '').trim()
 
       // Extract scope from type
-      const scope = type.match(/\((.*)\)/)?.[1] || 'general'
+      const matches = type.match(/\((.*)\)/)
+      const scope = (matches && matches[1]) || 'general'
 
       return {
         ...commit,
