@@ -48,7 +48,12 @@ export interface BuildOptions {
 }
 
 // 'package.js' is legacy and will go
-const configPaths = ['siroc.config.ts', 'siroc.config.js', 'package.js']
+const configPaths = [
+  'siroc.config.ts',
+  'siroc.config.js',
+  'siroc.config.json',
+  'package.js',
+]
 
 const DEFAULTS: DefaultPackageOptions = {
   rootDir: process.cwd(),
@@ -108,10 +113,12 @@ export class Package {
   loadConfig() {
     configPaths.some(path => {
       const configPath = this.resolvePath(path)
+
       const config = tryRequire<PackageOptions>(configPath)
       if (!config) return false
 
       Object.assign(this.options, config)
+      return true
     })
   }
 
