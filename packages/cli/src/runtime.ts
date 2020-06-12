@@ -1,6 +1,5 @@
 import _jiti from 'jiti'
 
-// TODO: remove empty args
-const jiti = _jiti(undefined, {})
+const jiti = _jiti()
 
 jiti(process.argv[2])

@@ -2428,10 +2428,10 @@ configstore@^5.0.1:
     write-file-atomic "^3.0.0"
     xdg-basedir "^4.0.0"
 
-consola@^2.12.2:
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-2.12.2.tgz#9610f158e7b0a9ecc8f8bb0c4fc8e7c52bf41d05"
-  integrity sha512-c9mzemrAk57s3UIjepn8KKkuEH5fauMdot5kFSJUnqHcnApVS9Db8Rbv5AZ1Iz6lXzaGe9z1crQXhJtGX4h/Og==
+consola@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.13.0.tgz#5a4dc75e1b1fddbd8b10728e7790a2e54efeeeb7"
+  integrity sha512-Jw+8qpL0yrpfqH9m90fWoDRQyn8TYU6Aegpl4UofoP81VYvQLoOWMpFw2vQ3U/cyLRRzTc/CyNC6YYVzZFU8Eg==
 
 conventional-changelog-angular@^5.0.10:
   version "5.0.10"
@@ -4937,10 +4937,10 @@ jest@^26.0.1:
     import-local "^3.0.2"
     jest-cli "^26.0.1"
 
-jiti@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/jiti/-/jiti-0.1.7.tgz#7d28d29ae69c91ff5e2cd3184f2ccbe0607e93ba"
-  integrity sha512-Xo17OKUtmnevMRkUoyRZo6l3x8QOW58keRb2kOAF5rePnMTK+UmmQUejmEOxT/cUAeabfUzPRrjjFZoepKWngw==
+jiti@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/jiti/-/jiti-0.1.8.tgz#43af51cf305509d703252aa09438d3ab174e5947"
+  integrity sha512-tb4Tsi7TEZqdMGrqSiuY0l+f+w+sEXVPKvJYnpeDjhyjpQhpTW5lF0ZDXuooLB0zvg7SseLfw/0uJ2Fots4+HA==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -5173,10 +5173,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@^10.2.9:
-  version "10.2.9"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.9.tgz#6013ecfa80829cd422446b545fd30a96bca3098c"
-  integrity sha512-ziRAuXEqvJLSXg43ezBpHxRW8FOJCXISaXU//BWrxRrp5cBdRkIx7g5IsB3OI45xYGE0S6cOacfekSjDyDKF2g==
+lint-staged@^10.2.10:
+  version "10.2.10"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.10.tgz#f0f78bf8786bbe90e1775a0dc540f7f12b6a79b2"
+  integrity sha512-dgelFaNH6puUGAcU+OVMgbfpKSerNYsPSn6+nlbRDjovL0KigpsVpCu0PFZG6BJxX8gnHJqaZlR9krZamQsb0w==
   dependencies:
     chalk "^4.0.0"
     cli-truncate "2.1.0"

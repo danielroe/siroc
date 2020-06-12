@@ -4,8 +4,7 @@ import _jiti from 'jiti'
 
 import { loadAllSettled, loadFromEntries } from './polyfills'
 
-// TODO: remove empty args
-const jiti = _jiti(undefined, {})
+const jiti = _jiti()
 
 if (!Object.fromEntries) loadFromEntries()
 if (!Promise.allSettled) loadAllSettled()
