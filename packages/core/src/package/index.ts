@@ -411,25 +411,24 @@ export class Package {
    */
   async getWorkspacePackages(packageNames?: string[]) {
     const dirs = new Set<string>()
-    await Promise.all(
-      (this.pkg.workspaces || ['.']).map(async workspace =>
-        (await glob(workspace)).forEach(dir => dirs.add(dir))
-      )
-    )
 
-    const packages = await Promise.allSettled(
-      Array.from(dirs).map(async dir => {
-        if (!existsSync(this.resolvePath(dir, 'package.json')))
-          throw new Error('Not a package directory.')
-        const pkg = new Package({
-          ...this.options,
-          rootDir: this.resolvePath(dir),
-        })
-        if (packageNames && !packageNames.includes(pkg.pkg.name))
-          throw new Error('Not a selected package.')
-        return pkg
+    await runInParallel(this.pkg.workspaces || ['.'], async workspace => {
+      ;(await glob(workspace)).forEach(dir => dirs.add(dir))
+    })
+
+    const packages = await runInParallel(dirs, dir => {
+      if (!existsSync(this.resolvePath(dir, 'package.json'))) {
+        throw new Error('Not a package directory.')
+      }
+      const pkg = new Package({
+        ...this.options,
+        rootDir: this.resolvePath(dir),
       })
-    )
+      if (packageNames && !packageNames.includes(pkg.pkg.name)) {
+        throw new Error('Not a selected package.')
+      }
+      return pkg
+    })
 
     return packages
       .filter(pkg => pkg.status === 'fulfilled')

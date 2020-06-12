@@ -1,0 +1,30 @@
+{
+  "name": "@siroc/jest-preset",
+  "version": "0.0.1",
+  "description": "Zero-config build tooling for Node",
+  "keywords": [
+    "jest",
+    "jest-preset",
+    "node",
+    "nodejs",
+    "typescript",
+    "javascript"
+  ],
+  "repository": "nuxt-contrib/siroc",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "jest-preset.js",
+  "files": [
+    "jest-preset.js"
+  ],
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "babel-loader": "^8.1.0",
+    "jest": "^26.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.0"
+  }
+}

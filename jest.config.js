@@ -1,7 +1,7 @@
 module.exports = {
+  preset: './packages/jest-preset',
+  projects: ['<rootDir>/packages/*'],
   verbose: true,
-  projects: ['<rootDir>/packages/*/jest.config.js'],
   testEnvironment: 'node',
   collectCoverage: true,
-  coveragePathIgnorePatterns: ['*.spec.ts', '.babelrc.js'],
 }

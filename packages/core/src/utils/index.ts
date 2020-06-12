@@ -1,3 +1,4 @@
+import { extname } from 'path'
 import { readJSONSync } from 'fs-extra'
 import _glob from 'glob'
 import _jiti from 'jiti'
@@ -32,6 +33,7 @@ export const tryJSON = <T = unknown>(id: string) => {
 
 export const tryRequire = <T = unknown>(id: string) => {
   try {
+    if (extname(id) === 'json') return tryJSON(id)
     const contents = jiti(id) as T | { default: T }
     if ('default' in contents) return contents.default
     return contents
@@ -77,9 +79,18 @@ export const includeIf = <T, I>(
 ) => (test ? [itemFactory(test as any)] : [])
 
 export const runInParallel = async <T, R extends any>(
-  items: T[],
-  cb: (item: T) => Promise<R>
-) => Promise.allSettled(items.map(async item => cb(item)))
+  items: Iterable<T>,
+  cb: (item: T) => Promise<R> | R
+) => {
+  if (Array.isArray(items))
+    return Promise.allSettled(items.map(async item => cb(item)))
+
+  const promises: Array<Promise<R>> = []
+  for (const item of items) {
+    promises.push(Promise.resolve(cb(item)))
+  }
+  return Promise.allSettled(promises)
+}
 
 export const asArray = <T>(item: T | T[] | undefined): T[] =>
   item !== undefined ? (Array.isArray(item) ? item : [item]) : []
