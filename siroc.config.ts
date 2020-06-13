@@ -1,15 +1,9 @@
-// @ts-check
+import { Package, PackageOptions } from 'siroc'
 
-import { Package } from 'siroc'
-
-const source = new Package({ rootDir: __dirname })
-
-/**
- * @type {import('@siroc/core').PackageOptions} config
- */
-const config = {
+const config: PackageOptions = {
   hooks: {
     'build:done'(pkg) {
+      const source = new Package({ rootDir: __dirname })
       pkg.copyFilesFrom(source, ['README.md'])
     },
   },
