@@ -278,7 +278,7 @@ export class Package {
   }
 
   async createStub(path: string | undefined) {
-    if (!path || !this.entrypoint) return
+    if (!path || !this.entrypoint || !this.options.build) return
 
     const outFile = this.resolvePath(path)
     const outDir = dirname(outFile)
