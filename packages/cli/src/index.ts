@@ -50,7 +50,9 @@ cli
     run('building', build, { ...options, packages })
   )
 
-cli.command('changelog', 'Generate changelog').action(() => run(changelog))
+cli
+  .command('changelog', 'Generate changelog')
+  .action(() => run('changelog', changelog))
 
 cli
   .command('dev [...packages]', 'Generate package stubs for quick development')
@@ -59,10 +61,12 @@ cli
   .action((packages: string[], options: DevCommandOptions) =>
     run('stubbing', dev, { ...options, packages })
   )
+
 cli
   .command('run <file> [...args]', 'Run Node script')
   .allowUnknownOptions()
   .option('-w, --workspaces', 'Run command in all yarn workspaces.')
+  .option('-s, --sequential', 'Run sequentially rather than in paralle.')
   .example(bin => `  ${bin} src/test.ts`)
   .example(bin => `  ${bin} --workspaces ls`)
   .action((file, args, options) =>

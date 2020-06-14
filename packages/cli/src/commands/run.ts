@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 
-import { Package } from '@siroc/core'
+import { Package, runInParallel } from '@siroc/core'
 import { bold, gray } from 'chalk'
 import consola from 'consola'
 import { existsSync } from 'fs-extra'
@@ -10,13 +10,14 @@ interface RunCommandOptions {
   args: string[]
   options: {
     workspaces?: boolean
+    sequential?: boolean
   }
 }
 
 export async function run({
   file,
   args,
-  options: { workspaces },
+  options: { workspaces, sequential },
 }: RunCommandOptions) {
   const fullCommand = `${file} ${args.join()}`.trim()
   const filepath = resolve(process.cwd(), file)
@@ -44,5 +45,9 @@ export async function run({
     ? await rootPackage.getWorkspacePackages()
     : [rootPackage]
 
-  packages.forEach(pkg => runCommand(pkg))
+  if (!sequential) {
+    runInParallel(packages, runCommand)
+  } else {
+    packages.forEach(runCommand)
+  }
 }
