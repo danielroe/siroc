@@ -1,9 +1,11 @@
 import 'v8-compile-cache'
+import { resolve } from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
 
 import cac from 'cac'
 import { bold } from 'chalk'
 import consola from 'consola'
+import { readJSONSync } from 'fs-extra'
 
 import { version } from '../package.json'
 
@@ -11,6 +13,17 @@ import { build, BuildCommandOptions } from './commands/build'
 import { changelog } from './commands/changelog'
 import { dev, DevCommandOptions } from './commands/dev'
 import { run as runFile } from './commands/run'
+import { time, timeEnd } from './utils'
+
+time('assign root JSON')
+let exampleProject = '@siroc/cli'
+try {
+  // eslint-disable-next-line
+  const { name } = readJSONSync(resolve(process.cwd(), './package.json'))
+  if (name) exampleProject = name
+  // eslint-disable-next-line
+} catch {}
+timeEnd('assign root JSON')
 
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
@@ -20,6 +33,7 @@ const obs = new PerformanceObserver(items => {
 })
 obs.observe({ entryTypes: ['measure'] })
 
+time('load CLI')
 const cli = cac('siroc')
 
 const run = async <A extends (...args: any[]) => Promise<void>>(
@@ -45,7 +59,7 @@ cli
     default: false,
   })
   .example(bin => `  ${bin} build`)
-  .example(bin => `  ${bin} build @siroc/cli -w`)
+  .example(bin => `  ${bin} build ${exampleProject} -w`)
   .action((packages: string[], options: BuildCommandOptions) =>
     run('building', build, { ...options, packages })
   )
@@ -57,7 +71,7 @@ cli
 cli
   .command('dev [...packages]', 'Generate package stubs for quick development')
   .example(bin => `  ${bin} dev`)
-  .example(bin => `  ${bin} dev @siroc/cli -w`)
+  .example(bin => `  ${bin} dev ${exampleProject} -w`)
   .action((packages: string[], options: DevCommandOptions) =>
     run('stubbing', dev, { ...options, packages })
   )
@@ -75,6 +89,7 @@ cli
 
 cli.version(version)
 cli.help()
+timeEnd('load CLI')
 
 cli.parse()
 

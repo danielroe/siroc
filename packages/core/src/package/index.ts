@@ -334,12 +334,14 @@ export class Package {
   /**
    * Execute command in the package root directory
    */
-  exec(command: string, args: string, silent = false) {
+  exec(command: string, args: string, { silent = false } = {}) {
     const fullCommand = `${command} ${args}`
-    const r = execa.commandSync(fullCommand, {
+    const options = {
       cwd: this.options.rootDir,
       env: process.env,
-    })
+    }
+
+    const r = execa.commandSync(fullCommand, options)
 
     if (!silent) {
       if (r.failed) {
@@ -436,12 +438,16 @@ export class Package {
   }
 
   get shortCommit() {
-    const { stdout } = this.exec('git', 'rev-parse --short HEAD', true)
+    const { stdout } = this.exec('git', 'rev-parse --short HEAD', {
+      silent: true,
+    })
     return stdout
   }
 
   get branch() {
-    const { stdout } = this.exec('git', 'rev-parse --abbrev-ref HEAD', true)
+    const { stdout } = this.exec('git', 'rev-parse --abbrev-ref HEAD', {
+      silent: true,
+    })
     return stdout
   }
 }

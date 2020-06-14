@@ -27,8 +27,11 @@ export async function run({
   function runCommand(pkg: Package) {
     try {
       const { stdout } = isLocalFile
-        ? pkg.exec('yarn', `siroc-runner ${filepath} ${args.join()}`, true)
-        : pkg.exec(file, args.join(), true)
+        ? pkg.exec('yarn', `siroc-runner ${filepath} ${args.join()}`, {
+            silent: true,
+          })
+        : pkg.exec(file, args.join(), { silent: true })
+
       consola.success(
         `Ran ${bold(fullCommand)} in ${bold(pkg.pkg.name)}.`,
         stdout ? '\n' : '',
