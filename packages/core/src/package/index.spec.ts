@@ -52,6 +52,7 @@ describe('package class', () => {
     expect(typeof branch).toBe('string')
   })
 
+  // TODO: move to fixture
   test('should generate package stub', async () => {
     const files = [
       resolve(__dirname, '../../dist/index.js'),
@@ -74,6 +75,7 @@ describe('package class', () => {
     }
   })
 
+  // TODO: move to fixture
   test('should create binary stub', async () => {
     const file = resolve(__dirname, '../../../cli/bin/cli.js')
 

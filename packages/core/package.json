@@ -31,7 +31,7 @@
     "release": "release-it",
     "test": "run-s test:*",
     "test:types": "tsd",
-    "test:unit": "jest",
+    "test:unit": "siroc test",
     "watch": "yarn build -w"
   },
   "dependencies": {

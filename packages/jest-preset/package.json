@@ -15,7 +15,8 @@
   "sideEffects": false,
   "main": "jest-preset.js",
   "files": [
-    "jest-preset.js"
+    "jest-preset.js",
+    "jest.config.js"
   ],
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.10.1",

@@ -2,7 +2,7 @@ import { basename, dirname, relative, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
-import execa from 'execa'
+import execa, { Options } from 'execa'
 import {
   copy,
   existsSync,
@@ -329,6 +329,17 @@ export class Package {
     if (this.pkg.devDependencies) {
       this.pkg.devDependencies = sortObjectKeys(this.pkg.devDependencies)
     }
+  }
+
+  execInteractive(command: string, args: string) {
+    const fullCommand = `${command} ${args}`
+    const options: Options = {
+      cwd: this.options.rootDir,
+      env: process.env,
+      shell: true,
+      stdio: 'inherit',
+    }
+    return execa.command(fullCommand, options)
   }
 
   /**

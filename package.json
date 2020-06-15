@@ -29,7 +29,7 @@
     "prepublishOnly": "yarn lint && yarn test",
     "release": "release-it",
     "test": "run-s test:*",
-    "test:unit": "jest",
+    "test:unit": "packages/cli/bin/cli.js test",
     "watch": "yarn build --watch"
   },
   "devDependencies": {

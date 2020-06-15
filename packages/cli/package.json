@@ -30,11 +30,12 @@
     "prepublishOnly": "yarn lint && yarn test",
     "release": "release-it",
     "test": "run-s test:*",
-    "test:unit": "jest",
+    "test:unit": "siroc test",
     "watch": "yarn build -w"
   },
   "dependencies": {
     "@siroc/core": "0.0.1",
+    "@siroc/jest-preset": "0.0.1",
     "cac": "^6.5.10",
     "chalk": "^4.1.0",
     "consola": "^2.13.0",

@@ -13,6 +13,8 @@ import { build, BuildCommandOptions } from './commands/build'
 import { changelog } from './commands/changelog'
 import { dev, DevCommandOptions } from './commands/dev'
 import { run as runFile } from './commands/run'
+import { test } from './commands/testing'
+
 import { time, timeEnd } from './utils'
 
 time('assign root JSON')
@@ -86,6 +88,12 @@ cli
   .action((file, args, options) =>
     run('running', runFile, { file, args, options })
   )
+
+cli
+  .command('test [...packages]', 'Run jest ')
+  .example(bin => `  ${bin} test`)
+  .example(bin => `  ${bin} test @siroc/cli`)
+  .action((packages, options) => run('testing', test, { packages, options }))
 
 cli.version(version)
 cli.help()

@@ -87,7 +87,11 @@ export const runInParallel = async <T, R extends any>(
 
   const promises: Array<Promise<R>> = []
   for (const item of items) {
-    promises.push(Promise.resolve(cb(item)))
+    try {
+      promises.push(Promise.resolve(cb(item)))
+    } catch (e) {
+      promises.push(Promise.reject(e))
+    }
   }
   return Promise.allSettled(promises)
 }
