@@ -6,7 +6,7 @@ module.exports = {
     '.*\\.config.js',
   ],
   transform: {
-    '\\.ts': [
+    '\\.[tj]s': [
       'babel-jest',
       {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
