@@ -2,11 +2,11 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '[\\/]dist[\\/]',
     '.*\\.spec.ts',
-    '.babelrc.js',
     '.*\\.config.js',
+    '.babelrc.js',
   ],
   transform: {
-    '\\.[tj]s': [
+    '\\.(js|ts)$': [
       'babel-jest',
       {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
