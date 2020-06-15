@@ -17,19 +17,11 @@ const types = {
 type CommitType = keyof typeof types
 const allowedTypes = Object.keys(types) as CommitType[]
 
-const knownAuthors = [
-  'chopin',
-  'parsa',
-  'clark',
-  'galvez',
-  'lichter',
-  'molotkov',
-  'marrec',
-  'pim',
-]
+// TODO: read from package.json
+const knownAuthors: string[] = []
 
 const isKnownAuthor = (name: string) =>
-  Boolean(knownAuthors.find(n => name.toLowerCase().includes(n)))
+  knownAuthors.some(n => name.toLowerCase().includes(n))
 
 interface Commit {
   message: string
