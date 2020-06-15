@@ -17,7 +17,10 @@ export async function test({ packages }: RunCommandOptions) {
         require.resolve('@siroc/jest-preset'),
         '../jest.config.js'
       )
-      const { stdout } = pkg.execInteractive('yarn', `jest -c ${jestConfig}`)
+      const { stdout } = pkg.execInteractive(
+        'yarn',
+        `jest --passWithNoTests -c ${jestConfig}`
+      )
       if (stdout) stdout.pipe(process.stdout)
     } catch (e) {
       if (!jestConfig) {
