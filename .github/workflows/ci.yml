@@ -18,7 +18,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Lint project
@@ -44,14 +43,10 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}-${{ hashFiles('package.json') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Test project
         run: yarn test
-
-      - name: Lint project
-        run: yarn lint
 
       - name: Coverage
         run: yarn codecov
