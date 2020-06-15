@@ -1,0 +1,28 @@
+{
+  "name": "@siroc/eslint-config",
+  "version": "0.0.1",
+  "description": "Zero-config build tooling for Node",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "node",
+    "nodejs",
+    "typescript",
+    "javascript"
+  ],
+  "repository": "nuxt-contrib/siroc",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "index.js",
+  "files": [
+    "index.js",
+    ".eslintrc.js"
+  ],
+  "dependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1"
+  }
+}

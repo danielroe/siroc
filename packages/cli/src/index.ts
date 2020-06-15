@@ -90,10 +90,18 @@ cli
   )
 
 cli
-  .command('test [...packages]', 'Run jest ')
-  .example(bin => `  ${bin} test`)
-  .example(bin => `  ${bin} test @siroc/cli`)
-  .action((packages, options) => run('testing', test, { packages, options }))
+  .command('jest [...packages]', 'Run jest ')
+  .example(bin => `  ${bin} jest`)
+  .example(bin => `  ${bin} jest @siroc/cli`)
+  .action(packages => run('starting jest', test, { packages, command: 'jest' }))
+
+cli
+  .command('eslint [...packages]', 'Run eslint ')
+  .example(bin => `  ${bin} eslint`)
+  .example(bin => `  ${bin} eslint @siroc/cli`)
+  .action(packages =>
+    run('starting eslint', test, { packages, command: 'eslint' })
+  )
 
 cli.version(version)
 cli.help()
