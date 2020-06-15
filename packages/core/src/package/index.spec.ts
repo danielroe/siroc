@@ -90,6 +90,31 @@ describe('package class', () => {
       `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('/packages/cli/src/index')`
     )
   })
+
+  test('should handle git data', () => {
+    const { lastGitTag } = core
+    expect(lastGitTag[0]).toBe('v')
+  })
+
+  test('should parse contributors', () => {
+    const result = [
+      core.parsePerson('Barney Rubble (http://barnyrubble.tumblr.com/)'),
+      core.parsePerson(
+        'Barney Rubble <b@rubble.com> (http://barnyrubble.tumblr.com/)'
+      ),
+    ]
+    expect(result).toEqual([
+      {
+        name: 'Barney Rubble',
+        url: 'http://barnyrubble.tumblr.com/',
+      },
+      {
+        name: 'Barney Rubble',
+        email: 'b@rubble.com',
+        url: 'http://barnyrubble.tumblr.com/',
+      },
+    ])
+  })
 })
 
 describe('package hooks', () => {

@@ -1,6 +1,4 @@
-import consola from 'consola'
-import execa from 'execa'
-
+import { Package, PackageJsonPerson } from '../package'
 import { ensureUnique, groupBy } from '../utils'
 
 const types = {
@@ -17,12 +15,6 @@ const types = {
 type CommitType = keyof typeof types
 const allowedTypes = Object.keys(types) as CommitType[]
 
-// TODO: read from package.json
-const knownAuthors: string[] = []
-
-const isKnownAuthor = (name: string) =>
-  knownAuthors.some(n => name.toLowerCase().includes(n))
-
 interface Commit {
   message: string
   commit: string
@@ -36,16 +28,13 @@ interface ConventionalCommit extends Commit {
   references: string[]
 }
 
-export async function getChangelog() {
-  // Get last git tag
-  const lastGitTag = await getLastGitTag()
-
-  // Get current branch
-  const currentGitBranch = await getCurrentGitBranch()
+export async function getChangelog(pkg: Package) {
+  // Get last git tag and current branch
+  const { lastGitTag, branch, contributors } = pkg
 
   // Get all commits from last release to current branch
-  consola.log(`${currentGitBranch}...${lastGitTag}`)
-  const commits = await getGitDiff(currentGitBranch, lastGitTag)
+  pkg.logger.info(`${branch}...${lastGitTag}`)
+  const commits = getGitDiff(pkg, branch, lastGitTag)
 
   // Parse commits as conventional commits
   const conventionalCommits = parseCommits(commits).filter(
@@ -53,37 +42,16 @@ export async function getChangelog() {
   )
 
   // Generate markdown
-  return generateMarkDown(conventionalCommits)
+  return generateMarkDown(conventionalCommits, contributors)
 }
 
-async function execCommand(cmd: string, args: string[]) {
-  const r = await execa(cmd, args)
-  return r.stdout
-}
-
-async function getLastGitTag() {
-  const r = await execCommand('git', [
-    '--no-pager',
-    'tag',
-    '-l',
-    '--sort=taggerdate',
-  ]).then(r => r.split('\n'))
-  return r[r.length - 1]
-}
-
-async function getCurrentGitBranch() {
-  const r = await execCommand('git', ['rev-parse', '--abbrev-ref', 'HEAD'])
-  return r
-}
-
-async function getGitDiff(from: string, to: string) {
+function getGitDiff(pkg: Package, from: string, to: string) {
   // # https://git-scm.com/docs/pretty-formats
-  const r = await execCommand('git', [
-    '--no-pager',
-    'log',
-    `${from}...${to}`,
-    '--pretty=%s|%h|%an|%ae',
-  ])
+  const { stdout: r } = pkg.exec(
+    'git',
+    `--no-pager log ${from}...${to} --pretty=%s|%h|%an|%ae`,
+    { silent: true }
+  )
   return r.split('\n').map(line => {
     const [message, commit, authorName, authorEmail] = line.split('|')
 
@@ -125,7 +93,17 @@ function parseCommits(commits: Commit[]): ConventionalCommit[] {
     })
 }
 
-function generateMarkDown(commits: ConventionalCommit[]) {
+function generateMarkDown(
+  commits: ConventionalCommit[],
+  knownAuthors: Exclude<PackageJsonPerson, string>[] = []
+) {
+  const isKnownAuthor = (name: string, email: string) =>
+    knownAuthors.some(
+      ({ name: n, email: e }) =>
+        (n && name.toLowerCase().includes(n)) ||
+        (e && email.toLowerCase().includes(e))
+    )
+
   const typeGroups = groupBy(commits, 'type')
 
   let markdown = ''
@@ -151,7 +129,11 @@ function generateMarkDown(commits: ConventionalCommit[]) {
     }
   }
   const authors = ensureUnique(
-    commits.map(commit => commit.authorName).filter(an => !isKnownAuthor(an))
+    commits
+      .filter(
+        ({ authorName, authorEmail }) => !isKnownAuthor(authorName, authorEmail)
+      )
+      .map(commit => commit.authorName)
   ).sort()
 
   if (authors.length) {

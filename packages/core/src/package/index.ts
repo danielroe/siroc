@@ -387,6 +387,25 @@ export class Package {
     return input
   }
 
+  parsePerson(person: string) {
+    /* eslint-disable no-unused-vars */
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const [_matchedName, name] = person.match(/(^[^<(]*[^ <(])/) || []
+    const [_matchedEmail, email] = person.match(/<(.*)>/) || []
+    const [_matchedUrl, url] = person.match(/\((.*)\)/) || []
+    /* eslint-enable */
+    return { name, email, url }
+  }
+
+  get contributors() {
+    if (!this.pkg.contributors) return []
+
+    return this.pkg.contributors.map(person => {
+      if (typeof person === 'string') return this.parsePerson(person)
+      return person
+    })
+  }
+
   /**
    * The main package entrypoint (source)
    */
@@ -460,6 +479,14 @@ export class Package {
       silent: true,
     })
     return stdout
+  }
+
+  get lastGitTag() {
+    const { stdout } = this.exec('git', '--no-pager tag -l --sort=taggerdate', {
+      silent: true,
+    })
+    const r = stdout.split('\n')
+    return r[r.length - 1]
   }
 }
 

@@ -1,8 +1,9 @@
 import { writeFile } from 'fs-extra'
-import { getChangelog } from '@siroc/core'
+import { getChangelog, Package } from '@siroc/core'
 
 export async function changelog() {
-  const changelog = await getChangelog()
+  const rootPackage = new Package()
+  const changelog = await getChangelog(rootPackage)
 
   process.stdout.write('\n\n' + changelog + '\n\n')
   await writeFile('CHANGELOG.md', changelog, 'utf-8')
