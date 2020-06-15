@@ -46,7 +46,7 @@
     "execa": "^4.0.2",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
-    "jiti": "^0.1.8",
+    "jiti": "^0.1.9",
     "rollup": "^2.15.0",
     "rollup-plugin-dts": "^1.4.7",
     "rollup-plugin-esbuild": "^1.4.1",
