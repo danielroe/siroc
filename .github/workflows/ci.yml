@@ -21,6 +21,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: Bootstrap project
+        run: yarn bootstrap
+
       - name: Lint project
         run: yarn lint
 
@@ -46,6 +49,9 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
+
+      - name: Bootstrap project
+        run: yarn bootstrap
 
       - name: Test project
         run: yarn test
