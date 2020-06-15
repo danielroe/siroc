@@ -18,11 +18,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
-
-      - name: Bootstrap project
-        run: yarn bootstrap
 
       - name: Lint project
         run: yarn lint
