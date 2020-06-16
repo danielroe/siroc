@@ -1,3 +1,9 @@
+var prettier = false
+try {
+  prettier = !!require('prettier')
+  // eslint-disable-next-line
+} catch {}
+
 module.exports = {
   env: {
     browser: false,
@@ -13,9 +19,13 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'eslint:recommended',
-    'plugin:prettier/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
+    ...(prettier
+      ? [
+          'plugin:prettier/recommended',
+          'prettier',
+          'prettier/@typescript-eslint',
+        ]
+      : []),
     'plugin:jest/recommended',
   ],
 }
