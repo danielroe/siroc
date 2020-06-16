@@ -2,7 +2,6 @@ import { join } from 'path'
 
 import { Package } from '@siroc/core'
 import { bold, gray } from 'chalk'
-import consola from 'consola'
 
 const runJest = (pkg: Package) => {
   let jestConfig
@@ -18,9 +17,12 @@ const runJest = (pkg: Package) => {
     if (stdout) stdout.pipe(process.stdout)
   } catch (e) {
     if (!jestConfig) {
-      consola.error(`Couldn't resolve jest config.\n`, gray(e))
+      pkg.logger.error(`Couldn't resolve jest config.\n`, gray(e))
     } else {
-      consola.error(`Error running ${bold('jest')} -c ${jestConfig}\n`, gray(e))
+      pkg.logger.error(
+        `Error running ${bold('jest')} -c ${jestConfig}\n`,
+        gray(e)
+      )
     }
   }
 }
@@ -39,9 +41,9 @@ const runEslint = (pkg: Package) => {
     if (stdout) stdout.pipe(process.stdout)
   } catch (e) {
     if (!eslintConfig) {
-      consola.error(`Couldn't resolve eslint config.\n`, gray(e))
+      pkg.logger.error(`Couldn't resolve eslint config.\n`, gray(e))
     } else {
-      consola.error(
+      pkg.logger.error(
         `Error running ${bold('eslint')} -c ${eslintConfig}\n`,
         gray(e)
       )

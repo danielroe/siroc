@@ -5,7 +5,6 @@ import {
   runInParallel,
   BuildOptions,
 } from '@siroc/core'
-import consola from 'consola'
 
 export interface BuildCommandOptions extends BuildOptions {
   packages: string[]
@@ -20,7 +19,7 @@ export async function build(
   )
 
   const { watch } = options
-  consola.info(`Beginning build${watch ? ' (watching)' : ''}`)
+  rootPackage.logger.info(`Beginning build${watch ? ' (watching)' : ''}`)
 
   // Universal linkedDependencies based on workspace
   const linkedDependencies = workspacePackages.map(p =>

@@ -2,7 +2,6 @@ import { resolve } from 'path'
 
 import { Package, runInParallel } from '@siroc/core'
 import { bold, gray } from 'chalk'
-import consola from 'consola'
 import { existsSync } from 'fs-extra'
 
 interface RunCommandOptions {
@@ -31,13 +30,13 @@ export async function run(
           })
         : pkg.exec(file, args.join(), { silent: true })
 
-      consola.success(
+      pkg.logger.success(
         `Ran ${bold(fullCommand)} in ${bold(pkg.pkg.name)}.`,
         stdout ? '\n' : '',
         stdout ? gray(stdout) : ''
       )
     } catch (e) {
-      consola.error(`Error running ${bold(fullCommand)}\n`, gray(e))
+      pkg.logger.error(`Error running ${bold(fullCommand)}\n`, gray(e))
     }
   }
 

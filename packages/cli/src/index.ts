@@ -31,7 +31,7 @@ const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
   const seconds = (duration / 1000).toFixed(1)
   const time = duration > 1000 ? seconds + 's' : Math.round(duration) + 'ms'
-  consola.success(`${name} in ${bold(time)}`)
+  rootPackage.logger.success(`${name} in ${bold(time)}`)
 })
 obs.observe({ entryTypes: ['measure'] })
 
@@ -47,7 +47,7 @@ const run = async <
 ) => {
   performance.mark(`Start ${type}`)
   await Promise.resolve(action(rootPackage, ...args)).catch(err => {
-    consola.error(err)
+    rootPackage.logger.error(err)
     process.exit(1)
   })
   performance.mark(`Stop ${type}`)

@@ -1,7 +1,6 @@
 import { dirname } from 'path'
 
 import { bold, gray } from 'chalk'
-import consola from 'consola'
 import { remove } from 'fs-extra'
 import { rollup, watch, RollupError } from 'rollup'
 
@@ -112,7 +111,7 @@ export const build = async (
         const bundle = await rollup(config)
         await runInParallel(asArray(config.output), async outputConfig => {
           if (!outputConfig) {
-            consola.error('No build defined in generated config.')
+            pkg.logger.error('No build defined in generated config.')
             return
           }
 
