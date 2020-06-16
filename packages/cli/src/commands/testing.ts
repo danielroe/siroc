@@ -10,11 +10,7 @@ const runJest = (pkg: Package) => {
       require.resolve('@siroc/jest-preset'),
       '../jest.config.js'
     )
-    const { stdout } = pkg.execInteractive(
-      'yarn',
-      `jest --passWithNoTests -c ${jestConfig}`
-    )
-    if (stdout) stdout.pipe(process.stdout)
+    pkg.execInteractive(`yarn jest --passWithNoTests -c ${jestConfig}`)
   } catch (e) {
     if (!jestConfig) {
       pkg.logger.error(`Couldn't resolve jest config.\n`, gray(e))
@@ -35,8 +31,7 @@ const runEslint = (pkg: Package) => {
       '../.eslintrc.js'
     )
     const { stdout } = pkg.execInteractive(
-      'yarn',
-      `eslint -c ${eslintConfig} --ext .js,.ts .`
+      `yarn eslint -c ${eslintConfig} --ext .js,.ts .`
     )
     if (stdout) stdout.pipe(process.stdout)
   } catch (e) {

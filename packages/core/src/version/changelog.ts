@@ -48,9 +48,10 @@ export async function getChangelog(pkg: Package) {
 function getGitDiff(pkg: Package, from: string, to: string) {
   // # https://git-scm.com/docs/pretty-formats
   const { stdout: r } = pkg.exec(
-    'git',
-    `--no-pager log ${from}...${to} --pretty=%s|%h|%an|%ae`,
-    { silent: true }
+    `git --no-pager log ${from}...${to} --pretty=%s|%h|%an|%ae`,
+    {
+      silent: true,
+    }
   )
   return r.split('\n').map(line => {
     const [message, commit, authorName, authorEmail] = line.split('|')

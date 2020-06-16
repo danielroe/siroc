@@ -80,18 +80,20 @@ export const includeIf = <T, I>(
 
 export const runInParallel = async <T, R extends any>(
   items: Iterable<T>,
-  cb: (item: T) => Promise<R> | R
+  cb: (item: T, index: number) => Promise<R> | R
 ) => {
   if (Array.isArray(items))
-    return Promise.allSettled(items.map(async item => cb(item)))
+    return Promise.allSettled(items.map(async (item, index) => cb(item, index)))
 
   const promises: Array<Promise<R>> = []
+  let index = 0
   for (const item of items) {
     try {
-      promises.push(Promise.resolve(cb(item)))
+      promises.push(Promise.resolve(cb(item, index)))
     } catch (e) {
       promises.push(Promise.reject(e))
     }
+    index++
   }
   return Promise.allSettled(promises)
 }

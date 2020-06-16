@@ -249,7 +249,7 @@ export class Package {
     this.logger.info(
       `publishing ${this.pkg.name}@${this.pkg.version} with tag ${tag}`
     )
-    this.exec('npm', `publish --tag ${tag}`)
+    this.exec(`npm publish --tag ${tag}`)
   }
 
   /**
@@ -334,34 +334,32 @@ export class Package {
     }
   }
 
-  execInteractive(command: string, args: string) {
-    const fullCommand = `${command} ${args}`
+  execInteractive(command: string) {
     const options: Options = {
       cwd: this.options.rootDir,
       env: process.env,
       shell: true,
       stdio: 'inherit',
     }
-    return execa.command(fullCommand, options)
+    return execa.command(command, options)
   }
 
   /**
    * Execute command in the package root directory
    */
-  exec(command: string, args: string, { silent = false } = {}) {
-    const fullCommand = `${command} ${args}`
+  exec(command: string, { silent = false } = {}) {
     const options = {
       cwd: this.options.rootDir,
       env: process.env,
     }
 
-    const r = execa.commandSync(fullCommand, options)
+    const r = execa.commandSync(command, options)
 
     if (!silent) {
       if (r.failed) {
-        this.logger.error(fullCommand, r.stderr.trim())
+        this.logger.error(command, r.stderr.trim())
       } else {
-        this.logger.success(fullCommand, r.stdout.trim())
+        this.logger.success(command, r.stdout.trim())
       }
     }
 
@@ -471,21 +469,21 @@ export class Package {
   }
 
   get shortCommit() {
-    const { stdout } = this.exec('git', 'rev-parse --short HEAD', {
+    const { stdout } = this.exec('git rev-parse --short HEAD', {
       silent: true,
     })
     return stdout
   }
 
   get branch() {
-    const { stdout } = this.exec('git', 'rev-parse --abbrev-ref HEAD', {
+    const { stdout } = this.exec('git rev-parse --abbrev-ref HEAD', {
       silent: true,
     })
     return stdout
   }
 
   get lastGitTag() {
-    const { stdout } = this.exec('git', '--no-pager tag -l --sort=taggerdate', {
+    const { stdout } = this.exec('git --no-pager tag -l --sort=taggerdate', {
       silent: true,
     })
     const r = stdout.split('\n')
