@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@siroc/core": "0.1.0",
+    "@siroc/eslint-config": "0.1.0",
     "@siroc/jest-preset": "0.1.0",
     "cac": "^6.5.10",
     "chalk": "^4.1.0",
