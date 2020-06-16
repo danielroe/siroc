@@ -14,11 +14,10 @@ interface RunCommandOptions {
   }
 }
 
-export async function run({
-  file,
-  args,
-  options: { workspaces, sequential },
-}: RunCommandOptions) {
+export async function run(
+  rootPackage: Package,
+  { file, args, options: { workspaces, sequential } }: RunCommandOptions
+) {
   const fullCommand = `${file} ${args.join()}`.trim()
   const filepath = resolve(process.cwd(), file)
   const isLocalFile =
@@ -41,8 +40,6 @@ export async function run({
       consola.error(`Error running ${bold(fullCommand)}\n`, gray(e))
     }
   }
-
-  const rootPackage = new Package()
 
   const packages = workspaces
     ? await rootPackage.getWorkspacePackages()

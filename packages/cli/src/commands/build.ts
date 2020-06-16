@@ -11,10 +11,10 @@ export interface BuildCommandOptions extends BuildOptions {
   packages: string[]
 }
 
-export async function build({ packages, ...options }: BuildCommandOptions) {
-  // Read package at current directory
-  const rootPackage = new Package()
-
+export async function build(
+  rootPackage: Package,
+  { packages, ...options }: BuildCommandOptions
+) {
   const workspacePackages = await rootPackage.getWorkspacePackages(
     packages.length ? packages : undefined
   )

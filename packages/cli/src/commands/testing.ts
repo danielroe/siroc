@@ -62,9 +62,10 @@ interface CommandOptions {
   options?: Record<string, any>
 }
 
-export async function test({ packages, command }: CommandOptions) {
-  const rootPackage = new Package()
-
+export async function test(
+  rootPackage: Package,
+  { packages, command }: CommandOptions
+) {
   if (packages.length) {
     const workspacePackages = await rootPackage.getWorkspacePackages(packages)
     workspacePackages.forEach(async pkg => commands[command](pkg))

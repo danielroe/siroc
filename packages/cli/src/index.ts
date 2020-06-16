@@ -1,11 +1,10 @@
 import 'v8-compile-cache'
-import { resolve } from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
 
+import { Package } from '@siroc/core'
 import cac from 'cac'
 import { bold } from 'chalk'
 import consola from 'consola'
-import { readJSONSync } from 'fs-extra'
 
 import { version } from '../package.json'
 
@@ -15,17 +14,18 @@ import { dev, DevCommandOptions } from './commands/dev'
 import { run as runFile } from './commands/run'
 import { test } from './commands/testing'
 
-import { time, timeEnd } from './utils'
+import { time, timeEnd, RemoveFirst } from './utils'
 
-time('assign root JSON')
-let exampleProject = '@siroc/cli'
+time('load root package')
+let rootPackage: Package
 try {
-  // eslint-disable-next-line
-  const { name } = readJSONSync(resolve(process.cwd(), './package.json'))
-  if (name) exampleProject = name
-  // eslint-disable-next-line
-} catch {}
-timeEnd('assign root JSON')
+  rootPackage = new Package()
+} catch (e) {
+  throw new Error(`Couldn't load package: ${e}`)
+}
+timeEnd('load root package')
+
+const exampleProject = rootPackage.pkg.name || '@siroc/cli'
 
 const obs = new PerformanceObserver(items => {
   const { duration, name } = items.getEntries()[0]
@@ -38,13 +38,15 @@ obs.observe({ entryTypes: ['measure'] })
 time('load CLI')
 const cli = cac('siroc')
 
-const run = async <A extends (...args: any[]) => Promise<void>>(
+const run = async <
+  A extends (pkg: Package, ...args: any[]) => void | Promise<void>
+>(
   type: string,
   action: A,
-  ...args: Parameters<A>
+  ...args: RemoveFirst<Parameters<A>>
 ) => {
   performance.mark(`Start ${type}`)
-  await action(...args).catch(err => {
+  await Promise.resolve(action(rootPackage, ...args)).catch(err => {
     consola.error(err)
     process.exit(1)
   })
@@ -102,6 +104,12 @@ cli
   .action(packages =>
     run('starting eslint', test, { packages, command: 'eslint' })
   )
+
+Object.entries(rootPackage.options.commands).forEach(([command, action]) => {
+  cli
+    .command(`${command}`, `Custom command (${bold(rootPackage.pkg.name)})`)
+    .action(() => run(command, action))
+})
 
 cli.version(version)
 cli.help()

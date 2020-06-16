@@ -23,3 +23,8 @@ export type PackageHookOptions = {
 }
 
 export type PackageHooks = Hooks<PackageHookOptions>
+
+export type PackageCommands = Record<
+  string,
+  (pkg: Package) => void | Promise<void>
+>

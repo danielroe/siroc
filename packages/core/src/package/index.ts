@@ -16,6 +16,7 @@ import sortPackageJson from 'sort-package-json'
 
 import type {
   BuildConfigOptions,
+  PackageCommands,
   PackageHookOptions,
   PackageHooks,
 } from '../build'
@@ -34,10 +35,11 @@ interface DefaultPackageOptions {
   build: boolean
   suffix: string
   hooks: PackageHooks
-  pkg?: PackageJson
+  commands: PackageCommands
   linkedDependencies?: string[]
-  sortDependencies?: boolean
+  pkg?: PackageJson
   rollup?: BuildConfigOptions & RollupOptions
+  sortDependencies?: boolean
 }
 
 export type PackageOptions = Partial<DefaultPackageOptions>
@@ -60,6 +62,7 @@ const DEFAULTS: DefaultPackageOptions = {
   build: true,
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
   hooks: {},
+  commands: {},
 }
 
 export class Package {
