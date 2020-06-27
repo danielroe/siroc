@@ -1,3 +1,10 @@
+### [0.1.2](https://github.com/nuxt-contrib/siroc/compare/v0.1.1...v0.1.2) (2020-06-27)
+
+
+### Bug Fixes
+
+* **eslint-config:** depend on `[@typescript-eslint](https://github.com/typescript-eslint)` ([52c4d29](https://github.com/nuxt-contrib/siroc/commit/52c4d291a6a0e35e7d7ad51e4def929539ca7cab))
+
 ### [0.1.1](https://github.com/nuxt-contrib/siroc/compare/v0.1.0...v0.1.1) (2020-06-27)
 
 

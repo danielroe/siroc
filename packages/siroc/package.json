@@ -1,6 +1,6 @@
 {
   "name": "siroc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Zero-config build tooling for Node",
   "keywords": [
     "node",
@@ -28,7 +28,7 @@
     "watch": "yarn build -w"
   },
   "dependencies": {
-    "@siroc/cli": "0.1.1",
-    "@siroc/core": "0.1.1"
+    "@siroc/cli": "0.1.2",
+    "@siroc/core": "0.1.2"
   }
 }

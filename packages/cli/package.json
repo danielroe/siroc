@@ -1,6 +1,6 @@
 {
   "name": "@siroc/cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Zero-config build tooling for Node",
   "keywords": [
     "node",
@@ -28,9 +28,9 @@
     "watch": "yarn build -w"
   },
   "dependencies": {
-    "@siroc/core": "0.1.1",
-    "@siroc/eslint-config": "0.1.1",
-    "@siroc/jest-preset": "0.1.1",
+    "@siroc/core": "0.1.2",
+    "@siroc/eslint-config": "0.1.2",
+    "@siroc/jest-preset": "0.1.2",
     "cac": "^6.5.10",
     "chalk": "^4.1.0",
     "consola": "^2.14.0",
