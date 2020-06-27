@@ -1,3 +1,20 @@
+### [0.1.1](https://github.com/nuxt-contrib/siroc/compare/v0.1.0...v0.1.1) (2020-06-27)
+
+
+### Features
+
+* **eslint-config:** make prettier support optional ([57938f1](https://github.com/nuxt-contrib/siroc/commit/57938f10b0677da1c8a55a853de6bdb8186f268d))
+
+
+### Bug Fixes
+
+* treat peerDeps as external ([692a791](https://github.com/nuxt-contrib/siroc/commit/692a791b52e015b2045a81cdca7133222a905d51))
+
+
+### Reverts
+
+* Revert "chore: upgrade deps" ([4bbafb9](https://github.com/nuxt-contrib/siroc/commit/4bbafb9ec3a52c8781eb4cc10002eedf9b4a624f))
+
 ## [0.1.0](https://github.com/nuxt-contrib/siroc/compare/v0.0.2...v0.1.0) (2020-06-16)
 
 
