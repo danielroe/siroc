@@ -65,6 +65,7 @@ export function getRollupConfig(
   const external = [
     // Dependencies that will be installed alongside the package
     ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
     // Builtin node modules
     ...builtins,
     ...externals,
