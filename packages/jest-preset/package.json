@@ -19,9 +19,9 @@
     "jest.config.js"
   ],
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "@babel/preset-typescript": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
     "babel-loader": "^8.1.0",
     "jest": "^26.1.0"
   },
