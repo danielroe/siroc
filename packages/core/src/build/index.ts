@@ -1,7 +1,7 @@
-import { dirname } from 'path'
+import { dirname, join } from 'path'
 
-import { bold, gray } from 'chalk'
-import { remove } from 'fs-extra'
+import { bold, gray, green } from 'chalk'
+import { remove, stat } from 'fs-extra'
 import { rollup, watch, RollupError } from 'rollup'
 
 import type { BuildOptions, Package } from '../package'
@@ -116,9 +116,26 @@ export const build = async (
           }
 
           const { output } = await bundle.write(outputConfig)
-
+          const { fileName } = output[0]
+          let size
+          try {
+            const filePath = outputConfig.dir
+              ? join(outputConfig.dir, fileName)
+              : outputConfig.file || fileName
+            const { size: bytes } = await stat(filePath)
+            if (bytes > 500) {
+              size = green(
+                ' ' + bold((bytes / 1024).toFixed(1).padStart(5)) + ' kB'
+              )
+            } else {
+              size = green(' ' + bold(String(bytes).padStart(5)) + '  B')
+            }
+            // eslint-disable-next-line
+          } catch {}
           pkg.logger.success(
-            `Built ${bold(pkg.pkg.name)} ${gray(output[0].fileName)}`
+            `Built ${bold(pkg.pkg.name.padEnd(15))} ${gray(
+              fileName.padStart(15)
+            )}${size}`
           )
         })
         await pkg.callHook('build:done', { bundle })
