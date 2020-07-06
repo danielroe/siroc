@@ -43,7 +43,7 @@
     "prettier": "^2.0.5",
     "release-it": "13.6.4",
     "release-it-yarn-workspaces": "^1.4.0",
-    "tsd": "^0.12.1",
+    "tsd": "^0.13.1",
     "typescript": "^3.9.6",
     "yorkie": "^2.0.0"
   },
