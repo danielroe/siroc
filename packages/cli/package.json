@@ -31,7 +31,7 @@
     "@siroc/core": "0.1.2",
     "@siroc/eslint-config": "0.1.2",
     "@siroc/jest-preset": "0.1.2",
-    "cac": "^6.5.10",
+    "cac": "^6.5.13",
     "chalk": "^4.1.0",
     "consola": "^2.14.0",
     "fs-extra": "^9.0.1",
