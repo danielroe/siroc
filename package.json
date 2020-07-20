@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^1.1.4",
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.5",
     "babel-loader": "^8.1.0",
     "codecov": "^3.7.0",
     "jest": "^26.1.0",
