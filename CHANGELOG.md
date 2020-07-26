@@ -1,3 +1,16 @@
+## [0.2.0](https://github.com/nuxt-contrib/siroc/compare/v0.1.2...v0.2.0) (2020-07-26)
+
+
+### Features
+
+* **core:** print filesizes on build ([63e2c2c](https://github.com/nuxt-contrib/siroc/commit/63e2c2c3742bdae63703f2bd5aa1073d6d6752f2))
+
+
+### Bug Fixes
+
+* **core:** treat optionalDeps as external ([fee3ff7](https://github.com/nuxt-contrib/siroc/commit/fee3ff7c1ca064e41660141b8bc19e0104a24487))
+* pin `rollup-plugin-esbuild` ([f109a90](https://github.com/nuxt-contrib/siroc/commit/f109a90cd920b04ceaa78f699680ab241188069d))
+
 ### [0.1.2](https://github.com/nuxt-contrib/siroc/compare/v0.1.1...v0.1.2) (2020-06-27)
 
 
