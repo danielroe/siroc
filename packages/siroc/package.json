@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@siroc/cli": "0.1.2",
-    "@siroc/core": "0.1.2"
+    "@siroc/core": "0.1.2",
+    "typescript": "^3.9.7"
   }
 }
