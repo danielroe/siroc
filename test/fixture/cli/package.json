@@ -1,0 +1,7 @@
+{
+  "name": "cli",
+  "bin": {
+    "test": "bin/cli.js"
+  },
+  "dependencies": {}
+}

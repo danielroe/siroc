@@ -5,12 +5,10 @@
   "github": {
     "release": true
   },
-  "npm": false,
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "conventionalcommits",
       "infile": "CHANGELOG.md"
-    },
-    "release-it-yarn-workspaces": true
+    }
   }
 }

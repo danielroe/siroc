@@ -2,43 +2,36 @@ import jsonPlugin from '@rollup/plugin-json'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
-import cli from './packages/cli/package.json'
-import core from './packages/core/package.json'
+import pkg from './package.json'
+const external = Object.keys(pkg.dependencies || {})
+const esbuildPlugin = esbuild({
+  watch: process.argv.includes('--watch'),
+  target: 'es2018',
+})
 
 export default [
   {
-    input: 'packages/cli/src/index.ts',
+    input: 'src/cli/index.ts',
     output: {
-      file: 'packages/cli/bin/cli.js',
+      file: 'bin/cli.js',
       format: 'cjs',
       banner: '#!/usr/bin/env node\n',
     },
-    external: Object.keys(cli.dependencies || {}),
-    plugins: [
-      jsonPlugin(),
-      esbuild({
-        watch: process.argv.includes('--watch'),
-        target: 'es2018',
-      }),
-    ],
+    external,
+    plugins: [jsonPlugin(), esbuildPlugin],
   },
   {
-    input: 'packages/core/src/index.ts',
+    input: 'src/core/index.ts',
     output: {
-      file: 'packages/core/dist/index.js',
+      file: 'dist/index.js',
       format: 'cjs',
     },
-    external: [...Object.keys(core.dependencies || {})],
-    plugins: [
-      esbuild({
-        watch: process.argv.includes('--watch'),
-        target: 'es2018',
-      }),
-    ],
+    external,
+    plugins: [esbuildPlugin],
   },
   {
-    input: 'packages/core/src/index.ts',
-    output: [{ file: 'packages/core/dist/index.d.ts', format: 'es' }],
+    input: 'src/core/index.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [dts()],
   },
 ]
