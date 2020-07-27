@@ -1,3 +1,18 @@
+## [0.3.0](https://github.com/nuxt-contrib/siroc/compare/v0.2.0...v0.3.0) (2020-07-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* `changelog` is no longer a valid command and `@siroc/jest-preset` and `@siroc/eslint-config`  must be installed separately
+
+* `@siroc/core` and `@siroc/cli` are no longer separate packages but must be accessed through `siroc`
+
+### Code Refactoring
+
+* merge `siroc`, `@siroc/core` and `@siroc/cli` into single package ([0bcbbe9](https://github.com/nuxt-contrib/siroc/commit/0bcbbe9861199358981585ab7fc5ce71c079e13e))
+
+* remove `changelog` command and rethink presets ([9fd5e8a](https://github.com/nuxt-contrib/siroc/commit/9fd5e8a05a29ff2f4111b4db3c3b5e0c18b32031))
+
 ## [0.2.0](https://github.com/nuxt-contrib/siroc/compare/v0.1.2...v0.2.0) (2020-07-26)
 
 
