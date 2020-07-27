@@ -9,10 +9,8 @@ import consola from 'consola'
 import { version } from '../package.json'
 
 import { build, BuildCommandOptions } from './commands/build'
-import { changelog } from './commands/changelog'
 import { dev, DevCommandOptions } from './commands/dev'
 import { run as runFile } from './commands/run'
-import { test } from './commands/testing'
 
 import { time, timeEnd, RemoveFirst } from './utils'
 
@@ -69,10 +67,6 @@ cli
   )
 
 cli
-  .command('changelog', 'Generate changelog')
-  .action(() => run('changelog', changelog))
-
-cli
   .command('dev [...packages]', 'Generate package stubs for quick development')
   .example(bin => `  ${bin} dev`)
   .example(bin => `  ${bin} dev ${exampleProject} -w`)
@@ -89,20 +83,6 @@ cli
   .example(bin => `  ${bin} --workspaces ls`)
   .action((file, args, options) =>
     run('running', runFile, { file, args, options })
-  )
-
-cli
-  .command('jest [...packages]', 'Run jest ')
-  .example(bin => `  ${bin} jest`)
-  .example(bin => `  ${bin} jest @siroc/cli`)
-  .action(packages => run('starting jest', test, { packages, command: 'jest' }))
-
-cli
-  .command('eslint [...packages]', 'Run eslint ')
-  .example(bin => `  ${bin} eslint`)
-  .example(bin => `  ${bin} eslint @siroc/cli`)
-  .action(packages =>
-    run('starting eslint', test, { packages, command: 'eslint' })
   )
 
 Object.entries(rootPackage.options.commands).forEach(([command, action]) => {

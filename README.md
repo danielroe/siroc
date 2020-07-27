@@ -22,7 +22,7 @@
 
 - 💯 **Zero-config required**: Intelligent support for your package
   - Supports running and compiling TypeScript and the latest JavaScript syntax
-  - Autoconfigured `jest` and `eslint`
+  - Autoconfigured `jest` and `eslint` with optional presets
 - ⚒️ **Extensible**: Write your own commands and build hooks
 - 💪 **Typescript**: Fully typed and self-documenting
 
@@ -120,32 +120,6 @@ If you're working in a monorepo, it can be helpful to have accurate and up-to-da
 
 Running `siroc dev` will replace your package entrypoints with stubs that point to your source files. Your binaries will run your source files directly using `jiti`.
 
-### `siroc eslint`
-
-Rather than configure `eslint`, you can run it directly using `siroc eslint`, with support for TypeScript (and prettier, if you have it installed within your package dev dependencies).
-
-If you would like to extend or modify the siroc base config you can do so with the following `.eslintrc.js`
-
-```js
-module.exports = {
-  extends: ['@siroc'],
-  // Your rules/plugins here
-}
-```
-
-### `siroc jest`
-
-Rather than configure `jest`, you can run it directly using `siroc jest`, with support for TypeScript test and source files. By default it will include any settings from a local `jest.config.js`.
-
-If you would like to extend or modify the siroc base config (for example, to run jest directly with `yarn jest`) you can do so with the following `jest.config.js`
-
-```js
-module.exports = {
-  preset: '@siroc/jest-preset',
-  // Your customisations here
-}
-```
-
 ### `siroc run`
 
 You can run arbitrary shell commands or node scripts using the power of [the `jiti` runtime](https://github.com/nuxt-contrib/jiti).
@@ -159,6 +133,46 @@ yarn siroc run myfile.ts
 # You can run a command in all your workspaces
 yarn siroc run ls --workspaces
 ```
+
+## Presets
+
+### eslint
+
+Rather than configure `eslint`, you can extend `@siroc/eslint-config`, with zero-config support for TypeScript (and prettier, if you have it installed within your package dev dependencies).
+
+1. Add the eslint config:
+
+   ```bash
+   yarn add --dev @siroc/eslint-config
+   ```
+
+2. Add the following `.eslintrc.js` to your project:
+
+   ```js
+   module.exports = {
+     extends: ['@siroc'],
+     // Your rules/plugins here
+   }
+   ```
+
+### jest
+
+Rather than configure `jest`, you can extend `@siroc/jest-preset`, with zero-config support for TypeScript test and source files. By default it will also include any settings from a local `jest.config.js` (e.g. in a package directory).
+
+1. Add the jest preset:
+
+   ```bash
+   yarn add --dev @siroc/jest-preset
+   ```
+
+2. Add the following `jest.config.js` to your project:
+
+   ```js
+   module.exports = {
+     preset: '@siroc/jest-preset',
+     // Your customisations here
+   }
+   ```
 
 ## Contributors
 
