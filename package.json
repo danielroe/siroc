@@ -57,7 +57,7 @@
     "jiti": "^0.1.11",
     "rollup": "^2.23.0",
     "rollup-plugin-dts": "^1.4.9",
-    "rollup-plugin-esbuild": "2.2.0",
+    "rollup-plugin-esbuild": "2.4.2",
     "sort-package-json": "^1.44.0",
     "typescript": "^3.9.7",
     "v8-compile-cache": "^2.1.1"
