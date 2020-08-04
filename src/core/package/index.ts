@@ -11,7 +11,7 @@ import {
   mkdirp,
   chmod,
 } from 'fs-extra'
-import { RollupOptions } from 'rollup'
+import type { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
 import type {
@@ -31,18 +31,55 @@ import {
 import type { PackageJson } from './types'
 
 interface DefaultPackageOptions {
+  /**
+   * The root directory of the package
+   * @default process.cwd()
+   */
   rootDir: string
+  /**
+   * Whether to build this package when `siroc build` is run.
+   * @default true
+   */
   build: boolean
+  /**
+   * An extra suffix to append to built-package names
+   * @default ''
+   */
   suffix: string
+  /**
+   * `siroc` provides a number of hooks to modify customisation of the build process
+   */
   hooks: PackageHooks
+  /**
+   * `siroc` allows adding custom commands.
+   */
   commands: PackageCommands
+  /**
+   * Packages that depend on other monorepo packages.
+   */
   linkedDependencies?: string[]
+  /**
+   * If you want to specify `package.json` contents inline (e.g. `require('./another/package.json')`).
+   * By default siroc will read the `package.json` in the current directory.
+   */
   pkg?: PackageJson
+  /**
+   * Any additional rollup options.
+   */
   rollup?: BuildConfigOptions & RollupOptions
+  /**
+   * Whether to sort your `package.json` on build
+   */
   sortDependencies?: boolean
 }
 
-export type PackageOptions = Partial<DefaultPackageOptions>
+export type SirocOptions = Partial<DefaultPackageOptions>
+/**
+ * @deprecated
+ */
+export type PackageOptions = SirocOptions
+
+export const defineSirocConfig = (options: SirocOptions) => options
 
 export interface BuildOptions {
   dev?: boolean
@@ -70,7 +107,7 @@ export class Package {
   logger: Consola
   pkg: RequireProperties<PackageJson, 'name' | 'version'>
 
-  constructor(options: PackageOptions = {}) {
+  constructor(options: SirocOptions = {}) {
     this.options = Object.assign({}, DEFAULTS, options)
 
     // Basic logger
@@ -117,7 +154,7 @@ export class Package {
     configPaths.some(path => {
       const configPath = this.resolvePath(path)
 
-      const config = tryRequire<PackageOptions>(configPath)
+      const config = tryRequire<SirocOptions>(configPath)
       if (!config) return false
 
       Object.assign(this.options, config)
@@ -147,7 +184,7 @@ export class Package {
   /**
    * Return a new package in a directory relative to the current package
    */
-  load(relativePath: string, opts?: PackageOptions) {
+  load(relativePath: string, opts?: SirocOptions) {
     return new Package(
       Object.assign(
         {

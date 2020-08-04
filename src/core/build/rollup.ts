@@ -8,7 +8,7 @@ import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
 import defu from 'defu'
-import type { RollupOptions } from 'rollup'
+import type { RollupOptions, OutputOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
@@ -94,16 +94,21 @@ export function getRollupConfig(
       jsonPlugin(),
     ].concat(plugins)
 
-  const defaultOutputs = [
+  const defaultOutputs: OutputOptions[] = [
     {
       ...getFilenames(pkg.main),
       format: 'cjs',
       preferConst: true,
+      exports: 'auto',
     },
-    ...includeIf(!dev && pkg.module, pkgModule => ({
-      ...getFilenames(pkgModule, '-es'),
-      format: 'es',
-    })),
+    ...includeIf(
+      !dev && pkg.module,
+      (pkgModule): OutputOptions => ({
+        ...getFilenames(pkgModule, '-es'),
+        format: 'es',
+        exports: 'auto',
+      })
+    ),
   ]
 
   return [

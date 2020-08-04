@@ -1,6 +1,6 @@
-import { Package, PackageOptions } from 'siroc'
+import { defineSirocConfig, Package } from 'siroc'
 
-const config: PackageOptions = {
+export default defineSirocConfig({
   rollup: {
     replace: {
       'process.env.TIME': 'false',
@@ -12,5 +12,4 @@ const config: PackageOptions = {
       pkg.copyFilesFrom(source, ['README.md'])
     },
   },
-}
-export default config
+})

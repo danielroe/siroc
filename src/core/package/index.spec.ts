@@ -3,12 +3,12 @@ import { resolve } from 'path'
 import { existsSync, remove, readFileSync } from 'fs-extra'
 import { RollupBuild } from 'rollup'
 
-import { Package, PackageOptions } from '.'
+import { Package, SirocOptions } from '.'
 
 const getFixturePath = (path: string) =>
   resolve(__dirname, '../../../test/fixture', path)
 
-const loadPackage = (options?: PackageOptions) =>
+const loadPackage = (options?: SirocOptions) =>
   new Package({
     rootDir: getFixturePath('default'),
     ...options,

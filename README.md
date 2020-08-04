@@ -46,29 +46,12 @@ You can configure `siroc` by creating a `siroc.config.ts`, `siroc.config.js` or 
 
 In a monorepo, any configuration options at the root level are inherited by your workspaces, though of course you can override them.
 
-### TypeScript
-
-```ts
-import type { PackageOptions } from 'siroc'
-
-const config: PackageOptions = {
-  // fully typed options
-}
-
-export default config
-```
-
-### JavaScript
-
 ```js
-/**
- * @type {import('siroc').PackageOptions} config
- */
-const config = {
-  // fully typed options
-}
+import { defineSirocConfig } from 'siroc'
 
-export default config
+export default defineSirocConfig({
+  // fully typed options
+})
 ```
 
 ## Commands
