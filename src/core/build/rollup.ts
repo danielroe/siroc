@@ -108,25 +108,33 @@ export function getRollupConfig(
 
   return [
     ...binaries.map(([binary, input]) => {
-      return defu({}, options, {
-        input,
-        output: {
-          ...getFilenames(binary),
-          format: 'cjs',
-          preferConst: true,
-          banner: '#!/usr/bin/env node\n',
-        },
-        external,
-        plugins: getPlugins(),
-      })
+      return defu<RollupOptions>(
+        {},
+        options as RollupOptions,
+        {
+          input,
+          output: {
+            ...getFilenames(binary),
+            format: 'cjs',
+            preferConst: true,
+            banner: '#!/usr/bin/env node\n',
+          },
+          external,
+          plugins: getPlugins(),
+        } as RollupOptions
+      )
     }),
     ...includeIf(input, input =>
-      defu({}, options, {
-        input,
-        output: defaultOutputs,
-        external,
-        plugins: getPlugins(),
-      })
+      defu<RollupOptions>(
+        {},
+        options as RollupOptions,
+        {
+          input,
+          output: defaultOutputs,
+          external,
+          plugins: getPlugins(),
+        } as RollupOptions
+      )
     ),
     ...includeIf(pkg.types && input, input => ({
       input,
