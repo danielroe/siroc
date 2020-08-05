@@ -115,8 +115,42 @@ export interface PackageJson {
    * In some cases, you want to express the compatibility of your package with a host tool or library, while not necessarily doing a `require` of this host. This is usually referred to as a plugin. Notably, your module may be exposing a specific interface, expected and specified by the host documentation.
    */
   peerDependencies?: Record<string, string>
-
+  /**
+   * TypeScript typings, typically ending by .d.ts
+   */
   types?: string
+  typings?: string
+  /**
+   * Non-Standard Node.js alternate entry-point to main.
+   * An initial implementation for supporting CJS packages (from main), and use module for ESM modules.
+   */
   module?: string
+  /**
+   * Make main entry-point be loaded as an ESM module, support "export" syntax instead of "require"
+   *
+   * Docs:
+   * - https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_package_json_type_field
+   *
+   * @default 'commonjs'
+   * @since Node.js v14
+   */
+  type?: 'module' | 'commonjs'
+  /**
+   * Alternate and extensible alternative to "main" entry point.
+   *
+   * When using `{type: "module"}`, any ESM module file MUST end with `.mjs` extension.
+   *
+   * Docs:
+   * - https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_exports_sugar
+   *
+   * @default 'commonjs'
+   * @since Node.js v14
+   */
+  exports?:
+    | string
+    | Record<
+        'import' | 'require' | '.' | 'node' | 'browser' | string,
+        string | Record<'import' | 'require' | string, string>
+      >
   workspaces?: string[]
 }
