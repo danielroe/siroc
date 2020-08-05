@@ -122,6 +122,7 @@ export function getRollupConfig(
             ...getFilenames(binary),
             format: 'cjs',
             preferConst: true,
+            exports: 'auto',
             banner: '#!/usr/bin/env node\n',
           },
           external,
@@ -146,7 +147,8 @@ export function getRollupConfig(
       output: {
         file: resolvePath(pkg.types || ''),
         format: 'es' as const,
-      },
+        exports: 'auto',
+      } as RollupOptions,
       external,
       plugins: [
         jsonPlugin(),
