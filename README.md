@@ -22,7 +22,6 @@
 
 - 💯 **Zero-config required**: Intelligent support for your package
   - Supports running and compiling TypeScript and the latest JavaScript syntax
-  - Autoconfigured `jest` and `eslint` with optional presets
 - ⚒️ **Extensible**: Write your own commands and build hooks
 - 💪 **Typescript**: Fully typed and self-documenting
 
