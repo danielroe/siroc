@@ -83,7 +83,7 @@
     "lint-staged": "^10.2.11",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
-    "release-it": "13.6.7",
+    "release-it": "13.6.9",
     "tsd": "^0.13.1",
     "typescript": "^3.9.7",
     "yorkie": "^2.0.0"
