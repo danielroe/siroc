@@ -954,7 +954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.10.5":
+"@babel/plugin-transform-runtime@npm:^7.11.0":
   version: 7.11.0
   resolution: "@babel/plugin-transform-runtime@npm:7.11.0"
   dependencies:
@@ -3236,7 +3236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"consola@npm:^2.14.0":
+"consola@npm:^2.15.0":
   version: 2.15.0
   resolution: "consola@npm:2.15.0"
   checksum: 9a20844425061e100eb81cc9eb6ed05b54c38630151c6419c6a8526bd6b1eaaa7d61d37618cf7a1dee0e2052548fee41a99b8856f351733c12c6d85f20a3199c
@@ -3762,7 +3762,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defu@npm:^3.0.1":
+"defu@npm:^3.1.0":
   version: 3.1.0
   resolution: "defu@npm:3.1.0"
   checksum: 9a8a94d82205b1498732519b6874be5ca8bcd32199731a489e622378358286ce30dd871c0995c64cdac2baf514b715db09e14a9c225215a9ab1e03ea7bc69af4
@@ -4076,7 +4076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^23.18.2":
+"eslint-plugin-jest@npm:^23.20.0":
   version: 23.20.0
   resolution: "eslint-plugin-jest@npm:23.20.0"
   dependencies:
@@ -4266,7 +4266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:*, execa@npm:4.0.3, execa@npm:^4.0.0, execa@npm:^4.0.2, execa@npm:^4.0.3":
+"execa@npm:*, execa@npm:4.0.3, execa@npm:^4.0.0, execa@npm:^4.0.3":
   version: 4.0.3
   resolution: "execa@npm:4.0.3"
   dependencies:
@@ -6341,7 +6341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^26.2.2":
+"jest@npm:^26.4.2":
   version: 26.4.2
   resolution: "jest@npm:26.4.2"
   dependencies:
@@ -8736,7 +8736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-dts@npm:^1.4.9":
+"rollup-plugin-dts@npm:^1.4.12":
   version: 1.4.12
   resolution: "rollup-plugin-dts@npm:1.4.12"
   dependencies:
@@ -8761,9 +8761,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.7":
-  version: 2.26.7
-  resolution: "rollup@npm:2.26.7"
+"rollup@npm:^2.26.8":
+  version: 2.26.8
+  resolution: "rollup@npm:2.26.8"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -8771,7 +8771,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 40e65d4a8143c9c1b4cc06df2038a2f37d833cdc04b167df243f1ce08d50481b7b2ee8c66389f70f69d5aa9a2e8f5fb2e656fc20e0bfbeaac3649b181661fcd0
+  checksum: 4e10108ef64d54326b04123aed3176eb266053d4507787fa50d251a89a21ed40a61c1622086d369bdb271c36a9a3664c361dcc2de986dd6bd2ea6afb0ccd3627
   languageName: node
   linkType: hard
 
@@ -9022,7 +9022,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "siroc@workspace:."
   dependencies:
-    "@babel/plugin-transform-runtime": ^7.10.5
+    "@babel/plugin-transform-runtime": ^7.11.0
     "@babel/preset-env": ^7.11.0
     "@babel/preset-typescript": ^7.10.4
     "@release-it/conventional-changelog": ^1.1.4
@@ -9042,25 +9042,25 @@ __metadata:
     cac: ^6.6.1
     chalk: ^4.1.0
     codecov: ^3.7.2
-    consola: ^2.14.0
-    defu: ^3.0.1
+    consola: ^2.15.0
+    defu: ^3.1.0
     eslint: ^7.7.0
     eslint-config-prettier: ^6.11.0
-    eslint-plugin-jest: ^23.18.2
+    eslint-plugin-jest: ^23.20.0
     eslint-plugin-prettier: ^3.1.4
     eslint-plugin-promise: ^4.2.1
-    execa: ^4.0.2
+    execa: ^4.0.3
     fs-extra: ^9.0.1
     glob: ^7.1.6
     husky: ^4.2.5
-    jest: ^26.2.2
+    jest: ^26.4.2
     jiti: ^0.1.11
     lint-staged: ^10.2.13
     npm-run-all: ^4.1.5
     prettier: ^2.1.1
     release-it: 13.7.0
-    rollup: ^2.26.7
-    rollup-plugin-dts: ^1.4.9
+    rollup: ^2.26.8
+    rollup-plugin-dts: ^1.4.12
     rollup-plugin-esbuild: 2.2.0
     sort-package-json: ^1.44.0
     tsd: ^0.13.1
