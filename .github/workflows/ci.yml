@@ -19,9 +19,9 @@ jobs:
         id: cache
         with:
           path: |
-            ".yarn/cache"
-            ".pnp.js"
-          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+            .yarn
+            .pnp.js
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -47,9 +47,9 @@ jobs:
         id: cache
         with:
           path: |
-            ".yarn/cache"
-            ".pnp.js"
-          key: ${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+            .yarn
+            .pnp.js
+          key: yarn-${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
