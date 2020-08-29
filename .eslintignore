@@ -1,3 +1,5 @@
 dist
 bin
 coverage
+.yarn
+.pnp.js
