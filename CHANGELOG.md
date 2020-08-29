@@ -1,3 +1,15 @@
+### [0.3.1](https://github.com/nuxt-contrib/siroc/compare/v0.3.0...v0.3.1) (2020-08-29)
+
+
+### Features
+
+* :children_crossing: improve siroc config experience ([3ea1e3f](https://github.com/nuxt-contrib/siroc/commit/3ea1e3f8b7968071a05571e7561b92bd2f5cf7d5))
+
+
+### Bug Fixes
+
+* 🔇 set exports to `auto` mode ([716e858](https://github.com/nuxt-contrib/siroc/commit/716e8589266a6a462885e022d36666a3cb1600c3)), closes [#85](https://github.com/nuxt-contrib/siroc/issues/85)
+
 ## [0.3.0](https://github.com/nuxt-contrib/siroc/compare/v0.2.0...v0.3.0) (2020-07-27)
 
 
