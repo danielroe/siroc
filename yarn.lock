@@ -25,7 +25,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.7.5":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.4, @babel/core@npm:^7.7.5":
   version: 7.11.4
   resolution: "@babel/core@npm:7.11.4"
   dependencies:
@@ -1167,7 +1167,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.8.4":
   version: 7.11.2
   resolution: "@babel/runtime@npm:7.11.2"
   dependencies:
@@ -8900,9 +8900,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "siroc@workspace:."
   dependencies:
+    "@babel/core": ^7.11.4
     "@babel/plugin-transform-runtime": ^7.11.0
     "@babel/preset-env": ^7.11.0
     "@babel/preset-typescript": ^7.10.4
+    "@babel/runtime": ^7.11.2
     "@release-it/conventional-changelog": ^1.1.4
     "@rollup/plugin-alias": ^3.1.1
     "@rollup/plugin-commonjs": ^15.0.0
