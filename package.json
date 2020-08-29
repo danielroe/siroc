@@ -55,7 +55,7 @@
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "jiti": "^0.1.11",
-    "rollup": "^2.26.3",
+    "rollup": "^2.26.7",
     "rollup-plugin-dts": "^1.4.9",
     "rollup-plugin-esbuild": "2.2.0",
     "sort-package-json": "^1.44.0",
