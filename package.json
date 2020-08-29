@@ -29,7 +29,7 @@
   "scripts": {
     "bootstrap": "rollup -c && chmod a+x bin/* && yarn build",
     "build": "bin/cli.js build",
-    "lint": "run-s lint:all:*",
+    "lint": "yarn lint:all:eslint && yarn lint:all:prettier",
     "lint:all:eslint": "yarn lint:eslint --ext .js,.ts,.vue .",
     "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,ts,vue}\"",
     "lint:eslint": "eslint --fix",
@@ -37,8 +37,7 @@
     "prepare": "yarn bootstrap",
     "prepublishOnly": "yarn lint && yarn test",
     "release": "release-it",
-    "test": "run-s test:*",
-    "test:unit": "jest",
+    "test": "jest",
     "watch": "yarn build --watch"
   },
   "husky": {
@@ -89,7 +88,6 @@
     "husky": "^4.2.5",
     "jest": "^26.4.2",
     "lint-staged": "^10.2.13",
-    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.1",
     "release-it": "13.7.0",
     "tsd": "^0.13.1",
