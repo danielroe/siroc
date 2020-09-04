@@ -3960,12 +3960,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.5.9":
-  version: 0.5.26
-  resolution: "esbuild@npm:0.5.26"
+"esbuild@npm:^0.6.30":
+  version: 0.6.30
+  resolution: "esbuild@npm:0.6.30"
   bin:
     esbuild: bin/esbuild
-  checksum: cda87ab4244f9880d65734e2592ebe2bece0082292e690ac0183a4b7d7426a3c293d19ade17f334863813b5c541b214ee1efa9e2b608bf4022c92c3513dd62e7
+  checksum: 2f79814dbda08776699233ef9a07fd31b2ec0ada6422c7098fd533ec431d58c81b36f433a78920ab45cf89688896ae0bb489d4ff684d03829794656e6759b219
   languageName: node
   linkType: hard
 
@@ -6286,6 +6286,13 @@ __metadata:
   version: 0.1.11
   resolution: "jiti@npm:0.1.11"
   checksum: 5f78abe4b3985d78f8cee3816a8efeb6f9511974f276513e7326a3e80b5caa9d333485c80ccdd2d36242cc0314a89fe603a412800f119f7c5c4324c62e1b28b6
+  languageName: node
+  linkType: hard
+
+"joycon@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "joycon@npm:2.2.5"
+  checksum: 7908f551e05aa754d1068053ec1304c12f3abc9c812f7c5a58bef7d35d247c3b1da14e508970bd411191099949756e2190e24c24b3382f818e7cda83e8ea1899
   languageName: node
   linkType: hard
 
@@ -8626,13 +8633,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-esbuild@npm:2.2.0":
-  version: 2.2.0
-  resolution: "rollup-plugin-esbuild@npm:2.2.0"
+"rollup-plugin-esbuild@npm:2.5.0":
+  version: 2.5.0
+  resolution: "rollup-plugin-esbuild@npm:2.5.0"
   dependencies:
     "@rollup/pluginutils": ^3.1.0
-    esbuild: ^0.5.9
-  checksum: 0a989ee58b92ca48740a4dd8b2c8bad53ca36be714c13345f28cb7b7d23848594ae90e02fdec6427e2d5055082030387e5e4923eb2015c91fd255d01e29e5464
+    joycon: ^2.2.5
+    strip-json-comments: ^3.1.1
+  peerDependencies:
+    esbuild: ^0.6.0
+  checksum: 3745c54fa78adce51e29e176cf4e8b4e1467c8650ff3e3428ef27ae6bdfc3e42f85ece9f57be37b475c76cb8b1415f9f6c66bb3a30bea20e441596c3c7343b20
   languageName: node
   linkType: hard
 
@@ -8914,6 +8924,7 @@ __metadata:
     codecov: ^3.7.2
     consola: ^2.15.0
     defu: ^3.1.0
+    esbuild: ^0.6.30
     eslint: ^7.8.1
     eslint-config-prettier: ^6.11.0
     eslint-plugin-jest: ^23.20.0
@@ -8930,7 +8941,7 @@ __metadata:
     release-it: 14.0.1
     rollup: ^2.26.10
     rollup-plugin-dts: ^1.4.12
-    rollup-plugin-esbuild: 2.2.0
+    rollup-plugin-esbuild: 2.5.0
     sort-package-json: ^1.44.0
     tsd: ^0.13.1
     typescript: ^4.0.2
