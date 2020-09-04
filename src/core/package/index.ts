@@ -84,6 +84,7 @@ export const defineSirocConfig = (options: SirocOptions) => options
 export interface BuildOptions {
   dev?: boolean
   watch?: boolean
+  shouldWatch?: boolean
 }
 
 // 'package.js' is legacy and will go
