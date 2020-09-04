@@ -1976,9 +1976,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.6.2":
-  version: 14.6.2
-  resolution: "@types/node@npm:14.6.2"
-  checksum: e88f4749fd95d7358a719dee27bb3c02aa7d93a69d95887b4baaeae3fcc21c65d8675e6a9633e499de22fa77651fc12188fd3657a6729dbce9e44a4fe5c0691b
+  version: 14.6.3
+  resolution: "@types/node@npm:14.6.3"
+  checksum: 8bdc9a0e2a8fc39708c83652fcc46ed28c3b1017be6a668b2df39d8d5bbc2d4746744b475370d44c9b73bf7bebf827ba50f5b14872b450b74ef9fe4dab9173a6
   languageName: node
   linkType: hard
 
