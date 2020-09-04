@@ -24,7 +24,6 @@ export interface BuildConfigOptions extends RollupOptions {
   replace?: Record<string, Replacement>
   alias?: { [find: string]: string }
   dev?: boolean
-  shouldWatch?: boolean
   /**
    * Explicit externals
    */
@@ -40,7 +39,6 @@ export function getRollupConfig(
     alias = {},
     externals = [],
     dev = false,
-    shouldWatch: watch = false,
     resolve: resolveOptions = {
       resolveOnly: [/^((?!node_modules).)*$/],
       preferBuiltins: true,
@@ -88,7 +86,6 @@ export function getRollupConfig(
       nodeResolvePlugin(resolveOptions),
       commonjsPlugin({ include: /node_modules/ }),
       esbuild({
-        watch,
         target: 'es2018',
       }),
       jsonPlugin(),

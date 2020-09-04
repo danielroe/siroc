@@ -45,7 +45,6 @@ export const build = async (
     alias: {},
     replace: {},
     dev,
-    shouldWatch,
     ...rollupOptions,
   }
 
