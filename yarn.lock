@@ -1657,9 +1657,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^15.0.0":
-  version: 15.0.0
-  resolution: "@rollup/plugin-commonjs@npm:15.0.0"
+"@rollup/plugin-commonjs@npm:^15.1.0":
+  version: 15.1.0
+  resolution: "@rollup/plugin-commonjs@npm:15.1.0"
   dependencies:
     "@rollup/pluginutils": ^3.1.0
     commondir: ^1.0.1
@@ -1670,7 +1670,7 @@ __metadata:
     resolve: ^1.17.0
   peerDependencies:
     rollup: ^2.22.0
-  checksum: c48493cabb1ab71a24bf0561f48a6d98843c7a07fef312e73a6c08ad3b19301b4d4a45bd0b6fb0acc856b19695f898b0d0be6cdb157439397d05aeb572d7dbdd
+  checksum: 307bdc17f35807559ca5796137a1a620b6c9311a6f62166d38ce78f793cd10883843c4c13b7c39f547cefcc0d06e442fc8c746e003077b96df76ec0e6b1eaa4f
   languageName: node
   linkType: hard
 
@@ -1936,13 +1936,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.13":
-  version: 26.0.13
-  resolution: "@types/jest@npm:26.0.13"
+"@types/jest@npm:^26.0.14":
+  version: 26.0.14
+  resolution: "@types/jest@npm:26.0.14"
   dependencies:
     jest-diff: ^25.2.1
     pretty-format: ^25.2.1
-  checksum: 5476d59a99d1552d3ef99179d9ab8a59b24434c1990fda0836b8e6899a6a5fe898b62c0f0b8c9d3308b5c652cb95fca0b3b404028379b306f123a1e872413498
+  checksum: bddbe82d12217c5217efabcad09e4fbe2c5eaecf9392da9b0edbe4c3d9fb240b3fab914f88c5f3708f6d5046640a2782458944873eae4ac01abcb17d32d3c78f
   languageName: node
   linkType: hard
 
@@ -1976,10 +1976,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.10.2":
-  version: 14.10.2
-  resolution: "@types/node@npm:14.10.2"
-  checksum: e3056686911078de7bbc3faf2f97cbdb9dffda9fe8f646aff6336f73fee7a64ad5f41d757c7c577b5e8d1bdc5e1ab7e9c3de610eb78c1d8d73dd797c93eef23d
+"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.11.1":
+  version: 14.11.1
+  resolution: "@types/node@npm:14.11.1"
+  checksum: f8bad278fcd5bdd3c173343967806a5601838570ee89ef96912909489df6d722ef7f4de08a31d98159293ef0005bd65353199327c65af77505d3aad2a05fd636
   languageName: node
   linkType: hard
 
@@ -3915,12 +3915,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "esbuild@npm:0.7.1"
+"esbuild@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "esbuild@npm:0.7.2"
   bin:
     esbuild: bin/esbuild
-  checksum: 52d7e44b858a1a2b47397e2c041371e1f6c95ef2910d623076fcfd15618c52118d80ee4bada90f3185742f1d8a2d605c6b2e52a21f4e8aac447ede9d9784d884
+  checksum: b49e538639fb7029f5ff9045ad3ea9bfe89cef52d4555cc7c4a98b27049e02609273c09df00edb7cc597a43d76beebe13353aa8eaeaef32aba916e4fef20c91c
   languageName: node
   linkType: hard
 
@@ -3999,14 +3999,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^24.0.1":
-  version: 24.0.1
-  resolution: "eslint-plugin-jest@npm:24.0.1"
+"eslint-plugin-jest@npm:^24.0.2":
+  version: 24.0.2
+  resolution: "eslint-plugin-jest@npm:24.0.2"
   dependencies:
     "@typescript-eslint/experimental-utils": ^4.0.1
   peerDependencies:
     eslint: ">=5"
-  checksum: bebdd671949e3fbe537eea8ff5b485827d1c3e024bd22bb44f338502a5c5e0f520adc5d60454d7882ccd24cae9e76f8bb51dfb43596545631e2943c44e02d30f
+  checksum: 738cfac3d8b7b6d10f4b6a0b3cb2ea6dce2c14164012ca09b552df5bd4ff32b0d88d681b9a064a347df6dea80296de13097e1fab881d977472641f85f57ea387
   languageName: node
   linkType: hard
 
@@ -6565,9 +6565,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^10.3.0":
-  version: 10.3.0
-  resolution: "lint-staged@npm:10.3.0"
+"lint-staged@npm:^10.4.0":
+  version: 10.4.0
+  resolution: "lint-staged@npm:10.4.0"
   dependencies:
     chalk: ^4.1.0
     cli-truncate: ^2.1.0
@@ -6586,7 +6586,7 @@ __metadata:
     stringify-object: ^3.3.0
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 1e8bfa56f4aa817892032fd42cd47dd554121c4f22643a1f11e1879c638784664d83600f2f2304123b89354e8a3365f28435cbe654f92aaa0b6186df99355a00
+  checksum: e648011a6d29744072dab599a17075e0590e7f8722cf3138b40f32106247056de9a873afc87b522a04eb9ed2b2511d09ab838ce028b744231a7030874cf850ac
   languageName: node
   linkType: hard
 
@@ -8601,9 +8601,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.27.0":
-  version: 2.27.0
-  resolution: "rollup@npm:2.27.0"
+"rollup@npm:^2.28.1":
+  version: 2.28.1
+  resolution: "rollup@npm:2.28.1"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -8611,7 +8611,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: fefde079e4f84176e2b344a449e867e8e5c5292fa76f5f7834c7e987b5a9fc7d48f8707a6977fd663ddc59dee017ae6a80d575771c47878434cb005bca13e2cf
+  checksum: cd9068390c778a0400df99a43982f66ad71e33158fdcaeeb3f87a5cd68fbc20d71b6b0f4434face91adfcca5cc787fe112212d96ef3b85c68e88a71751c1dda1
   languageName: node
   linkType: hard
 
@@ -8862,15 +8862,15 @@ __metadata:
     "@babel/runtime": ^7.11.2
     "@release-it/conventional-changelog": ^2.0.0
     "@rollup/plugin-alias": ^3.1.1
-    "@rollup/plugin-commonjs": ^15.0.0
+    "@rollup/plugin-commonjs": ^15.1.0
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^9.0.0
     "@rollup/plugin-replace": ^2.3.3
     "@types/execa": ^2.0.0
     "@types/fs-extra": ^9.0.1
     "@types/glob": ^7.1.3
-    "@types/jest": ^26.0.13
-    "@types/node": ^14.10.2
+    "@types/jest": ^26.0.14
+    "@types/node": ^14.11.1
     "@typescript-eslint/eslint-plugin": ^4.1.1
     "@typescript-eslint/parser": ^4.1.1
     babel-loader: ^8.1.0
@@ -8879,10 +8879,10 @@ __metadata:
     codecov: ^3.7.2
     consola: ^2.15.0
     defu: ^3.1.0
-    esbuild: ^0.7.1
+    esbuild: ^0.7.2
     eslint: ^7.9.0
     eslint-config-prettier: ^6.11.0
-    eslint-plugin-jest: ^24.0.1
+    eslint-plugin-jest: ^24.0.2
     eslint-plugin-prettier: ^3.1.4
     eslint-plugin-promise: ^4.2.1
     execa: ^4.0.3
@@ -8891,15 +8891,15 @@ __metadata:
     husky: ^4.3.0
     jest: ^26.4.2
     jiti: ^0.1.11
-    lint-staged: ^10.3.0
+    lint-staged: ^10.4.0
     prettier: ^2.1.2
     release-it: 14.0.3
-    rollup: ^2.27.0
+    rollup: ^2.28.1
     rollup-plugin-dts: ^1.4.13
     rollup-plugin-esbuild: 2.5.0
-    sort-package-json: ^1.45.0
+    sort-package-json: ^1.46.0
     tsd: ^0.13.1
-    typescript: ^4.0.2
+    typescript: ^4.0.3
     v8-compile-cache: ^2.1.1
   bin:
     siroc: bin/cli.js
@@ -8997,9 +8997,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sort-package-json@npm:^1.45.0":
-  version: 1.45.0
-  resolution: "sort-package-json@npm:1.45.0"
+"sort-package-json@npm:^1.46.0":
+  version: 1.46.0
+  resolution: "sort-package-json@npm:1.46.0"
   dependencies:
     detect-indent: ^6.0.0
     detect-newline: 3.1.0
@@ -9009,7 +9009,7 @@ __metadata:
     sort-object-keys: ^1.1.3
   bin:
     sort-package-json: cli.js
-  checksum: f73c07a6909cb9893c30654fb1cf8de4a03901b5d3b5f04fe5100445da1d0fa9964e48cfbd4d064056beb1de69f0bd78cab53810de798cfdb66739c160a810b3
+  checksum: 04fccda2a46cca26717336335ba80c5f546c29d2ba722846184cf2c7b7f57e50a7ee46046370a08d24d3376b183bf44a986c9ea74ebe84329385acd188f3a7aa
   languageName: node
   linkType: hard
 
@@ -9803,23 +9803,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-typescript@^4.0.2:
-  version: 4.0.2
-  resolution: "typescript@npm:4.0.2"
+typescript@^4.0.3:
+  version: 4.0.3
+  resolution: "typescript@npm:4.0.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: cc0e7806eee7997a1b4b2990badacc4a8d089893ed0a377f35c9658e2ac392503cb340d0187203ed82e36e427dda94b0fb7107e44a71cca99efac86be26e16ee
+  checksum: 5c892e132756a83d22030d7fb38be47cde27613f71d233dbe7faf79e4a92852c5146bfddcaf8c2da1a37d35ae8bf7b8c888fdcd763d5ad184cea6b21e7466838
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.0.2#builtin<compat/typescript>":
-  version: 4.0.2
-  resolution: "typescript@patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"
+"typescript@patch:typescript@^4.0.3#builtin<compat/typescript>":
+  version: 4.0.3
+  resolution: "typescript@patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5b02a2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: b8b689ef994cce4fe59950d56ddfffce3c4bdda8edb85b72e752d4a6d27bf7df8a318e76ccde25cbe6e642058f2f4ccf47187db4b243bbc98278a2844db9461b
+  checksum: 72db87d09f728c83062d64b5e12ed52effb6278963b6bc5c006219b22c104e02b8ce80164261de554923d3c47d894a1ca937ed542328caccb83ebaedeae98a69
   languageName: node
   linkType: hard
 
