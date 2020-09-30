@@ -1,3 +1,10 @@
+### [0.3.2](https://github.com/nuxt-contrib/siroc/compare/v0.3.1...v0.3.2) (2020-09-30)
+
+
+### Features
+
+* allow specifying esbuild plugin options directly ([0125825](https://github.com/nuxt-contrib/siroc/commit/0125825d820a386cf3de08db322427d857d5eba5))
+
 ### [0.3.1](https://github.com/nuxt-contrib/siroc/compare/v0.3.0...v0.3.1) (2020-08-29)
 
 
