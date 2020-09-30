@@ -30,7 +30,7 @@ import {
 } from '../utils'
 import type { PackageJson } from './types'
 
-interface DefaultPackageOptions {
+export interface DefaultPackageOptions {
   /**
    * The root directory of the package
    * @default process.cwd()
