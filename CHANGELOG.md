@@ -1,3 +1,10 @@
+### [0.3.3](https://github.com/nuxt-contrib/siroc/compare/v0.3.2...v0.3.3) (2020-09-30)
+
+
+### Bug Fixes
+
+* export default package options ([78e4757](https://github.com/nuxt-contrib/siroc/commit/78e4757c8a710c1c4d84af0fcb73f707c4ef2975))
+
 ### [0.3.2](https://github.com/nuxt-contrib/siroc/compare/v0.3.1...v0.3.2) (2020-09-30)
 
 
