@@ -1,0 +1,10 @@
+{
+  "rollup": {
+    "replace": {
+      "process.env.TIME": "false"
+    },
+    "esbuildOptions": {
+      "target": "es2015"
+    }
+  }
+}

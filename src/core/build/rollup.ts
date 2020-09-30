@@ -10,7 +10,7 @@ import nodeResolvePlugin, {
 import defu from 'defu'
 import type { RollupOptions, OutputOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
-import esbuild from 'rollup-plugin-esbuild'
+import esbuild, { Options as EsbuildOptions } from 'rollup-plugin-esbuild'
 
 import { Package } from '../package'
 import { includeDefinedProperties, includeIf } from '../utils'
@@ -30,6 +30,7 @@ export interface BuildConfigOptions extends RollupOptions {
   externals?: (string | RegExp)[]
   resolve?: RollupNodeResolveOptions
   input?: string
+  esbuildOptions?: EsbuildOptions
 }
 
 export function getRollupConfig(
@@ -44,6 +45,7 @@ export function getRollupConfig(
       preferBuiltins: true,
     },
     plugins = [],
+    esbuildOptions,
     ...options
   }: BuildConfigOptions,
   {
@@ -87,6 +89,7 @@ export function getRollupConfig(
       commonjsPlugin({ include: /node_modules/ }),
       esbuild({
         target: 'es2018',
+        ...esbuildOptions,
       }),
       jsonPlugin(),
     ].concat(plugins)
