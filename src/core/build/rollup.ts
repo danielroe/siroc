@@ -15,7 +15,7 @@ import esbuild, { Options as EsbuildOptions } from 'rollup-plugin-esbuild'
 import { Package } from '../package'
 import { includeDefinedProperties, includeIf } from '../utils'
 import { builtins } from './builtins'
-import { getNameFunction } from './utils'
+import { convertToUMDName, getNameFunction } from './utils'
 
 const __NODE_ENV__ = process.env.NODE_ENV
 
@@ -48,28 +48,39 @@ export function getRollupConfig(
     esbuildOptions,
     ...options
   }: BuildConfigOptions,
-  {
+  pkg: Package = new Package()
+): RollupOptions[] {
+  const {
     binaries,
     entrypoint,
-    pkg,
+    exports,
+    pkg: pkgConfig,
     options: { rootDir, suffix },
-  }: Package = new Package()
-): RollupOptions[] {
+  } = pkg
   const resolvePath = (...path: string[]) => resolve(rootDir, ...path)
   input = input ? resolvePath(input) : entrypoint
-  if (!input && !binaries.length) return []
+  if (!input && !binaries.length && !exports.length) return []
 
-  const name = basename(pkg.name.replace(suffix, ''))
+  const name = basename(pkgConfig.name.replace(suffix, ''))
   const getFilenames = getNameFunction(rootDir, name)
 
   const external = [
     // Dependencies that will be installed alongside the package
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.optionalDependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {}),
+    ...Object.keys(pkgConfig.dependencies || {}),
+    ...Object.keys(pkgConfig.optionalDependencies || {}),
+    ...Object.keys(pkgConfig.peerDependencies || {}),
     // Builtin node modules
     ...builtins,
     ...externals,
+  ]
+
+  const getDeclarationPlugins = () => [
+    jsonPlugin(),
+    dts({
+      compilerOptions: {
+        allowJs: true,
+      },
+    }),
   ]
 
   const getPlugins = () =>
@@ -96,16 +107,22 @@ export function getRollupConfig(
 
   const defaultOutputs: OutputOptions[] = [
     {
-      ...getFilenames(pkg.main),
-      format: 'cjs',
+      ...getFilenames(pkgConfig.main),
       preferConst: true,
       exports: 'auto',
     },
     ...includeIf(
-      !dev && pkg.module,
+      !dev && pkgConfig.module,
       (pkgModule): OutputOptions => ({
-        ...getFilenames(pkgModule, '-es'),
-        format: 'es',
+        ...getFilenames(pkgModule, '.es', 'es'),
+        exports: 'auto',
+      })
+    ),
+    ...includeIf(
+      !dev && pkgConfig.browser,
+      (pkgBrowser): OutputOptions => ({
+        ...getFilenames(pkgBrowser, '.umd', 'umd'),
+        name: convertToUMDName(pkgConfig.name),
         exports: 'auto',
       })
     ),
@@ -113,51 +130,60 @@ export function getRollupConfig(
 
   return [
     ...binaries.map(([binary, input]) => {
-      return defu<RollupOptions>(
-        {},
-        options as RollupOptions,
-        {
-          input,
-          output: {
-            ...getFilenames(binary),
-            format: 'cjs',
-            preferConst: true,
-            exports: 'auto',
-            banner: '#!/usr/bin/env node\n',
-          },
-          external,
-          plugins: getPlugins(),
-        } as RollupOptions
-      )
+      return defu<RollupOptions>({}, options as RollupOptions, {
+        input,
+        output: {
+          ...getFilenames(binary, '', 'cjs'),
+          preferConst: true,
+          exports: 'auto',
+          banner: '#!/usr/bin/env node\n',
+        } as OutputOptions,
+        external,
+        plugins: getPlugins(),
+      })
     }),
     ...includeIf(input, input =>
-      defu<RollupOptions>(
-        {},
-        options as RollupOptions,
-        {
-          input,
-          output: defaultOutputs,
-          external,
-          plugins: getPlugins(),
-        } as RollupOptions
-      )
+      defu<RollupOptions>({}, options as RollupOptions, {
+        input,
+        output: defaultOutputs,
+        external,
+        plugins: getPlugins(),
+      })
     ),
-    ...includeIf(pkg.types && input, input => ({
+    ...includeIf(pkgConfig.types && input, input => ({
       input,
       output: {
-        file: resolvePath(pkg.types || ''),
-        format: 'es' as const,
+        // eslint-disable-next-line
+        file: resolvePath(pkgConfig.types!),
+        format: 'es',
         exports: 'auto',
-      } as RollupOptions,
+      } as OutputOptions,
       external,
-      plugins: [
-        jsonPlugin(),
-        dts({
-          compilerOptions: {
-            allowJs: true,
-          },
-        }),
-      ],
+      plugins: getDeclarationPlugins(),
     })),
+    ...exports.map(outfile =>
+      defu<RollupOptions>({}, options as RollupOptions, {
+        input: pkg.resolveEntrypoint(outfile),
+        output: {
+          ...getFilenames(outfile),
+          preferConst: true,
+          exports: 'auto',
+        } as OutputOptions,
+        external,
+        plugins: getPlugins(),
+      })
+    ),
+    ...exports.map(outfile =>
+      defu<RollupOptions>({}, options as RollupOptions, {
+        input: pkg.resolveEntrypoint(outfile),
+        output: {
+          file: resolvePath(outfile.replace('.js', '.d.ts')),
+          format: 'es',
+          exports: 'auto',
+        } as OutputOptions,
+        external,
+        plugins: getDeclarationPlugins(),
+      })
+    ),
   ]
 }

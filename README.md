@@ -86,7 +86,13 @@ yarn siroc build --watch
 At the most basic level, your entrypoints are configured in your `package.json`:
 
 - `bin` (see [npm docs](https://docs.npmjs.com/files/package.json#bin))
-- `main` and `module` (see [npm docs](https://docs.npmjs.com/files/package.json#main))
+- `main`, `module` and `browser` (see [npm docs](https://docs.npmjs.com/files/package.json#main))
+- `types` if you want a TS declaration file to be generated for your main/module/browser entrypoints
+- `exports` (see [npm docs](https://nodejs.org/api/packages.html#packages_conditional_exports))
+
+There are some conventions in place of configuration that are worth noting:
+* the file type is inferred from the file name if possible (e.g. `babel.es.js` will be in 'es' format)
+* `main` defaults to CJS, `module` to ES, `browser` to UMD, and `bin` to CJS
 
 #### Build hooks
 

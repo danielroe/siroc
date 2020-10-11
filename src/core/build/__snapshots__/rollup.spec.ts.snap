@@ -5,6 +5,7 @@ Object {
   "chunkFileNames": "fname-[name].js",
   "dir": "/customdist",
   "entryFileNames": "fname",
+  "format": "cjs",
 }
 `;
 
@@ -13,6 +14,7 @@ Object {
   "chunkFileNames": "pkg-[name].js",
   "dir": "/dist",
   "entryFileNames": "pkg.js",
+  "format": "cjs",
 }
 `;
 
@@ -21,5 +23,6 @@ Object {
   "chunkFileNames": "pkg-[name]-suffix.js",
   "dir": "/dist",
   "entryFileNames": "pkg-suffix.js",
+  "format": "cjs",
 }
 `;

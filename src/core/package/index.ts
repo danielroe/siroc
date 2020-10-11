@@ -1,4 +1,4 @@
-import { basename, dirname, relative, resolve } from 'path'
+import { dirname, relative, resolve } from 'path'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
@@ -29,6 +29,7 @@ import {
   RequireProperties,
 } from '../utils'
 import type { PackageJson } from './types'
+import { getEntrypointFilenames } from './utils'
 
 export interface DefaultPackageOptions {
   /**
@@ -382,6 +383,18 @@ export class Package {
     return execa.command(command, options)
   }
 
+  get exports(): string[] {
+    const { exports } = this.pkg
+
+    if (!exports) return []
+    if (typeof exports === 'string') return [exports]
+    if (Array.isArray(exports)) return exports
+
+    return Object.values(exports)
+      .map(ex => (typeof ex === 'string' ? ex : Object.values(ex)))
+      .flat()
+  }
+
   /**
    * Execute command in the package root directory
    */
@@ -408,21 +421,17 @@ export class Package {
     }
   }
 
-  private resolveEntrypoint(path = this.pkg.main) {
+  resolveEntrypoint(path = this.pkg.main) {
     if (!path) return undefined
 
-    const basefile = basename(path).split('.').slice(0, -1).join()
     let input!: string
-    const filenames = [basefile, `${basefile}/index`, 'index']
-      .map(name => [`${name}.ts`, `${name}.js`])
-      .reduce((names, arr) => {
-        arr.forEach(name => names.push(name))
-        return names
-      }, [] as string[])
+    const filenames = getEntrypointFilenames(path)
+
     filenames.some(filename => {
       input = this.resolvePath('src', filename)
       return existsSync(input)
     })
+
     return input
   }
 
