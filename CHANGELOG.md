@@ -1,3 +1,10 @@
+## [0.4.0](https://github.com/nuxt-contrib/siroc/compare/v0.3.3...v0.4.0) (2020-10-11)
+
+
+### Features
+
+* add support for multiple entrypoints using `exports` ([4bc4d1d](https://github.com/nuxt-contrib/siroc/commit/4bc4d1dbc8b181afac0fa9767ee03fa60593d4fa)), closes [#71](https://github.com/nuxt-contrib/siroc/issues/71)
+
 ### [0.3.3](https://github.com/nuxt-contrib/siroc/compare/v0.3.2...v0.3.3) (2020-09-30)
 
 
