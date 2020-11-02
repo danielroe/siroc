@@ -6244,9 +6244,9 @@ __metadata:
   linkType: hard
 
 "jiti@npm:^0.1.11":
-  version: 0.1.11
-  resolution: "jiti@npm:0.1.11"
-  checksum: 5f78abe4b3985d78f8cee3816a8efeb6f9511974f276513e7326a3e80b5caa9d333485c80ccdd2d36242cc0314a89fe603a412800f119f7c5c4324c62e1b28b6
+  version: 0.1.12
+  resolution: "jiti@npm:0.1.12"
+  checksum: f4b353a15a1b6ac58e0a0297047a1140eeecfc0ccad34f650e23df7b7cf0b764c4c4baa6853204bc5c92af5ac95d30af32fcf315d91c34b2bbb387f8ad748eea
   languageName: node
   linkType: hard
 
