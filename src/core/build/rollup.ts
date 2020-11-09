@@ -130,7 +130,7 @@ export function getRollupConfig(
 
   return [
     ...binaries.map(([binary, input]) => {
-      return defu<RollupOptions>({}, options as RollupOptions, {
+      return defu({}, options as RollupOptions, {
         input,
         output: {
           ...getFilenames(binary, '', 'cjs'),
@@ -143,7 +143,7 @@ export function getRollupConfig(
       })
     }),
     ...includeIf(input, input =>
-      defu<RollupOptions>({}, options as RollupOptions, {
+      defu({}, options as RollupOptions, {
         input,
         output: defaultOutputs,
         external,
@@ -162,7 +162,7 @@ export function getRollupConfig(
       plugins: getDeclarationPlugins(),
     })),
     ...exports.map(outfile =>
-      defu<RollupOptions>({}, options as RollupOptions, {
+      defu({}, options as RollupOptions, {
         input: pkg.resolveEntrypoint(outfile),
         output: {
           ...getFilenames(outfile),
@@ -174,7 +174,7 @@ export function getRollupConfig(
       })
     ),
     ...exports.map(outfile =>
-      defu<RollupOptions>({}, options as RollupOptions, {
+      defu({}, options as RollupOptions, {
         input: pkg.resolveEntrypoint(outfile),
         output: {
           file: resolvePath(outfile.replace('.js', '.d.ts')),
