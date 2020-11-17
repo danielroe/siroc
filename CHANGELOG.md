@@ -1,3 +1,10 @@
+### [0.4.1](https://github.com/nuxt-contrib/siroc/compare/v0.4.0...v0.4.1) (2020-11-17)
+
+
+### Bug Fixes
+
+* exclude json files from type generation ([6781286](https://github.com/nuxt-contrib/siroc/commit/67812862db855ee6daa778193c8ee5a534493976)), closes [#193](https://github.com/nuxt-contrib/siroc/issues/193)
+
 ## [0.4.0](https://github.com/nuxt-contrib/siroc/compare/v0.3.3...v0.4.0) (2020-10-11)
 
 
