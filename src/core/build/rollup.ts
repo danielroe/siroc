@@ -173,17 +173,19 @@ export function getRollupConfig(
         plugins: getPlugins(),
       })
     ),
-    ...exports.map(outfile =>
-      defu({}, options as RollupOptions, {
-        input: pkg.resolveEntrypoint(outfile),
-        output: {
-          file: resolvePath(outfile.replace('.js', '.d.ts')),
-          format: 'es',
-          exports: 'auto',
-        } as OutputOptions,
-        external,
-        plugins: getDeclarationPlugins(),
-      })
-    ),
+    ...exports
+      .filter(outfile => outfile && outfile.match(/\.json$/))
+      .map(outfile =>
+        defu({}, options as RollupOptions, {
+          input: pkg.resolveEntrypoint(outfile),
+          output: {
+            file: resolvePath(outfile.replace(/\.js$/, '.d.ts')),
+            format: 'es',
+            exports: 'auto',
+          } as OutputOptions,
+          external,
+          plugins: getDeclarationPlugins(),
+        })
+      ),
   ]
 }
