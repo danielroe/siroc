@@ -1965,10 +1965,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.7":
-  version: 14.14.7
-  resolution: "@types/node@npm:14.14.7"
-  checksum: 4fc8434bfe81c2a3102fa76777712ecee9e9177d43ec5929ba0dfd5a77a6c459cf10a37df64ea880a328f06973f6210eabf04b312428e309b2e8998147a6cd63
+"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.8":
+  version: 14.14.8
+  resolution: "@types/node@npm:14.14.8"
+  checksum: fa8c40702593d0a84eda8ca279072482e9b30c6d62df51eedc7115e6e8623f3b67e839f87d0e43b2d5880fd7b6b8825c0d15ffd836ee50a9f6661a3aa9b20b16
   languageName: node
   linkType: hard
 
@@ -8569,9 +8569,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.33.2":
-  version: 2.33.2
-  resolution: "rollup@npm:2.33.2"
+"rollup@npm:^2.33.3":
+  version: 2.33.3
+  resolution: "rollup@npm:2.33.3"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -8579,7 +8579,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 15cfcc81f1a51f66937ca53c8c7425f7300046c46e4d80fb8bbeab6cf51ef992c4559be6cd63c0d018697ddd6edad9ee68b570035f9aa1909e7e9453b7bbacb6
+  checksum: b14dc27a1c766a90d4c6b98c8cbedc79185a26f1ccb0eae23f82e5edbc2ec21951e2244de918aff696f9ee783c6cb8c1c788c60e3890c414794c19f7e3e80599
   languageName: node
   linkType: hard
 
@@ -8838,7 +8838,7 @@ __metadata:
     "@types/fs-extra": ^9.0.4
     "@types/glob": ^7.1.3
     "@types/jest": ^26.0.15
-    "@types/node": ^14.14.7
+    "@types/node": ^14.14.8
     "@typescript-eslint/eslint-plugin": ^4.8.1
     "@typescript-eslint/parser": ^4.8.1
     babel-loader: ^8.2.1
@@ -8862,7 +8862,7 @@ __metadata:
     lint-staged: ^10.5.1
     prettier: ^2.1.2
     release-it: 14.2.1
-    rollup: ^2.33.2
+    rollup: ^2.33.3
     rollup-plugin-dts: ^1.4.14
     rollup-plugin-esbuild: 2.5.2
     sort-package-json: ^1.46.1
