@@ -386,13 +386,24 @@ export class Package {
   get exports(): string[] {
     const { exports } = this.pkg
 
+    const filterExports = (item: string) =>
+      ![
+        this.pkg.main,
+        this.pkg.module,
+        this.pkg.browser,
+        `./${this.pkg.main}`,
+        `./${this.pkg.module}`,
+        `./${this.pkg.browser}`,
+      ].includes(item) && !item.match(/[./]$/)
+
     if (!exports) return []
-    if (typeof exports === 'string') return [exports]
-    if (Array.isArray(exports)) return exports
+    if (typeof exports === 'string') return [exports].filter(filterExports)
+    if (Array.isArray(exports)) return exports.filter(filterExports)
 
     return Object.values(exports)
       .map(ex => (typeof ex === 'string' ? ex : Object.values(ex)))
       .flat()
+      .filter(filterExports)
   }
 
   /**
