@@ -1,3 +1,11 @@
+### [0.4.2](https://github.com/nuxt-contrib/siroc/compare/v0.4.1...v0.4.2) (2020-11-23)
+
+
+### Bug Fixes
+
+* don't build exports if also in main/browser/module ([72f1b35](https://github.com/nuxt-contrib/siroc/commit/72f1b3554947b7ef15a9816c2f11eabf7fd2e9d2)), closes [#195](https://github.com/nuxt-contrib/siroc/issues/195)
+* don't swallow errors in hooks - fix cleaning build directory ([43cc5fa](https://github.com/nuxt-contrib/siroc/commit/43cc5fa39f758c8b376718fe17c50dbdf7e9b57f)), closes [#194](https://github.com/nuxt-contrib/siroc/issues/194)
+
 ### [0.4.1](https://github.com/nuxt-contrib/siroc/compare/v0.4.0...v0.4.1) (2020-11-17)
 
 
