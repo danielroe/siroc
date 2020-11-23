@@ -1,4 +1,5 @@
 import { extname } from 'path'
+import consola from 'consola'
 import { readJSONSync } from 'fs-extra'
 import _glob from 'glob'
 import _jiti from 'jiti'
@@ -83,7 +84,14 @@ export const runInParallel = async <T, R extends any>(
   cb: (item: T, index: number) => Promise<R> | R
 ) => {
   if (Array.isArray(items))
-    return Promise.allSettled(items.map(async (item, index) => cb(item, index)))
+    return Promise.allSettled(
+      items.map(async (item, index) => cb(item, index))
+    ).then(results =>
+      results.map(result => {
+        if (result.status === 'rejected') consola.error(result.reason)
+        return result
+      })
+    )
 
   const promises: Array<Promise<R>> = []
   let index = 0
@@ -95,7 +103,12 @@ export const runInParallel = async <T, R extends any>(
     }
     index++
   }
-  return Promise.allSettled(promises)
+  return Promise.allSettled(promises).then(results =>
+    results.map(result => {
+      if (result.status === 'rejected') consola.error(result.reason)
+      return result
+    })
+  )
 }
 
 export const asArray = <T>(item: T | T[] | undefined): T[] =>

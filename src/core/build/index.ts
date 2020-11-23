@@ -30,7 +30,7 @@ export async function removeBuildFolders(pkg: Package) {
       .filter(dir => !dir.includes('src'))
   )
 
-  await runInParallel(directories, remove)
+  await runInParallel(directories, dir => remove(dir))
 }
 
 export const build = async (

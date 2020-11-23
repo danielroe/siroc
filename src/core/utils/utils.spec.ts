@@ -1,4 +1,5 @@
 import path from 'path'
+import consola from 'consola'
 
 import type { PackageJson } from '../package'
 import { loadAllSettled, loadFromEntries } from './polyfills'
@@ -14,6 +15,8 @@ import {
   tryJSON,
   tryRequire,
 } from '.'
+
+jest.mock('consola')
 
 describe('asArray', () => {
   it('should return an array if passed an undefined value', () => {
@@ -110,10 +113,12 @@ const runInParallelTest = () => {
     expect(i).toBe(6)
   })
   it('should not fail if one task does', async () => {
+    jest.clearAllMocks()
     const result = await runInParallel([1, 2, 3], async num => {
       if (num === 2) throw new Error('')
     })
     expect(result.length).toBe(3)
+    expect(consola.error).toHaveBeenCalledTimes(1)
   })
 }
 
