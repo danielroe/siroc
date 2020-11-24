@@ -1,4 +1,5 @@
 import { basename } from 'path'
+import type { PackageJson } from './types'
 
 export const getEntrypointFilenames = (path: string) => {
   if (path.startsWith('./')) path = path.slice(2)
@@ -21,4 +22,16 @@ export const getEntrypointFilenames = (path: string) => {
     }, [] as string[])
 
   return filenames
+}
+
+export const getFlatValues = (
+  obj: Exclude<PackageJson['exports'], string | undefined>
+) => {
+  return Object.values(obj)
+    .map(ex => (typeof ex === 'string' ? ex : Object.values(ex)))
+    .reduce((flatArray: string[], item) => {
+      if (Array.isArray(item)) return [...flatArray, ...item]
+      flatArray.push(item)
+      return flatArray
+    }, [])
 }

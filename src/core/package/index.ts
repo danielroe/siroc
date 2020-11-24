@@ -29,7 +29,7 @@ import {
   RequireProperties,
 } from '../utils'
 import type { PackageJson } from './types'
-import { getEntrypointFilenames } from './utils'
+import { getEntrypointFilenames, getFlatValues } from './utils'
 
 export interface DefaultPackageOptions {
   /**
@@ -400,10 +400,7 @@ export class Package {
     if (typeof exports === 'string') return [exports].filter(filterExports)
     if (Array.isArray(exports)) return exports.filter(filterExports)
 
-    return Object.values(exports)
-      .map(ex => (typeof ex === 'string' ? ex : Object.values(ex)))
-      .flat()
-      .filter(filterExports)
+    return getFlatValues(exports).filter(filterExports)
   }
 
   /**
