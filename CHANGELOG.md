@@ -1,3 +1,10 @@
+### [0.4.3](https://github.com/nuxt-contrib/siroc/compare/v0.4.2...v0.4.3) (2020-11-24)
+
+
+### Bug Fixes
+
+* don't use `.flat()` (to support node 10) ([c816faa](https://github.com/nuxt-contrib/siroc/commit/c816faab0e3a504f555a5e94ee21759fce4c583d))
+
 ### [0.4.2](https://github.com/nuxt-contrib/siroc/compare/v0.4.1...v0.4.2) (2020-11-23)
 
 
