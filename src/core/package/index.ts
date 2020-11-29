@@ -16,6 +16,7 @@ import sortPackageJson from 'sort-package-json'
 
 import type {
   BuildConfigOptions,
+  BuildOverride,
   PackageCommands,
   PackageHookOptions,
   PackageHooks,
@@ -86,6 +87,7 @@ export interface BuildOptions {
   dev?: boolean
   watch?: boolean
   shouldWatch?: boolean
+  override?: BuildOverride
 }
 
 // 'package.js' is legacy and will go

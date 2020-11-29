@@ -60,6 +60,9 @@ cli
   .option('--dev', 'Build development bundle (only CJS)', {
     default: false,
   })
+  .option('-i <input>', 'Specify input file name')
+  .option('-o <output>', 'Specify output file name')
+  .option('-f <format>', 'Specify output file format')
   .example(bin => `  ${bin} build`)
   .example(bin => `  ${bin} build ${exampleProject} -w`)
   .action((packages: string[], options: BuildCommandOptions) =>

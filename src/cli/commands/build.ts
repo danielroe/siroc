@@ -1,3 +1,4 @@
+import { OutputOptions } from 'rollup'
 import {
   build as buildPackage,
   Package,
@@ -8,15 +9,35 @@ import {
 
 export interface BuildCommandOptions extends BuildOptions {
   packages: string[]
+  i?: string
+  o?: string
+  f?: OutputOptions['format']
 }
 
 export async function build(
   rootPackage: Package,
-  { packages, ...options }: BuildCommandOptions
+  { packages, i, o, f, ...options }: BuildCommandOptions
 ) {
   const workspacePackages = await rootPackage.getWorkspacePackages(
     packages.length ? packages : undefined
   )
+
+  if ([i, o, f].some(Boolean)) {
+    if (![i, o, f].every(Boolean)) {
+      throw new Error(
+        'You should provide an input (-i), output (-o) and format (-f) if you are overriding the build.'
+      )
+    }
+    await buildPackage(rootPackage, {
+      ...options,
+      override: {
+        input: i!,
+        output: o!,
+        format: f!,
+      },
+    })
+    return
+  }
 
   const { watch } = options
   rootPackage.logger.info(`Beginning build${watch ? ' (watching)' : ''}`)

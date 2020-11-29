@@ -34,6 +34,12 @@ export interface BuildConfigOptions extends RollupOptions {
   esbuildOptions?: EsbuildOptions
 }
 
+export interface BuildOverride {
+  input: string
+  output: string
+  format: OutputOptions['format']
+}
+
 export function getRollupConfig(
   {
     input,
@@ -49,7 +55,8 @@ export function getRollupConfig(
     esbuildOptions,
     ...options
   }: BuildConfigOptions,
-  pkg: Package = new Package()
+  pkg: Package = new Package(),
+  override?: BuildOverride
 ): RollupOptions[] {
   const {
     binaries,
@@ -128,6 +135,25 @@ export function getRollupConfig(
       })
     ),
   ]
+
+  if (override) {
+    return [
+      {
+        input: override.input,
+        output: {
+          ...getFilenames(override.output, override.format),
+          ...(override.format === 'umd'
+            ? { name: convertToUMDName(pkgConfig.name) }
+            : {}),
+          preferConst: true,
+          exports: 'auto',
+          format: override.format,
+        } as OutputOptions,
+        external,
+        plugins: getPlugins(),
+      },
+    ]
+  }
 
   return [
     ...binaries.map(([binary, input]) =>

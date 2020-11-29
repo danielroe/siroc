@@ -35,7 +35,7 @@ export async function removeBuildFolders(pkg: Package) {
 
 export const build = async (
   pkg: Package,
-  { watch: shouldWatch = false, dev = shouldWatch }: BuildOptions = {}
+  { watch: shouldWatch = false, dev = shouldWatch, override }: BuildOptions = {}
 ) => {
   const {
     options: { suffix, linkedDependencies, rootDir, rollup: rollupOptions },
@@ -61,7 +61,7 @@ export const build = async (
   await pkg.callHook('build:extend', { config })
 
   // Create rollup config
-  const rollupConfig = getRollupConfig(config, pkg)
+  const rollupConfig = getRollupConfig(config, pkg, override)
 
   // Allow extending rollup config
   await pkg.callHook('build:extendRollup', {
