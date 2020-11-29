@@ -12,7 +12,7 @@ import {
   runInParallel,
   RequireProperties,
 } from '../utils'
-import { getRollupConfig, BuildConfigOptions } from './rollup'
+import { getRollupConfig, BuildConfigOptions, logRollupConfig } from './rollup'
 
 export * from './hooks'
 export * from './rollup'
@@ -67,6 +67,8 @@ export const build = async (
   await pkg.callHook('build:extendRollup', {
     rollupConfig,
   })
+
+  logRollupConfig(pkg, rollupConfig)
 
   if (shouldWatch) {
     // Watch

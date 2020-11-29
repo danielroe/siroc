@@ -1,4 +1,4 @@
-import { resolve, basename } from 'path'
+import { resolve, basename, relative } from 'path'
 
 import aliasPlugin from '@rollup/plugin-alias'
 import commonjsPlugin from '@rollup/plugin-commonjs'
@@ -7,6 +7,7 @@ import replacePlugin, { Replacement } from '@rollup/plugin-replace'
 import nodeResolvePlugin, {
   RollupNodeResolveOptions,
 } from '@rollup/plugin-node-resolve'
+import chalk from 'chalk'
 import defu from 'defu'
 import type { RollupOptions, OutputOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
@@ -129,8 +130,8 @@ export function getRollupConfig(
   ]
 
   return [
-    ...binaries.map(([binary, input]) => {
-      return defu({}, options as RollupOptions, {
+    ...binaries.map(([binary, input]) =>
+      defu({}, options as RollupOptions, {
         input,
         output: {
           ...getFilenames(binary, '', 'cjs'),
@@ -141,7 +142,7 @@ export function getRollupConfig(
         external,
         plugins: getPlugins(),
       })
-    }),
+    ),
     ...includeIf(input, input =>
       defu({}, options as RollupOptions, {
         input,
@@ -188,4 +189,35 @@ export function getRollupConfig(
         })
       ),
   ]
+}
+
+function hl(str: string) {
+  return chalk.green(str)
+}
+
+function prettyPath(p: string, highlight = true) {
+  p = relative(process.cwd(), p)
+  return highlight ? hl(p) : p
+}
+
+export const logRollupConfig = (pkg: Package, config: RollupOptions[]) => {
+  config.forEach(item => {
+    const input =
+      typeof item.input === 'string'
+        ? prettyPath(item.input, false).padEnd(30) + ' → '
+        : item.input
+    const output = Array.isArray(item.output) ? item.output : [item.output]
+    output.forEach(out => {
+      const outfile =
+        out?.file ||
+        (out?.dir ? out.dir + '/' : '') + String(out?.entryFileNames) ||
+        ''
+      const format = outfile.endsWith('.d.ts')
+        ? '(dts)'
+        : out?.format
+        ? `(${out.format})`
+        : ''
+      pkg.logger.debug(input, prettyPath(outfile), format)
+    })
+  })
 }
