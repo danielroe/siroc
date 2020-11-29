@@ -1,3 +1,19 @@
+## [0.5.0](https://github.com/nuxt-contrib/siroc/compare/v0.4.3...v0.5.0) (2020-11-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade deps to typescript 4.1
+
+### Features
+
+* add optional logging of entry -> output ([ee95d8d](https://github.com/nuxt-contrib/siroc/commit/ee95d8d229fafb9c1aa79c9e980ddfdee726a35d)), closes [#192](https://github.com/nuxt-contrib/siroc/issues/192)
+
+
+### Miscellaneous Chores
+
+* upgrade deps to typescript 4.1 ([be6f6c9](https://github.com/nuxt-contrib/siroc/commit/be6f6c99c572fd71a49efc174e844e7abef14787))
+
 ### [0.4.3](https://github.com/nuxt-contrib/siroc/compare/v0.4.2...v0.4.3) (2020-11-24)
 
 
