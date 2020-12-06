@@ -47,6 +47,7 @@ export const formatForName = (
     const format = parts[parts.length - 2] as OutputFormat
     if (formats.includes(format)) return format
   }
+  if (parts[parts.length - 1] === 'mjs') return 'module'
   return defaultFormat
 }
 
