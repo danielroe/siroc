@@ -15,7 +15,7 @@
   "license": "MIT",
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "siroc": "bin/cli.js",
