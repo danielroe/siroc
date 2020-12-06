@@ -1,3 +1,16 @@
+## [0.6.0](https://github.com/nuxt-contrib/siroc/compare/v0.5.0...v0.6.0) (2020-12-06)
+
+
+### Features
+
+* add ability to build custom entrypoint ([17714c7](https://github.com/nuxt-contrib/siroc/commit/17714c7b8a1015d5119c0e421a191f7ef6d262e2)), closes [#84](https://github.com/nuxt-contrib/siroc/issues/84)
+
+
+### Bug Fixes
+
+* exit code 1 with bulid errors ([95f5f2e](https://github.com/nuxt-contrib/siroc/commit/95f5f2e2c05d712d41c25e76cd80902d596b581f)), closes [#196](https://github.com/nuxt-contrib/siroc/issues/196)
+* use module format with `mjs` extension ([0159b26](https://github.com/nuxt-contrib/siroc/commit/0159b264027ab21be9d136ebc6ca19fa7379f55e)), closes [#201](https://github.com/nuxt-contrib/siroc/issues/201)
+
 ## [0.5.0](https://github.com/nuxt-contrib/siroc/compare/v0.4.3...v0.5.0) (2020-11-29)
 
 
