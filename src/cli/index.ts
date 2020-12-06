@@ -70,6 +70,23 @@ cli
   )
 
 cli
+  .command('[...packages]', 'Bundle input files')
+  .option('-w, --watch', 'Watch files in bundle and rebuild on changes', {
+    default: false,
+  })
+  .option('--dev', 'Build development bundle (only CJS)', {
+    default: false,
+  })
+  .option('-i <input>', 'Specify input file name')
+  .option('-o <output>', 'Specify output file name')
+  .option('-f <format>', 'Specify output file format')
+  .example(bin => `  ${bin} build`)
+  .example(bin => `  ${bin} build ${exampleProject} -w`)
+  .action((packages: string[], options: BuildCommandOptions) =>
+    run('building', build, { ...options, packages })
+  )
+
+cli
   .command('dev [...packages]', 'Generate package stubs for quick development')
   .example(bin => `  ${bin} dev`)
   .example(bin => `  ${bin} dev ${exampleProject} -w`)

@@ -22,6 +22,7 @@ module.exports = {
   ],
   rules: {
     'no-undef': 'off',
+    'no-unused-vars': 'off',
     'prettier/prettier': [1, require('./prettier.config.js')],
     '@typescript-eslint/no-inferrable-types': 1,
     '@typescript-eslint/explicit-function-return-type': 'off',
