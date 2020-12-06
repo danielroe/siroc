@@ -40,6 +40,7 @@ export async function run(
       )
     } catch (e) {
       pkg.logger.error(`Error running ${bold(fullCommand)}\n`, gray(e))
+      process.exit(1)
     }
   }
 

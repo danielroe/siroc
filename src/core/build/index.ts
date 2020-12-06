@@ -113,7 +113,7 @@ export const build = async (
         await runInParallel(asArray(config.output), async outputConfig => {
           if (!outputConfig) {
             pkg.logger.error('No build defined in generated config.')
-            return
+            process.exit(1)
           }
 
           const { output } = await bundle.write(outputConfig)

@@ -14,6 +14,13 @@ import { run as runFile } from './commands/run'
 
 import { time, timeEnd, RemoveFirst } from './utils'
 
+let wasErrored = false
+const error = consola.error.bind(consola)
+consola.error = (message: any, ...args: any[]) => {
+  wasErrored = true
+  error(message, ...args)
+}
+
 time('load root package')
 let rootPackage: Package
 try {
@@ -116,6 +123,10 @@ cli.help()
 timeEnd('load CLI')
 
 cli.parse()
+
+process.on('beforeExit', () => {
+  if (wasErrored) process.exit(1)
+})
 
 process.on('unhandledRejection', err => {
   consola.error(err)
