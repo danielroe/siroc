@@ -1,20 +1,13 @@
-<h1 align="center">🌬️ siroc</h1>
-<p align="center">Zero-config build tooling for Node</p>
+![siroc](https://user-images.githubusercontent.com/904724/101661809-0375af80-3a49-11eb-9c82-0b84306f9fc7.png)
 
-<p align="center">
-<a href="https://npmjs.com/package/siroc">
-    <img alt="" src="https://img.shields.io/npm/v/siroc/latest.svg?style=flat-square">
-</a>
-<a href="https://npmjs.com/package/siroc">
-    <img alt="" src="https://img.shields.io/npm/dt/siroc.svg?style=flat-square">
-</a>
-<a href="https://lgtm.com/projects/g/nuxt-contrib/siroc">
-    <img alt="" src="https://img.shields.io/lgtm/alerts/github/nuxt-contrib/siroc?style=flat-square">
-</a>
-<a href="https://lgtm.com/projects/g/nuxt-contrib/siroc">
-    <img alt="" src="https://img.shields.io/lgtm/grade/javascript/github/nuxt-contrib/siroc?style=flat-square">
-</a>
-</p>
+
+# 🌬️ siroc
+
+[![npm version][npm-version-src]][npm-version-href]
+[![Github Actions][github-actions-src]][github-actions-href]
+[![alerts][alerts-src]][alerts-href]
+[![grade][grade-src]][grade-href]
+<!-- [![npm downloads][npm-downloads-src]][npm-downloads-href] -->
 
 > `siroc` is a zero-config but extensible framework for developing Node applications and libraries
 
@@ -149,3 +142,20 @@ Contributions are very welcome.
 ## License
 
 [MIT License](./LICENCE) - Made with 💖
+
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/siroc?style=flat-square
+[npm-version-href]: https://npmjs.com/package/siroc
+
+[npm-downloads-src]: https://img.shields.io/npm/dm/siroc?style=flat-square
+[npm-downloads-href]: https://npmjs.com/package/siroc
+
+[github-actions-src]: https://img.shields.io/github/workflow/status/nuxt-contrib/siroc/ci/main?style=flat-square
+[github-actions-href]: https://github.com/nuxt-contrib/siroc/actions?query=workflow%3Aci
+
+[alerts-src]: https://img.shields.io/lgtm/alerts/github/nuxt-contrib/siroc?style=flat-square
+[alerts-href]: https://lgtm.com/projects/g/nuxt-contrib/siroc
+
+[grade-src]: https://img.shields.io/lgtm/grade/javascript/github/nuxt-contrib/siroc?style=flat-square
+[grade-href]: https://lgtm.com/projects/g/nuxt-contrib/siroc
