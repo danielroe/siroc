@@ -1,3 +1,10 @@
+### [0.6.2](https://github.com/nuxt-contrib/siroc/compare/v0.6.1...v0.6.2) (2021-01-16)
+
+
+### Bug Fixes
+
+* support matching entrypoints in subdirectories ([60c9920](https://github.com/nuxt-contrib/siroc/commit/60c99203e812b6bc0df3b270e3d21dc9acc36404))
+
 ### [0.6.1](https://github.com/nuxt-contrib/siroc/compare/v0.6.0...v0.6.1) (2021-01-16)
 
 ## [0.6.0](https://github.com/nuxt-contrib/siroc/compare/v0.5.0...v0.6.0) (2020-12-06)
