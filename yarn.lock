@@ -1230,9 +1230,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@eslint/eslintrc@npm:0.2.2"
+"@eslint/eslintrc@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@eslint/eslintrc@npm:0.3.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.1.1
@@ -1241,10 +1241,10 @@ __metadata:
     ignore: ^4.0.6
     import-fresh: ^3.2.1
     js-yaml: ^3.13.1
-    lodash: ^4.17.19
+    lodash: ^4.17.20
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: 049c98898934100aa5ad4912242ecbec136454787c00776a236e5321c73176dbc813917445a3d50d230a5a84531a99ec0e2885dd7a6838be68b46b6720fa1459
+  checksum: 00e87c194672eb85dcea22ba749fb3cabdd9768e952e748b2c727940f06691c873369d75cf3bddb239301eca8c38de6e098b0de4839fa7c16a2062e536e8ff5a
   languageName: node
   linkType: hard
 
@@ -1669,9 +1669,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:^11.0.1":
-  version: 11.0.1
-  resolution: "@rollup/plugin-node-resolve@npm:11.0.1"
+"@rollup/plugin-node-resolve@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "@rollup/plugin-node-resolve@npm:11.1.0"
   dependencies:
     "@rollup/pluginutils": ^3.1.0
     "@types/resolve": 1.17.1
@@ -1681,7 +1681,7 @@ __metadata:
     resolve: ^1.19.0
   peerDependencies:
     rollup: ^1.20.0||^2.0.0
-  checksum: bbec78fba9faab9e82b8f019d8883f119b2aa59cf90aa86f48767242235e39ca76ac2d130f0404553b2fa89dbd8fef90e32159642618f1e75ced7029f1bcece5
+  checksum: 87332c94d1ebf50d8238eabd7901ec802e076f566538db929155e2ac2227796a6e7cb35994bd7d15e191c4835e00bf4aac58a21615a276fc6df5fbce7b7fb050
   languageName: node
   linkType: hard
 
@@ -1962,10 +1962,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.20":
+"@types/node@npm:*, @types/node@npm:>= 8":
   version: 14.14.20
   resolution: "@types/node@npm:14.14.20"
   checksum: 84a9fd73de978967723f951173ff4d07dca259941d3e37c7a3dbb236c09b3f2294bb2098678a806afe6fd6cac39a7d0a1d399f602378c951bd5d01ede535d570
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.21":
+  version: 14.14.21
+  resolution: "@types/node@npm:14.14.21"
+  checksum: b659823ffa01684ff2cb4edf0b70ea76d7eae6cd86af43de62ae6b460c174161850fb75a1be50ab60c4519c14babd4ec430ddbbe6689e341073ba10ff106311c
   languageName: node
   linkType: hard
 
@@ -4061,12 +4068,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.17.0":
-  version: 7.17.0
-  resolution: "eslint@npm:7.17.0"
+"eslint@npm:^7.18.0":
+  version: 7.18.0
+  resolution: "eslint@npm:7.18.0"
   dependencies:
     "@babel/code-frame": ^7.0.0
-    "@eslint/eslintrc": ^0.2.2
+    "@eslint/eslintrc": ^0.3.0
     ajv: ^6.10.0
     chalk: ^4.0.0
     cross-spawn: ^7.0.2
@@ -4090,7 +4097,7 @@ __metadata:
     js-yaml: ^3.13.1
     json-stable-stringify-without-jsonify: ^1.0.1
     levn: ^0.4.1
-    lodash: ^4.17.19
+    lodash: ^4.17.20
     minimatch: ^3.0.4
     natural-compare: ^1.4.0
     optionator: ^0.9.1
@@ -4104,7 +4111,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 12b09a972eb0b81fabf9c1b38b3e9ada0cc051a22ee5022e31852e7babde6fe02a0135be3027451ee02c9ff4a6f738b55205d2953f98eb16a43350ad73070b27
+  checksum: 5c6f6ca0eb6c3738a0d14d3441a23f045ef9e7f73aaba4848aea0877c5fd50ec42937ccdaf53fb9107694f5700a9989bca55334b7b17e5d3be2f6e69a42241fa
   languageName: node
   linkType: hard
 
@@ -5150,9 +5157,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^4.3.7":
-  version: 4.3.7
-  resolution: "husky@npm:4.3.7"
+"husky@npm:^4.3.8":
+  version: 4.3.8
+  resolution: "husky@npm:4.3.8"
   dependencies:
     chalk: ^4.0.0
     ci-info: ^2.0.0
@@ -5167,7 +5174,7 @@ __metadata:
   bin:
     husky-run: bin/run.js
     husky-upgrade: lib/upgrader/bin.js
-  checksum: 799b1484e47f868760a612d8578f0bc2cf8848a55719ad00bfbd6bec3d094afaca024631949157390a05616a1c83242c3d917f33c049d9161f7af3ec313b6870
+  checksum: 1ac4fb51ffd93547ec861f185d86bdbfbac8ee24ce60417d531dbe5222e33fc754436e87e4e2b37a44dcefdc78c151f9ba4ac57c05773f5c36377cc4eb73732b
   languageName: node
   linkType: hard
 
@@ -6248,12 +6255,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "jiti@npm:1.0.0"
+"jiti@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "jiti@npm:1.2.0"
   bin:
     jiti: bin/jiti.js
-  checksum: f333bb7ab4de2716b0695ab797a56d90dfbf20fce3068accc3db0f0a81f8652f9e118d37803430b0398f94f0c69d5256e218e258bf316b38a88b37fc8a5ea070
+  checksum: bdc8b567b57f8f8586aff7869a9d786771cf76690625a7ca899d427db426db946d1bcd0c4ecd1a77ae8e66fd984b80d0de2e8e077dc18d8926cb4e8e501b74e1
   languageName: node
   linkType: hard
 
@@ -8524,9 +8531,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.36.1":
-  version: 2.36.1
-  resolution: "rollup@npm:2.36.1"
+"rollup@npm:^2.36.2":
+  version: 2.36.2
+  resolution: "rollup@npm:2.36.2"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -8534,7 +8541,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: bb48730bf382d6439012a1504a8ca2f676657b472e9fbf72f726701c3091325229e1501c75088f4feebf6c9eb54cfc01353a11b50d3b0b9fa23764aaf5fca38c
+  checksum: 65a892680d0da59b77a8174d90ff203bd8f4a34a5ec9d230d9bbf735ecad700426f1e079ed1953cd24bc9c0fcf77aed7219da77db11347222814e8d9364c60cd
   languageName: node
   linkType: hard
 
@@ -8798,13 +8805,13 @@ __metadata:
     "@rollup/plugin-alias": ^3.1.1
     "@rollup/plugin-commonjs": ^17.0.0
     "@rollup/plugin-json": ^4.1.0
-    "@rollup/plugin-node-resolve": ^11.0.1
+    "@rollup/plugin-node-resolve": ^11.1.0
     "@rollup/plugin-replace": ^2.3.4
     "@types/execa": ^2.0.0
     "@types/fs-extra": ^9.0.6
     "@types/glob": ^7.1.3
     "@types/jest": ^26.0.20
-    "@types/node": ^14.14.20
+    "@types/node": ^14.14.21
     "@typescript-eslint/eslint-plugin": ^4.13.0
     "@typescript-eslint/parser": ^4.13.0
     babel-loader: ^8.2.2
@@ -8815,7 +8822,7 @@ __metadata:
     conventional-changelog-conventionalcommits: ^4.5.0
     defu: ^3.2.2
     esbuild: ^0.7.22
-    eslint: ^7.17.0
+    eslint: ^7.18.0
     eslint-config-prettier: ^7.1.0
     eslint-plugin-jest: ^24.1.3
     eslint-plugin-prettier: ^3.3.1
@@ -8823,13 +8830,13 @@ __metadata:
     execa: ^5.0.0
     fs-extra: ^9.0.1
     glob: ^7.1.6
-    husky: ^4.3.7
+    husky: ^4.3.8
     jest: ^26.6.3
-    jiti: ^1.0.0
+    jiti: ^1.2.0
     lint-staged: ^10.5.3
     prettier: ^2.2.1
     release-it: 14.2.2
-    rollup: ^2.36.1
+    rollup: ^2.36.2
     rollup-plugin-dts: ^2.0.1
     rollup-plugin-esbuild: 2.5.2
     semver: ^7.3.4
