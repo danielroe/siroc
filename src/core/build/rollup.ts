@@ -201,7 +201,7 @@ export function getRollupConfig(
       })
     ),
     ...exports
-      .filter(outfile => outfile && outfile.match(/\.json$/))
+      .filter(outfile => outfile && !outfile.match(/\.json$/))
       .map(outfile =>
         defu({}, options as RollupOptions, {
           input: pkg.resolveEntrypoint(outfile),
