@@ -1,3 +1,10 @@
+### [0.6.3](https://github.com/nuxt-contrib/siroc/compare/v0.6.2...v0.6.3) (2021-01-20)
+
+
+### Bug Fixes
+
+* invert json matching requirement ([6767c0f](https://github.com/nuxt-contrib/siroc/commit/6767c0f2cd3c6d1fdaa0e07461f810e46a73c5c1))
+
 ### [0.6.2](https://github.com/nuxt-contrib/siroc/compare/v0.6.1...v0.6.2) (2021-01-16)
 
 
