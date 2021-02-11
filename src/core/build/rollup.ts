@@ -155,6 +155,11 @@ export function getRollupConfig(
     ]
   }
 
+  const typeEntrypoint = pkg.resolveEntrypoint(
+    pkgConfig.types || pkgConfig.typings
+  )
+  const entries = exports.map(ex => pkg.resolveEntrypoint(ex))
+
   return [
     ...binaries.map(([binary, input]) =>
       defu({}, options as RollupOptions, {
@@ -177,17 +182,20 @@ export function getRollupConfig(
         plugins: getPlugins(),
       })
     ),
-    ...includeIf(pkgConfig.types && input, input => ({
-      input,
-      output: {
-        // eslint-disable-next-line
-        file: resolvePath(pkgConfig.types!),
-        format: 'es',
-        exports: 'auto',
-      } as OutputOptions,
-      external,
-      plugins: getDeclarationPlugins(),
-    })),
+    ...includeIf(
+      !entries.includes(typeEntrypoint) && typeEntrypoint,
+      input => ({
+        input,
+        output: {
+          // eslint-disable-next-line
+          file: resolvePath(pkgConfig.types || pkgConfig.typings!),
+          format: 'es',
+          exports: 'auto',
+        } as OutputOptions,
+        external,
+        plugins: getDeclarationPlugins(),
+      })
+    ),
     ...exports.map(outfile =>
       defu({}, options as RollupOptions, {
         input: pkg.resolveEntrypoint(outfile),
