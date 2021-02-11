@@ -1,4 +1,4 @@
-import { resolve, basename, relative } from 'path'
+import { resolve, basename, relative } from 'upath'
 
 import aliasPlugin from '@rollup/plugin-alias'
 import commonjsPlugin from '@rollup/plugin-commonjs'

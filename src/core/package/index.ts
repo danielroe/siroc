@@ -1,4 +1,4 @@
-import { dirname, relative, resolve } from 'path'
+import { dirname, relative, resolve } from 'upath'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'

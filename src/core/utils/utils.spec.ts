@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'upath'
 import consola from 'consola'
 
 import type { PackageJson } from '../package'

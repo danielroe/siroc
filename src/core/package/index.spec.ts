@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'upath'
 
 import { existsSync, remove, readFileSync } from 'fs-extra'
 import { RollupBuild } from 'rollup'

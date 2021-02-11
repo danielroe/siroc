@@ -1,4 +1,4 @@
-import { dirname, join } from 'path'
+import { dirname, join } from 'upath'
 
 import { bold, gray, green } from 'chalk'
 import { remove, stat } from 'fs-extra'

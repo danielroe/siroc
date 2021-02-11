@@ -1,4 +1,4 @@
-import { basename, sep } from 'path'
+import { basename, sep } from 'upath'
 import type { PackageJson } from './types'
 
 const walkDownDirectory = (pathname: string) => {

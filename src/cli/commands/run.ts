@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'upath'
 
 import { Package, runInParallel } from '../../core'
 import { bold, gray } from 'chalk'

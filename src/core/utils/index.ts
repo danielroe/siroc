@@ -1,4 +1,4 @@
-import { extname } from 'path'
+import { extname } from 'upath'
 import consola from 'consola'
 import { readJSONSync } from 'fs-extra'
 import _glob from 'glob'

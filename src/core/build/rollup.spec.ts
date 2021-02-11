@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'upath'
 
 import { Package } from '../package'
 import { builtins, builtinsMap } from './builtins'

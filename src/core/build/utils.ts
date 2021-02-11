@@ -1,4 +1,4 @@
-import { resolve, dirname, basename } from 'path'
+import { resolve, dirname, basename } from 'upath'
 import type { OutputOptions } from 'rollup'
 
 export const getNameFunction = (rootDir: string, packageName: string) => (

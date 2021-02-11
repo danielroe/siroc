@@ -8843,6 +8843,7 @@ __metadata:
     sort-package-json: ^1.48.1
     tsd: ^0.14.0
     typescript: ^4.1.3
+    upath: ^2.0.1
     v8-compile-cache: ^2.2.0
   bin:
     siroc: bin/cli.js
@@ -9837,6 +9838,13 @@ typescript@^4.1.3:
     has-value: ^0.3.1
     isobject: ^3.0.0
   checksum: b4c4853f2744a91e9bb5ccb3dfb28f78c32310bf851f0e6b9e781d3ca5244a803632926b2af701da5f9153a03e405023cebc1f90b87711f73b5fc86b6c33efae
+  languageName: node
+  linkType: hard
+
+"upath@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "upath@npm:2.0.1"
+  checksum: 50e663333f305787d6a88e3840824f1332ded90a9c1b567c8faa418ab340125f5cae66b909c034bf95d861ab34db4c306984524fe33d6da1493984eae6b8be37
   languageName: node
   linkType: hard
 
