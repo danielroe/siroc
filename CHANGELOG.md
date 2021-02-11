@@ -1,3 +1,10 @@
+### [0.6.5](https://github.com/nuxt-contrib/siroc/compare/v0.6.4...v0.6.5) (2021-02-11)
+
+
+### Features
+
+* allow custom sources for package types ([ebc5a02](https://github.com/nuxt-contrib/siroc/commit/ebc5a02f14ab962666ae2d3e784f188c01677331))
+
 ### [0.6.4](https://github.com/nuxt-contrib/siroc/compare/v0.6.3...v0.6.4) (2021-02-11)
 
 
