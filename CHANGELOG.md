@@ -1,3 +1,10 @@
+### [0.6.4](https://github.com/nuxt-contrib/siroc/compare/v0.6.3...v0.6.4) (2021-02-11)
+
+
+### Bug Fixes
+
+* fix build failures in windows environments caused by paths ([f5f01c1](https://github.com/nuxt-contrib/siroc/commit/f5f01c12a847373f90b3817f450e2a43847a5d36))
+
 ### [0.6.3](https://github.com/nuxt-contrib/siroc/compare/v0.6.2...v0.6.3) (2021-01-20)
 
 
