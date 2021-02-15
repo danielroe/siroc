@@ -155,9 +155,9 @@ export function getRollupConfig(
     ]
   }
 
-  const typeEntrypoint = pkg.resolveEntrypoint(
-    pkgConfig.types || pkgConfig.typings
-  )
+  const typeEntrypoint =
+    (pkgConfig.types || pkgConfig.typings) &&
+    pkg.resolveEntrypoint(pkgConfig.types || pkgConfig.typings)
   const entries = exports.map(ex => pkg.resolveEntrypoint(ex))
 
   return [
