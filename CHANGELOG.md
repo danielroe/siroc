@@ -1,3 +1,10 @@
+### [0.6.6](https://github.com/nuxt-contrib/siroc/compare/v0.6.5...v0.6.6) (2021-02-15)
+
+
+### Bug Fixes
+
+* only produce type if defined in package.json ([c186038](https://github.com/nuxt-contrib/siroc/commit/c1860382d65885469484c67bb8ab23121f2493e8))
+
 ### [0.6.5](https://github.com/nuxt-contrib/siroc/compare/v0.6.4...v0.6.5) (2021-02-11)
 
 
