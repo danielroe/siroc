@@ -98,6 +98,7 @@ export function getRollupConfig(
       }),
       replacePlugin({
         exclude: 'node_modules/**',
+        preventAssignment: true as any,
         delimiters: ['', ''],
         values: {
           ...includeDefinedProperties({ __NODE_ENV__ }),
