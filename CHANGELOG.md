@@ -1,3 +1,5 @@
+### [0.6.7](https://github.com/nuxt-contrib/siroc/compare/v0.6.6...v0.6.7) (2021-02-22)
+
 ### [0.6.6](https://github.com/nuxt-contrib/siroc/compare/v0.6.5...v0.6.6) (2021-02-15)
 
 
