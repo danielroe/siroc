@@ -1,3 +1,14 @@
+## [0.7.0](https://github.com/nuxt-contrib/siroc/compare/v0.6.7...v0.7.0) (2021-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* `esbuild` has a number of breaking changes since `0.7`
+
+### Miscellaneous Chores
+
+* upgrade esbuild ([#206](https://github.com/nuxt-contrib/siroc/issues/206)) ([864e5f9](https://github.com/nuxt-contrib/siroc/commit/864e5f989896599d8156c32d3ad466831e66ba7e)), closes [/github.com/evanw/esbuild/blob/master/CHANGELOG.md#080](https://github.com/nuxt-contrib//github.com/evanw/esbuild/blob/master/CHANGELOG.md/issues/080) [#205](https://github.com/nuxt-contrib/siroc/issues/205)
+
 ### [0.6.7](https://github.com/nuxt-contrib/siroc/compare/v0.6.6...v0.6.7) (2021-02-22)
 
 ### [0.6.6](https://github.com/nuxt-contrib/siroc/compare/v0.6.5...v0.6.6) (2021-02-15)
