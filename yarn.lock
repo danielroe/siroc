@@ -960,9 +960,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.13.5":
-  version: 7.13.5
-  resolution: "@babel/plugin-transform-runtime@npm:7.13.5"
+"@babel/plugin-transform-runtime@npm:^7.13.7":
+  version: 7.13.7
+  resolution: "@babel/plugin-transform-runtime@npm:7.13.7"
   dependencies:
     "@babel/helper-module-imports": ^7.12.13
     "@babel/helper-plugin-utils": ^7.13.0
@@ -972,7 +972,7 @@ __metadata:
     semver: 7.0.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: ca80f64122f93e42799d297748749980ab399ab350d12100440450fe5119b2a35c00f5b46f2cb29fc17eb946442b9f527639545ffcc9879180f6b0922ca710c2
+  checksum: f1bb7bb8541c483332c48036f4c68e21d5e4a25e8ddb006d390779756276bcae1950121bea5d2a1244b5273f64ed87ed69f038fb8d6415ee352c4856f2c0a2e4
   languageName: node
   linkType: hard
 
@@ -1174,12 +1174,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.13.4, @babel/runtime@npm:^7.8.4":
-  version: 7.13.4
-  resolution: "@babel/runtime@npm:7.13.4"
+"@babel/runtime@npm:^7.13.7, @babel/runtime@npm:^7.8.4":
+  version: 7.13.7
+  resolution: "@babel/runtime@npm:7.13.7"
   dependencies:
     regenerator-runtime: ^0.13.4
-  checksum: db115643b24d3e0fb71fe7bf693088168251560cdeb848c04861e8787c125e071ba2fce0ba8c0a030d53c0388d7b1e024c533b8c78748aa4aa531084d16a7f51
+  checksum: 8be9fd44bb684ad42069170ca1bce9e225af7bc13861f5ac9c2517b6f1c585fb167cedb54f1a0c5b3f26a8391a9e1afef874829df494d945398d3f67b39e6116
   languageName: node
   linkType: hard
 
@@ -4054,14 +4054,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "eslint-config-prettier@npm:8.0.0"
+"eslint-config-prettier@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "eslint-config-prettier@npm:8.1.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: 4f7eb2885af2e2647bc0da210b3bed613a376e74a9f7ae4b069204a4aae335735093323d21bf95eb814d3f0f5116f76cb00a7e0f1b5895fcced184e25a560d52
+  checksum: 409d3a071f8228d4c958a6a9be9d5ec2b357ce21b7b6cbb137096cade2c31f008a0a3c3533dee8979c0cd944f220a959710b30fd86f8b96f0ef1f4f557d740b3
   languageName: node
   linkType: hard
 
@@ -8841,10 +8841,10 @@ __metadata:
   resolution: "siroc@workspace:."
   dependencies:
     "@babel/core": ^7.13.1
-    "@babel/plugin-transform-runtime": ^7.13.5
+    "@babel/plugin-transform-runtime": ^7.13.7
     "@babel/preset-env": ^7.13.5
     "@babel/preset-typescript": ^7.13.0
-    "@babel/runtime": ^7.13.4
+    "@babel/runtime": ^7.13.7
     "@release-it/conventional-changelog": ^2.0.1
     "@rollup/plugin-alias": ^3.1.2
     "@rollup/plugin-commonjs": ^17.1.0
@@ -8867,7 +8867,7 @@ __metadata:
     defu: ^3.2.2
     esbuild: ^0.8.52
     eslint: ^7.20.0
-    eslint-config-prettier: ^8.0.0
+    eslint-config-prettier: ^8.1.0
     eslint-plugin-jest: ^24.1.5
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
