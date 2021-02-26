@@ -1743,7 +1743,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^4.0.0":
+"@rollup/pluginutils@npm:^4.1.0":
   version: 4.1.0
   resolution: "@rollup/pluginutils@npm:4.1.0"
   dependencies:
@@ -3998,12 +3998,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.7.22":
-  version: 0.7.22
-  resolution: "esbuild@npm:0.7.22"
+"esbuild@npm:^0.8.52":
+  version: 0.8.52
+  resolution: "esbuild@npm:0.8.52"
   bin:
     esbuild: bin/esbuild
-  checksum: 4f8b5bbfd023b1f0751275537306968abae8a67558a347dba1d48ee26bf4e4b5e069b66b892fa2772dd677b0432ff36e3a2cb4e89a1f0b7b0ace01fd08734834
+  checksum: e36c92920dc6ef4f8598d211fd4fec2d9bd99b792e13113bbf813e66a2c76ae7c8b882494b35173cf20355fda5659a8d49d6bb285406b771d79748804cad0059
   languageName: node
   linkType: hard
 
@@ -8578,16 +8578,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-esbuild@npm:2.5.2":
-  version: 2.5.2
-  resolution: "rollup-plugin-esbuild@npm:2.5.2"
+"rollup-plugin-esbuild@npm:2.6.1":
+  version: 2.6.1
+  resolution: "rollup-plugin-esbuild@npm:2.6.1"
   dependencies:
-    "@rollup/pluginutils": ^4.0.0
+    "@rollup/pluginutils": ^4.1.0
     joycon: ^2.2.5
     strip-json-comments: ^3.1.1
   peerDependencies:
-    esbuild: ^0.6.0
-  checksum: 4d658db21103241c6597b2678eab37bfe8bd1b54a1bf102f220d9279f22ce2587b5c03ec88e98e89c25eb7f7cdc6870e273724c970ce4856031e9ae5ad3707b0
+    esbuild: ">=0.7.0"
+  checksum: 90a731a839d3d5db05dbd4ab8ded04b37785063039b6abb1e2162cf77eb05942aa6d400697e91b2284a3940b574f9d1413081b5298b33b353cca1ecca6718413
   languageName: node
   linkType: hard
 
@@ -8865,7 +8865,7 @@ __metadata:
     consola: ^2.15.3
     conventional-changelog-conventionalcommits: ^4.5.0
     defu: ^3.2.2
-    esbuild: ^0.7.22
+    esbuild: ^0.8.52
     eslint: ^7.20.0
     eslint-config-prettier: ^8.0.0
     eslint-plugin-jest: ^24.1.5
@@ -8882,7 +8882,7 @@ __metadata:
     release-it: 14.4.1
     rollup: ^2.39.1
     rollup-plugin-dts: ^2.0.1
-    rollup-plugin-esbuild: 2.5.2
+    rollup-plugin-esbuild: 2.6.1
     semver: ^7.3.4
     sort-package-json: ^1.49.0
     tsd: ^0.14.0
