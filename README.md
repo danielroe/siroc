@@ -89,7 +89,7 @@ There are some conventions in place of configuration that are worth noting:
 * if you have a folder mapped using [subpath patterns](https://nodejs.org/api/packages.html#packages_subpath_patterns) and it matches a folder within your `src` folder, the files within will be copied across and lightly transpiled using [mkdist](https://github.com/unjsio/mkdist).
 
 ##### Example
-```json
+```json5
 {
   "exports": {
     ".": {
