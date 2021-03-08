@@ -77,7 +77,9 @@ export const build = async (
     if (!sourceFolder) return
 
     const srcDir = relative(pkg.options.rootDir, sourceFolder)
-    pkg.logger.info(`Copying ./${srcDir} => ${distDir} with \`mkdist\`.`)
+    pkg.logger.info(
+      `Transpiling \`./${srcDir}\` to \`${distDir}\` with ${bold('mkdist')}.`
+    )
     mkdist({
       srcDir,
       distDir: distDir.slice(2),
