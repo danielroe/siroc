@@ -1,9 +1,22 @@
-import { basename, sep } from 'upath'
+import { sep } from 'upath'
 import type { PackageJson } from './types'
 
 const walkDownDirectory = (pathname: string) => {
   const [first, ...rest] = pathname.split(sep)
   return rest.join(sep)
+}
+
+export const getEntrypointPaths = (path: string) => {
+  if (path.startsWith('./')) path = path.slice(2)
+
+  const filenames = new Set<string>()
+  let cwd = path
+  do {
+    filenames.add(cwd)
+    cwd = walkDownDirectory(cwd)
+  } while (cwd)
+
+  return Array.from(filenames)
 }
 
 export const getEntrypointFilenames = (path: string) => {

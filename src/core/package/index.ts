@@ -10,6 +10,7 @@ import {
   writeFile,
   mkdirp,
   chmod,
+  pathExistsSync,
 } from 'fs-extra'
 import type { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
@@ -30,7 +31,11 @@ import {
   RequireProperties,
 } from '../utils'
 import type { PackageJson } from './types'
-import { getEntrypointFilenames, getFlatValues } from './utils'
+import {
+  getEntrypointFilenames,
+  getEntrypointPaths,
+  getFlatValues,
+} from './utils'
 
 export interface DefaultPackageOptions {
   /**
@@ -396,7 +401,19 @@ export class Package {
         `./${this.pkg.main}`,
         `./${this.pkg.module}`,
         `./${this.pkg.browser}`,
-      ].includes(item) && !item.match(/[./]$/)
+      ].includes(item) && !/[./*]$/.test(item)
+
+    if (!exports) return []
+    if (typeof exports === 'string') return [exports].filter(filterExports)
+    if (Array.isArray(exports)) return exports.filter(filterExports)
+
+    return getFlatValues(exports).filter(filterExports)
+  }
+
+  get folderExports(): string[] {
+    const { exports } = this.pkg
+
+    const filterExports = (item: string) => /[a-z]\/\*$/.test(item)
 
     if (!exports) return []
     if (typeof exports === 'string') return [exports].filter(filterExports)
@@ -440,6 +457,20 @@ export class Package {
     filenames.some(filename => {
       input = this.resolvePath('src', filename)
       return existsSync(input)
+    })
+
+    return input
+  }
+
+  resolveEntrypointFolder(path = this.pkg.main) {
+    if (!path) return undefined
+
+    let input!: string
+    const paths = getEntrypointPaths(path)
+
+    paths.some(path => {
+      input = this.resolvePath('src', path)
+      return pathExistsSync(input)
     })
 
     return input

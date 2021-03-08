@@ -1,7 +1,8 @@
-import { dirname, join } from 'upath'
+import { dirname, join, relative } from 'upath'
 
 import { bold, gray, green } from 'chalk'
 import { remove, stat } from 'fs-extra'
+import { mkdist } from 'mkdist'
 import { rollup, watch, RollupError } from 'rollup'
 
 import type { BuildOptions, Package } from '../package'
@@ -69,6 +70,22 @@ export const build = async (
   })
 
   logRollupConfig(pkg, rollupConfig)
+
+  await runInParallel(pkg.folderExports, folder => {
+    const { 1: distDir = folder } = folder.match(/^(.*[^*/])[*/]*$/) || []
+    const sourceFolder = pkg.resolveEntrypointFolder(distDir)
+    if (!sourceFolder) return
+
+    const srcDir = relative(pkg.options.rootDir, sourceFolder)
+    pkg.logger.info(
+      `Transpiling \`./${srcDir}\` to \`${distDir}\` with ${bold('mkdist')}.`
+    )
+    mkdist({
+      srcDir,
+      distDir: distDir.slice(2),
+      rootDir: pkg.options.rootDir,
+    })
+  })
 
   if (shouldWatch) {
     // Watch

@@ -3661,6 +3661,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"de-indent@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "de-indent@npm:1.0.2"
+  checksum: a1933a4328d053d9b0db447668521a6d0360b509c115dc5340420fd645be556c00b82e491d6b862249981ed22fbf2016080b222ad23c25038aba72cb8e3120ea
+  languageName: node
+  linkType: hard
+
 "debug@npm:4, debug@npm:4.3.1, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0":
   version: 4.3.1
   resolution: "debug@npm:4.3.1"
@@ -4000,7 +4007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.8.56":
+"esbuild@npm:^0.8.32, esbuild@npm:^0.8.56":
   version: 0.8.56
   resolution: "esbuild@npm:0.8.56"
   bin:
@@ -4655,7 +4662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^9.1.0":
+"fs-extra@npm:^9.0.1, fs-extra@npm:^9.1.0":
   version: 9.1.0
   resolution: "fs-extra@npm:9.1.0"
   dependencies:
@@ -4967,7 +4974,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:11.0.2, globby@npm:^11.0.1":
+"globby@npm:11.0.2, globby@npm:^11.0.1, globby@npm:^11.0.2":
   version: 11.0.2
   resolution: "globby@npm:11.0.2"
   dependencies:
@@ -5155,6 +5162,15 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: c686e15300d41364486c099a9259d9c418022c294244843dcd712c4c286ff839d4f23a25413baa28c4d2c1e828afc2aaab70f685400b391533980223c71fa1ca
+  languageName: node
+  linkType: hard
+
+"he@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "he@npm:1.2.0"
+  bin:
+    he: bin/he
+  checksum: 212122003c20c8c17ac0c83a419b4c8e835411ff6ab9195d053ea6e4a0597cc005b5b8eabcbd57b0b0c0fe676f0049e09315845fff4e051198845491cbba260e
   languageName: node
   linkType: hard
 
@@ -6374,7 +6390,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^1.6.2":
+"jiti@npm:^1.2.0, jiti@npm:^1.6.2":
   version: 1.6.2
   resolution: "jiti@npm:1.6.2"
   bin:
@@ -7146,10 +7162,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mkdist@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "mkdist@npm:0.1.1"
+  dependencies:
+    defu: ^3.2.2
+    esbuild: ^0.8.32
+    fs-extra: ^9.0.1
+    globby: ^11.0.2
+    jiti: ^1.2.0
+    mri: ^1.1.6
+    upath: ^2.0.1
+    vue-template-compiler: ^2.6.12
+  bin:
+    mkdist: dist/cli.js
+  checksum: dae3891b9da0036bbdd7f2343ab8389e81374c06095eac9d7b1fe70d79586e51f0a42282f583605931ca5973e749c5982cd77a6583a4e1eeda32c098d83b0776
+  languageName: node
+  linkType: hard
+
 "modify-values@npm:^1.0.0":
   version: 1.0.1
   resolution: "modify-values@npm:1.0.1"
   checksum: 55165ae8b4ea2aafebe5027dd427d4a833d54606c81546f4d3c04943d99d194ac9481fa076719f326d243c475e2dfa5cf0219e68cffbbf9c44b24e46eb889779
+  languageName: node
+  linkType: hard
+
+"mri@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "mri@npm:1.1.6"
+  checksum: 87a09465063063da6d69d98ac75a6206a597c7533561c74e8aab5e6490ebe2a0e94c583fb6e02429e1f4291286a9549eb6a9699c83f5bad252c2c9b4eada97da
   languageName: node
   linkType: hard
 
@@ -8880,6 +8921,7 @@ __metadata:
     jest: ^26.6.3
     jiti: ^1.6.2
     lint-staged: ^10.5.4
+    mkdist: ^0.1.1
     prettier: ^2.2.1
     release-it: 14.4.1
     rollup: ^2.40.0
@@ -10050,6 +10092,16 @@ typescript@^4.2.3:
     core-util-is: 1.0.2
     extsprintf: ^1.2.0
   checksum: 38ea80312cb42e5e8b4ac562d108d675b2354a79f8f125d363671f692657461b9181fd26f4fc9acdca433f8afee099cb78058806e1303e6b15b8fb022affba94
+  languageName: node
+  linkType: hard
+
+"vue-template-compiler@npm:^2.6.12":
+  version: 2.6.12
+  resolution: "vue-template-compiler@npm:2.6.12"
+  dependencies:
+    de-indent: ^1.0.2
+    he: ^1.1.0
+  checksum: 5b05dda398cc1df7ba244316ddfb8f6463dbaafb4d23a4ac7e1cb8914e813a464f4ac055e41ac6e60feeadd4cccdeec1111fac592f2bb4eeb320889846a18912
   languageName: node
   linkType: hard
 

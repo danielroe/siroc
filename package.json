@@ -66,6 +66,7 @@
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
     "jiti": "^1.6.2",
+    "mkdist": "^0.1.1",
     "rollup": "^2.40.0",
     "rollup-plugin-dts": "^2.0.1",
     "rollup-plugin-esbuild": "2.6.1",
