@@ -1,3 +1,24 @@
+## [0.8.0](https://github.com/nuxt-contrib/siroc/compare/v0.7.0...v0.8.0) (2021-03-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* this currently includes all published files but changes to `exports` can potentially cause import issues
+
+### Features
+
+* add initial support for using mkdist ([#208](https://github.com/nuxt-contrib/siroc/issues/208)) ([1cd0127](https://github.com/nuxt-contrib/siroc/commit/1cd01278b26bb718e8d1e65f253c354b8b3e4467))
+
+
+### Bug Fixes
+
+* exclude .json exports from build ([5fb0c9f](https://github.com/nuxt-contrib/siroc/commit/5fb0c9f6035ed82490c1a5fff1f91341b0c2c2e7))
+
+
+### Miscellaneous Chores
+
+* add explicit exports ([2881914](https://github.com/nuxt-contrib/siroc/commit/2881914c2bf3dfb12fa180b75f42be79ceb9941d))
+
 ## [0.7.0](https://github.com/nuxt-contrib/siroc/compare/v0.6.7...v0.7.0) (2021-02-26)
 
 
