@@ -197,18 +197,20 @@ export function getRollupConfig(
         plugins: getDeclarationPlugins(),
       })
     ),
-    ...exports.map(outfile =>
-      defu({}, options as RollupOptions, {
-        input: pkg.resolveEntrypoint(outfile),
-        output: {
-          ...getFilenames(outfile),
-          preferConst: true,
-          exports: 'auto',
-        } as OutputOptions,
-        external,
-        plugins: getPlugins(),
-      })
-    ),
+    ...exports
+      .filter(outfile => outfile && !outfile.match(/\.json$/))
+      .map(outfile =>
+        defu({}, options as RollupOptions, {
+          input: pkg.resolveEntrypoint(outfile),
+          output: {
+            ...getFilenames(outfile),
+            preferConst: true,
+            exports: 'auto',
+          } as OutputOptions,
+          external,
+          plugins: getPlugins(),
+        })
+      ),
     ...exports
       .filter(outfile => outfile && !outfile.match(/\.json$/))
       .map(outfile =>
