@@ -86,6 +86,37 @@ At the most basic level, your entrypoints are configured in your `package.json`:
 There are some conventions in place of configuration that are worth noting:
 * the file type is inferred from the file name if possible (e.g. `babel.es.js` will be in 'es' format)
 * `main` defaults to CJS, `module` to ES, `browser` to UMD, and `bin` to CJS
+* if you have a folder mapped using [subpath patterns](https://nodejs.org/api/packages.html#packages_subpath_patterns) and it matches a folder within your `src` folder, the files within will be copied across and lightly transpiled using [mkdist](https://github.com/unjsio/mkdist).
+
+##### Example
+```json
+{
+  "exports": {
+    ".": {
+      // This will be compiled in CJS and matched to src/index.ts
+      "require": "./dist/index.js",
+      // This will be compiled in ES and matched to src/index.ts
+      "import": "./dist/index.es.js"
+    },
+    // src/templates will be lightly transpiled with mkdist and copied to dist/templates
+    "./templates/*": "./dist/templates/*",
+    // siroc will not touch this
+    "./package.json": "./package.json"
+  },
+  // This will be compiled in CJS and matched to src/index.ts
+  "main": "./dist/index.js",
+  // This will be compiled in ES and matched to src/index.ts
+  "module": "./dist/index.es.js",
+  // Types will be generated for src/index.ts
+  "types": "./dist/index.d.ts",
+  "bin": {
+    // This will be compiled in CJS and matched to src/cli/index.ts
+    "siroc": "bin/cli.js",
+    // This will be compiled in CJS and matched to src/cli/runtime.ts
+    "siroc-runner": "bin/runtime.js"
+  }
+}
+```
 
 #### Build hooks
 
