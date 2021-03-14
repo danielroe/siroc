@@ -5,7 +5,6 @@ import esbuild from 'rollup-plugin-esbuild'
 import pkg from './package.json'
 const external = Object.keys(pkg.dependencies || {})
 const esbuildPlugin = esbuild({
-  watch: process.argv.includes('--watch'),
   target: 'es2018',
 })
 
