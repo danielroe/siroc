@@ -1,10 +1,8 @@
 import { sep } from 'upath'
 import type { PackageJson } from './types'
 
-const walkDownDirectory = (pathname: string) => {
-  const [first, ...rest] = pathname.split(sep)
-  return rest.join(sep)
-}
+const walkDownDirectory = (pathname: string) =>
+  pathname.split(sep).slice(1).join(sep)
 
 export const getEntrypointPaths = (path: string) => {
   if (path.startsWith('./')) path = path.slice(2)
