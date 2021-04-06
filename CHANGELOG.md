@@ -1,3 +1,21 @@
+## [0.9.0](https://github.com/nuxt-contrib/siroc/compare/v0.8.0...v0.9.0) (2021-04-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* esbuild 0.11.0: https://github.com/evanw/esbuild/blob/master/CHANGELOG.md#0110 and https://github.com/evanw/esbuild/blob/master/CHANGELOG.md#0100
+* see particularly https://github.com/evanw/esbuild/blob/master/CHANGELOG.md#090
+
+### Bug Fixes
+
+* generate .dts correctly ([e7d90d5](https://github.com/nuxt-contrib/siroc/commit/e7d90d5a503a060ddb03873c7691132ebef72260))
+
+
+### Miscellaneous Chores
+
+* upgrade `esbuild` deps ([db6102b](https://github.com/nuxt-contrib/siroc/commit/db6102bf5c7d152e9e1904a9a3a0a4ba2d462e55))
+* upgrade deps ([c755cdc](https://github.com/nuxt-contrib/siroc/commit/c755cdc23afca9d0b9988408e1c20c5a7c6787c4))
+
 ## [0.8.0](https://github.com/nuxt-contrib/siroc/compare/v0.7.0...v0.8.0) (2021-03-08)
 
 

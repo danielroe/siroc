@@ -1,6 +1,6 @@
 {
   "name": "siroc",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Zero-config build tooling for Node",
   "keywords": [
     "node",
