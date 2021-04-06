@@ -1,3 +1,10 @@
+### [0.9.1](https://github.com/nuxt-contrib/siroc/compare/v0.9.0...v0.9.1) (2021-04-06)
+
+
+### Bug Fixes
+
+* switch main dts generation location ([2c220d7](https://github.com/nuxt-contrib/siroc/commit/2c220d70609aa94cb3b77ab2113bb89b863ae984))
+
 ## [0.9.0](https://github.com/nuxt-contrib/siroc/compare/v0.8.0...v0.9.0) (2021-04-06)
 
 
