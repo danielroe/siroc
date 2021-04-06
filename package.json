@@ -13,13 +13,6 @@
   ],
   "repository": "nuxt-contrib/siroc",
   "license": "MIT",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.es.js"
-    },
-    "./package.json": "./package.json"
-  },
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
