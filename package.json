@@ -34,12 +34,12 @@
     "lint:eslint": "eslint --fix",
     "lint:prettier": "prettier --write --loglevel warn",
     "prepare": "yarn husky install && yarn bootstrap",
-    "prepublishOnly": "yarn lint && yarn test && pinst --disable",
+    "prepublishOnly": "yarn lint && yarn test && yarn pinst --disable",
     "release": "release-it",
     "test": "jest",
     "watch": "yarn build --watch",
     "postinstall": "husky install",
-    "postpublish": "pinst --enable"
+    "postpublish": "yarn pinst --enable"
   },
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.2",
