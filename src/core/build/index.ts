@@ -28,7 +28,7 @@ export async function removeBuildFolders(pkg: Package) {
       ...includeIf(pkg.pkg.main, main => main),
     ]
       .map(file => dirname(file))
-      .filter(dir => !dir.includes('src'))
+      .filter(dir => !dir.includes('src') && !['.', './'].includes(dir))
   )
 
   await runInParallel(directories, dir => remove(dir))
