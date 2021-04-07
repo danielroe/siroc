@@ -1,3 +1,10 @@
+### [0.9.2](https://github.com/nuxt-contrib/siroc/compare/v0.9.1...v0.9.2) (2021-04-07)
+
+
+### Bug Fixes
+
+* don't include root directory in cleanup ([808bb9d](https://github.com/nuxt-contrib/siroc/commit/808bb9d9dc26d646893617a777f66a96f5352967))
+
 ### [0.9.1](https://github.com/nuxt-contrib/siroc/compare/v0.9.0...v0.9.1) (2021-04-06)
 
 
