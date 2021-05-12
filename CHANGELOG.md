@@ -1,3 +1,15 @@
+## [0.10.0](https://github.com/nuxt-contrib/siroc/compare/v0.9.3...v0.10.0) (2021-05-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Requires Node 12+
+* produces .mjs in subpath exports
+
+### Miscellaneous Chores
+
+* upgrade dependencies ([#210](https://github.com/nuxt-contrib/siroc/issues/210)) ([0bf915c](https://github.com/nuxt-contrib/siroc/commit/0bf915c4eb4e5a36dee9a75c8321d51076eae534)), closes [/github.com/unjs/mkdist/blob/main/CHANGELOG.md#020-2021-04-21](https://github.com/nuxt-contrib//github.com/unjs/mkdist/blob/main/CHANGELOG.md/issues/020-2021-04-21)
+
 ### [0.9.3](https://github.com/nuxt-contrib/siroc/compare/v0.9.2...v0.9.3) (2021-05-12)
 
 ### [0.9.2](https://github.com/nuxt-contrib/siroc/compare/v0.9.1...v0.9.2) (2021-04-07)
