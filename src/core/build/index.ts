@@ -84,6 +84,7 @@ export const build = async (
       srcDir,
       distDir: distDir.slice(2),
       rootDir: pkg.options.rootDir,
+      ...pkg.options.mkdist,
     })
   })
 

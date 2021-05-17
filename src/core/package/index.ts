@@ -12,6 +12,7 @@ import {
   chmod,
   pathExistsSync,
 } from 'fs-extra'
+import type { MkdistOptions } from 'mkdist'
 import type { RollupOptions } from 'rollup'
 import sortPackageJson from 'sort-package-json'
 
@@ -75,6 +76,10 @@ export interface DefaultPackageOptions {
    */
   rollup?: BuildConfigOptions & RollupOptions
   /**
+   * Any options to pass to mkdist.
+   */
+  mkdist?: Omit<MkdistOptions, 'rootDir' | 'srcDir' | 'distDir'>
+  /**
    * Whether to sort your `package.json` on build
    */
   sortDependencies?: boolean
@@ -109,6 +114,7 @@ const DEFAULTS: DefaultPackageOptions = {
   suffix: process.env.PACKAGE_SUFFIX ? `-${process.env.PACKAGE_SUFFIX}` : '',
   hooks: {},
   commands: {},
+  mkdist: {},
 }
 
 export class Package {
