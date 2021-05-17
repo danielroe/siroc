@@ -1,3 +1,10 @@
+### [0.10.1](https://github.com/nuxt-contrib/siroc/compare/v0.10.0...v0.10.1) (2021-05-17)
+
+
+### Features
+
+* allow setting mkdist options in `siroc.config` ([05d44bc](https://github.com/nuxt-contrib/siroc/commit/05d44bc364f12973ccf73d4064d84a8cf86b1345))
+
 ## [0.10.0](https://github.com/nuxt-contrib/siroc/compare/v0.9.3...v0.10.0) (2021-05-12)
 
 
