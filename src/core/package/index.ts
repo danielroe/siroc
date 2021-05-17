@@ -2,11 +2,13 @@ import { dirname, relative, resolve } from 'upath'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
+import detectIndent from 'detect-indent'
 import execa, { Options } from 'execa'
 import {
   copy,
   existsSync,
   readJSONSync,
+  readFileSync,
   writeFile,
   mkdirp,
   chmod,
@@ -209,8 +211,9 @@ export class Package {
    */
   async writePackage() {
     const pkgPath = this.resolvePath('package.json')
+    const indent = detectIndent(readFileSync(pkgPath, 'utf8')).indent || '  '
     this.logger.debug('Writing', pkgPath)
-    await writeFile(pkgPath, JSON.stringify(this.pkg, null, 2) + '\n')
+    await writeFile(pkgPath, JSON.stringify(this.pkg, null, indent) + '\n')
   }
 
   /**
