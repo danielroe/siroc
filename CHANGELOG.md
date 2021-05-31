@@ -1,3 +1,14 @@
+## [0.11.0](https://github.com/nuxt-contrib/siroc/compare/v0.10.1...v0.11.0) (2021-05-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* esbuild upgrade to 0.12
+
+### Miscellaneous Chores
+
+* upgrade dependencies ([f46988e](https://github.com/nuxt-contrib/siroc/commit/f46988e2c4510f8820a5e4556085a04d7d8b71cd)), closes [/github.com/evanw/esbuild/blob/master/CHANGELOG.md#0120](https://github.com/nuxt-contrib//github.com/evanw/esbuild/blob/master/CHANGELOG.md/issues/0120)
+
 ### [0.10.1](https://github.com/nuxt-contrib/siroc/compare/v0.10.0...v0.10.1) (2021-05-17)
 
 
