@@ -1,27 +1,29 @@
 import { resolve, dirname, basename } from 'upath'
 import type { OutputOptions } from 'rollup'
 
-export const getNameFunction = (rootDir: string, packageName: string) => (
-  filename: string | undefined,
-  defaultSuffix = '',
-  defaultFormat?: OutputFormat
-) => {
-  return {
-    dir: filename
-      ? resolve(rootDir, dirname(filename))
-      : resolve(rootDir, 'dist'),
-    entryFileNames: filename
-      ? basename(filename)
-      : `${packageName}${defaultSuffix}.js`,
-    chunkFileNames: filename
-      ? `${basename(filename)}-[name].js`
-      : `${packageName}-[name]${defaultSuffix}.js`,
-    format: formatForName(
-      filename ? basename(filename) : `${packageName}${defaultSuffix}.js`,
-      defaultFormat
-    ),
-  } as const
-}
+export const getNameFunction =
+  (rootDir: string, packageName: string) =>
+  (
+    filename: string | undefined,
+    defaultSuffix = '',
+    defaultFormat?: OutputFormat
+  ) => {
+    return {
+      dir: filename
+        ? resolve(rootDir, dirname(filename))
+        : resolve(rootDir, 'dist'),
+      entryFileNames: filename
+        ? basename(filename)
+        : `${packageName}${defaultSuffix}.js`,
+      chunkFileNames: filename
+        ? `${basename(filename)}-[name].js`
+        : `${packageName}-[name]${defaultSuffix}.js`,
+      format: formatForName(
+        filename ? basename(filename) : `${packageName}${defaultSuffix}.js`,
+        defaultFormat
+      ),
+    } as const
+  }
 
 type OutputFormat = OutputOptions['format']
 
