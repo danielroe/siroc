@@ -7,7 +7,6 @@ import execa, { Options } from 'execa'
 import {
   copy,
   existsSync,
-  readJSONSync,
   readFileSync,
   writeFile,
   mkdirp,
@@ -123,6 +122,7 @@ export class Package {
   options: DefaultPackageOptions
   logger: Consola
   pkg: RequireProperties<PackageJson, 'name' | 'version'>
+  pkgIndent: string
 
   constructor(options: SirocOptions = {}) {
     this.options = Object.assign({}, DEFAULTS, options)
@@ -130,7 +130,8 @@ export class Package {
     // Basic logger
     this.logger = consola
 
-    this.pkg = this.loadPackageJSON()
+    // Get `package.json` as an object and its indentation type
+    ;[this.pkg, this.pkgIndent] = this.loadPackageJSON()
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
@@ -138,9 +139,10 @@ export class Package {
     this.loadConfig()
   }
 
-  loadPackageJSON(): this['pkg'] {
+  loadPackageJSON(): [this['pkg'], this['pkgIndent']] {
     try {
-      return readJSONSync(this.resolvePath('package.json'))
+      const blob = readFileSync(this.resolvePath('package.json'), 'utf8')
+      return [JSON.parse(blob), detectIndent(blob).indent || '  ']
     } catch {
       if (this.options.rootDir === '/') {
         this.logger.error(
@@ -217,9 +219,11 @@ export class Package {
    */
   async writePackage() {
     const pkgPath = this.resolvePath('package.json')
-    const indent = detectIndent(readFileSync(pkgPath, 'utf8')).indent || '  '
     this.logger.debug('Writing', pkgPath)
-    await writeFile(pkgPath, JSON.stringify(this.pkg, null, indent) + '\n')
+    await writeFile(
+      pkgPath,
+      JSON.stringify(this.pkg, null, this.pkgIndent) + '\n'
+    )
   }
 
   /**
