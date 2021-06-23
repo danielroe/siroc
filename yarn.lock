@@ -8208,6 +8208,7 @@ __metadata:
     consola: ^2.15.3
     conventional-changelog-conventionalcommits: ^4.6.0
     defu: ^5.0.0
+    detect-indent: ^6.0.0
     esbuild: ^0.12.5
     eslint: ^7.27.0
     eslint-config-prettier: ^8.3.0

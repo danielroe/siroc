@@ -2,11 +2,12 @@ import { dirname, relative, resolve } from 'upath'
 
 import { bold } from 'chalk'
 import consola, { Consola } from 'consola'
+import detectIndent from 'detect-indent'
 import execa, { Options } from 'execa'
 import {
   copy,
   existsSync,
-  readJSONSync,
+  readFileSync,
   writeFile,
   mkdirp,
   chmod,
@@ -83,6 +84,11 @@ export interface DefaultPackageOptions {
    * Whether to sort your `package.json` on build
    */
   sortDependencies?: boolean
+  /**
+   * The indent to use when writing `package.json`
+   * @default `  `
+   */
+  pkgIndent?: string
 }
 
 export type SirocOptions = Partial<DefaultPackageOptions>
@@ -128,7 +134,10 @@ export class Package {
     // Basic logger
     this.logger = consola
 
-    this.pkg = this.loadPackageJSON()
+    // Get `package.json` as an object and its indentation type
+    const blob = this.loadPackageJSON(false)
+    this.pkg = JSON.parse(blob)
+    this.options.pkgIndent = this.options.pkgIndent || detectIndent(blob).indent
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
@@ -136,9 +145,13 @@ export class Package {
     this.loadConfig()
   }
 
-  loadPackageJSON(): this['pkg'] {
+  loadPackageJSON(): this['pkg']
+  loadPackageJSON(parse: false): string
+  loadPackageJSON(parse = true) {
     try {
-      return readJSONSync(this.resolvePath('package.json'))
+      const blob = readFileSync(this.resolvePath('package.json'), 'utf8')
+      if (parse) return JSON.parse(blob)
+      return blob
     } catch {
       if (this.options.rootDir === '/') {
         this.logger.error(
@@ -216,7 +229,10 @@ export class Package {
   async writePackage() {
     const pkgPath = this.resolvePath('package.json')
     this.logger.debug('Writing', pkgPath)
-    await writeFile(pkgPath, JSON.stringify(this.pkg, null, 2) + '\n')
+    await writeFile(
+      pkgPath,
+      JSON.stringify(this.pkg, null, this.options.pkgIndent) + '\n'
+    )
   }
 
   /**
