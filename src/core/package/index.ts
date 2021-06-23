@@ -84,6 +84,11 @@ export interface DefaultPackageOptions {
    * Whether to sort your `package.json` on build
    */
   sortDependencies?: boolean
+  /**
+   * The indent to use when writing `package.json`
+   * @default `  `
+   */
+  pkgIndent?: string
 }
 
 export type SirocOptions = Partial<DefaultPackageOptions>
@@ -122,7 +127,6 @@ export class Package {
   options: DefaultPackageOptions
   logger: Consola
   pkg: RequireProperties<PackageJson, 'name' | 'version'>
-  pkgIndent: string
 
   constructor(options: SirocOptions = {}) {
     this.options = Object.assign({}, DEFAULTS, options)
@@ -131,7 +135,9 @@ export class Package {
     this.logger = consola
 
     // Get `package.json` as an object and its indentation type
-    ;[this.pkg, this.pkgIndent] = this.loadPackageJSON()
+    const blob = this.loadPackageJSON(false)
+    this.pkg = JSON.parse(blob)
+    this.options.pkgIndent = this.options.pkgIndent || detectIndent(blob).indent
 
     // Use tagged logger
     this.logger = consola.withTag(this.pkg.name)
@@ -139,10 +145,13 @@ export class Package {
     this.loadConfig()
   }
 
-  loadPackageJSON(): [this['pkg'], this['pkgIndent']] {
+  loadPackageJSON(): this['pkg']
+  loadPackageJSON(parse: false): string
+  loadPackageJSON(parse = true) {
     try {
       const blob = readFileSync(this.resolvePath('package.json'), 'utf8')
-      return [JSON.parse(blob), detectIndent(blob).indent || '  ']
+      if (parse) return JSON.parse(blob)
+      return blob
     } catch {
       if (this.options.rootDir === '/') {
         this.logger.error(
@@ -222,7 +231,7 @@ export class Package {
     this.logger.debug('Writing', pkgPath)
     await writeFile(
       pkgPath,
-      JSON.stringify(this.pkg, null, this.pkgIndent) + '\n'
+      JSON.stringify(this.pkg, null, this.options.pkgIndent) + '\n'
     )
   }
 
