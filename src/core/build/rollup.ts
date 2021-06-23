@@ -91,28 +91,28 @@ export function getRollupConfig(
     }),
   ]
 
-  const getPlugins = () =>
-    [
-      aliasPlugin({
-        entries: alias,
-      }),
-      replacePlugin({
-        exclude: 'node_modules/**',
-        preventAssignment: true as any,
-        delimiters: ['', ''],
-        values: {
-          ...includeDefinedProperties({ __NODE_ENV__ }),
-          ...replace,
-        },
-      }),
-      nodeResolvePlugin(resolveOptions),
-      commonjsPlugin({ include: /node_modules/ }),
-      esbuild({
-        target: 'es2018',
-        ...esbuildOptions,
-      }),
-      jsonPlugin(),
-    ].concat(plugins)
+  const getPlugins = () => [
+    aliasPlugin({
+      entries: alias,
+    }),
+    replacePlugin({
+      exclude: 'node_modules/**',
+      preventAssignment: true,
+      delimiters: ['', ''],
+      values: {
+        ...includeDefinedProperties({ __NODE_ENV__ }),
+        ...replace,
+      },
+    }),
+    nodeResolvePlugin(resolveOptions),
+    commonjsPlugin({ include: /node_modules/ }),
+    esbuild({
+      target: 'es2018',
+      ...esbuildOptions,
+    }),
+    jsonPlugin(),
+    ...plugins,
+  ]
 
   const defaultOutputs: OutputOptions[] = [
     {
