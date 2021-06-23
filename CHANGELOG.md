@@ -1,3 +1,11 @@
+### [0.11.1](https://github.com/nuxt-contrib/siroc/compare/v0.11.0...v0.11.1) (2021-06-23)
+
+
+### Bug Fixes
+
+* **core:** generate es exports dts files correctly ([#212](https://github.com/nuxt-contrib/siroc/issues/212)) ([b0f29c6](https://github.com/nuxt-contrib/siroc/commit/b0f29c616f54b941a3cc1e100cb333445f130481))
+* **core:** preserve package.json indent ([#211](https://github.com/nuxt-contrib/siroc/issues/211)) ([14a7ffc](https://github.com/nuxt-contrib/siroc/commit/14a7ffc4cd0ee98804b6ba86dc83a511d796c059))
+
 ## [0.11.0](https://github.com/nuxt-contrib/siroc/compare/v0.10.1...v0.11.0) (2021-05-31)
 
 
