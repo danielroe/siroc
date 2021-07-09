@@ -2,7 +2,7 @@ import { resolve } from 'upath'
 
 import { Package } from '../package'
 import { builtins, builtinsMap } from './builtins'
-import { getRollupConfig } from './rollup'
+import { getRollupConfig, regexpForPackage } from './rollup'
 import { getNameFunction } from './utils'
 
 const getFixturePath = (path: string) =>
@@ -66,5 +66,31 @@ describe('builtins', () => {
     const newMap = builtinsMap()
     expect(map).toBe(newMap)
     expect(Object.values(map)[0]).toBe(true)
+  })
+})
+
+describe('external matching', () => {
+  const pattern = regexpForPackage('@nuxt/utils')
+
+  it('should match package name', () => {
+    expect(pattern.test('@nuxt/utils')).toBeTruthy()
+  })
+
+  it('should match package subpath', () => {
+    expect(pattern.test('@nuxt/utils/subpath')).toBeTruthy()
+  })
+
+  it('should match fully resolved package path', () => {
+    expect(
+      pattern.test('/project/node_modules/@nuxt/utils/index.js')
+    ).toBeTruthy()
+    expect(
+      pattern.test('c:\\project\\node_modules\\@nuxt\\utils\\index.js')
+    ).toBeTruthy()
+  })
+
+  it('should not match substring paths', () => {
+    expect(pattern.test('@nuxt/utils2')).toBeFalsy()
+    expect(pattern.test('a@nuxt/utils')).toBeFalsy()
   })
 })
