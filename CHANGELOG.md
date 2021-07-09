@@ -1,3 +1,14 @@
+## [0.12.0](https://github.com/nuxt-contrib/siroc/compare/v0.11.1...v0.12.0) (2021-07-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* use regexps to match dependency externals (#213)
+
+### Bug Fixes
+
+* use regexps to match dependency externals ([#213](https://github.com/nuxt-contrib/siroc/issues/213)) ([58de5db](https://github.com/nuxt-contrib/siroc/commit/58de5dbfa7eef7a31bafbf1554fb985ffe914323))
+
 ### [0.11.1](https://github.com/nuxt-contrib/siroc/compare/v0.11.0...v0.11.1) (2021-06-23)
 
 
