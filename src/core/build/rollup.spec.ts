@@ -71,15 +71,26 @@ describe('builtins', () => {
 
 describe('external matching', () => {
   const pattern = regexpForPackage('@nuxt/utils')
+
   it('should match package name', () => {
     expect(pattern.test('@nuxt/utils')).toBeTruthy()
   })
+
   it('should match package subpath', () => {
     expect(pattern.test('@nuxt/utils/subpath')).toBeTruthy()
   })
+
   it('should match fully resolved package path', () => {
     expect(
-      pattern.test('/home/me/project/node_modules/@nuxt/utils/index.js')
+      pattern.test('/project/node_modules/@nuxt/utils/index.js')
     ).toBeTruthy()
+    expect(
+      pattern.test('c:\\project\\node_modules\\@nuxt\\utils\\index.js')
+    ).toBeTruthy()
+  })
+
+  it('should not match substring paths', () => {
+    expect(pattern.test('@nuxt/utils2')).toBeFalsy()
+    expect(pattern.test('a@nuxt/utils')).toBeFalsy()
   })
 })

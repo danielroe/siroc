@@ -41,9 +41,10 @@ export interface BuildOverride {
 }
 
 export function regexpForPackage(name: string) {
-  // Should match `@foo/bar/index.js`, `node_modules/@foo/bar` as well as
-  // `@foo/bar`.
-  return new RegExp(`(^|node_modules[\\/])${name}([\\/]|$)`, 'i')
+  // Should match `@foo/bar/index.js`, `node_modules\@foo\bar`,
+  // `node_modules/@foo/bar` as well as `@foo/bar`.
+  name = name.replace(/[\\/]/g, '[\\\\/]')
+  return new RegExp(`(^|node_modules[\\\\/])${name}([\\\\/]|$)`, 'i')
 }
 
 function regexpForPackages(packages?: Record<string, string>) {
