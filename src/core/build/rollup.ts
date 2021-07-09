@@ -40,6 +40,16 @@ export interface BuildOverride {
   format: OutputOptions['format']
 }
 
+export function regexpForPackage(name: string) {
+  // Should match `@foo/bar/index.js`, `node_modules/@foo/bar` as well as
+  // `@foo/bar`.
+  return new RegExp(`(^|node_modules[\\/])${name}([\\/]|$)`, 'i')
+}
+
+function regexpForPackages(packages?: Record<string, string>) {
+  return Object.keys(packages || {}).map(regexpForPackage)
+}
+
 export function getRollupConfig(
   {
     input,
@@ -74,9 +84,9 @@ export function getRollupConfig(
 
   const external = [
     // Dependencies that will be installed alongside the package
-    ...Object.keys(pkgConfig.dependencies || {}),
-    ...Object.keys(pkgConfig.optionalDependencies || {}),
-    ...Object.keys(pkgConfig.peerDependencies || {}),
+    ...regexpForPackages(pkgConfig.dependencies),
+    ...regexpForPackages(pkgConfig.optionalDependencies),
+    ...regexpForPackages(pkgConfig.peerDependencies),
     // Builtin node modules
     ...builtins,
     ...externals,
