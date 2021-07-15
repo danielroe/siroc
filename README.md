@@ -86,7 +86,7 @@ At the most basic level, your entrypoints are configured in your `package.json`:
 There are some conventions in place of configuration that are worth noting:
 * the file type is inferred from the file name if possible (e.g. `babel.es.js` will be in 'es' format)
 * `main` defaults to CJS, `module` to ES, `browser` to UMD, and `bin` to CJS
-* if you have a folder mapped using [subpath patterns](https://nodejs.org/api/packages.html#packages_subpath_patterns) and it matches a folder within your `src` folder, the files within will be copied across and lightly transpiled using [mkdist](https://github.com/unjsio/mkdist).
+* if you have a folder mapped using [subpath patterns](https://nodejs.org/api/packages.html#packages_subpath_patterns) and it matches a folder within your `src` folder, the files within will be copied across and lightly transpiled using [mkdist](https://github.com/unjs/mkdist).
 
 ##### Example
 ```json5
@@ -134,7 +134,7 @@ Running `siroc dev` will replace your package entrypoints with stubs that point 
 
 ### `siroc run`
 
-You can run arbitrary shell commands or node scripts using the power of [the `jiti` runtime](https://github.com/nuxt-contrib/jiti).
+You can run arbitrary shell commands or node scripts using the power of [the `jiti` runtime](https://github.com/unjs/jiti).
 
 For example:
 
@@ -153,7 +153,7 @@ Contributions are very welcome.
 1. Clone this repo
 
    ```bash
-   git clone git@github.com:nuxt-contrib/siroc.git
+   git clone https://github.com/unjs/siroc
    ```
 
 2. Install dependencies and build project
@@ -182,11 +182,11 @@ Contributions are very welcome.
 [npm-downloads-src]: https://img.shields.io/npm/dm/siroc?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/siroc
 
-[github-actions-src]: https://img.shields.io/github/workflow/status/nuxt-contrib/siroc/ci/main?style=flat-square
-[github-actions-href]: https://github.com/nuxt-contrib/siroc/actions?query=workflow%3Aci
+[github-actions-src]: https://img.shields.io/github/workflow/status/unjs/siroc/ci/main?style=flat-square
+[github-actions-href]: https://github.com/unjs/siroc/actions?query=workflow%3Aci
 
-[alerts-src]: https://img.shields.io/lgtm/alerts/github/nuxt-contrib/siroc?style=flat-square
-[alerts-href]: https://lgtm.com/projects/g/nuxt-contrib/siroc
+[alerts-src]: https://img.shields.io/lgtm/alerts/github/unjs/siroc?style=flat-square
+[alerts-href]: https://lgtm.com/projects/g/unjs/siroc
 
-[grade-src]: https://img.shields.io/lgtm/grade/javascript/github/nuxt-contrib/siroc?style=flat-square
-[grade-href]: https://lgtm.com/projects/g/nuxt-contrib/siroc
+[grade-src]: https://img.shields.io/lgtm/grade/javascript/github/unjs/siroc?style=flat-square
+[grade-href]: https://lgtm.com/projects/g/unjs/siroc
