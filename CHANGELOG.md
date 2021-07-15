@@ -1,3 +1,10 @@
+## [0.13.0](https://github.com/nuxt-contrib/siroc/compare/v0.12.0...v0.13.0) (2021-07-15)
+
+
+### Features
+
+* support minifying outputs based on `.min.*` dist name ([#215](https://github.com/nuxt-contrib/siroc/issues/215)) ([4713443](https://github.com/nuxt-contrib/siroc/commit/47134435c48fa17d205b61b8b230a702c824459b)), closes [#214](https://github.com/nuxt-contrib/siroc/issues/214)
+
 ## [0.12.0](https://github.com/nuxt-contrib/siroc/compare/v0.11.1...v0.12.0) (2021-07-09)
 
 
