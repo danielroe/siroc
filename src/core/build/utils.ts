@@ -53,6 +53,10 @@ export const formatForName = (
   return defaultFormat
 }
 
+export const shouldMinify = (filename: string) => {
+  return !!filename.match(/\.min\.\w+$/)
+}
+
 export const convertToUMDName = (name: string) => {
   const unnamspacedName = name.split('/').pop()
 

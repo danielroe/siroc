@@ -16,7 +16,7 @@ import esbuild, { Options as EsbuildOptions } from 'rollup-plugin-esbuild'
 import { Package } from '../package'
 import { includeDefinedProperties, includeIf } from '../utils'
 import { builtins } from './builtins'
-import { convertToUMDName, getNameFunction } from './utils'
+import { convertToUMDName, getNameFunction, shouldMinify } from './utils'
 
 const __NODE_ENV__ = process.env.NODE_ENV
 
@@ -102,7 +102,7 @@ export function getRollupConfig(
     }),
   ]
 
-  const getPlugins = () => [
+  const getPlugins = (filename: string) => [
     aliasPlugin({
       entries: alias,
     }),
@@ -119,6 +119,7 @@ export function getRollupConfig(
     commonjsPlugin({ include: /node_modules/ }),
     esbuild({
       target: 'es2018',
+      minify: shouldMinify(filename),
       ...esbuildOptions,
     }),
     jsonPlugin(),
@@ -162,7 +163,7 @@ export function getRollupConfig(
           format: override.format,
         } as OutputOptions,
         external,
-        plugins: getPlugins(),
+        plugins: getPlugins(override.output),
       },
     ]
   }
@@ -182,17 +183,21 @@ export function getRollupConfig(
           banner: '#!/usr/bin/env node\n',
         } as OutputOptions,
         external,
-        plugins: getPlugins(),
+        plugins: getPlugins(binary),
       })
     ),
-    ...includeIf(input, input =>
-      defu({}, options as RollupOptions, {
-        input,
-        output: defaultOutputs,
-        external,
-        plugins: getPlugins(),
-      })
-    ),
+    ...[
+      input
+        ? defaultOutputs.map(output =>
+            defu({}, options as RollupOptions, {
+              input,
+              output,
+              external,
+              plugins: getPlugins(output.entryFileNames as string),
+            })
+          )
+        : [],
+    ],
     ...includeIf(typeEntrypoint, input => ({
       input,
       output: {
@@ -215,7 +220,7 @@ export function getRollupConfig(
             exports: 'auto',
           } as OutputOptions,
           external,
-          plugins: getPlugins(),
+          plugins: getPlugins(outfile),
         })
       ),
     ...exports
