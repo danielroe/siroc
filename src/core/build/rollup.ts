@@ -186,18 +186,16 @@ export function getRollupConfig(
         plugins: getPlugins(binary),
       })
     ),
-    ...[
-      input
-        ? defaultOutputs.map(output =>
-            defu({}, options as RollupOptions, {
-              input,
-              output,
-              external,
-              plugins: getPlugins(output.entryFileNames as string),
-            })
-          )
-        : [],
-    ],
+    ...(input
+      ? defaultOutputs.map(output =>
+          defu({}, options as RollupOptions, {
+            input,
+            output,
+            external,
+            plugins: getPlugins(output.entryFileNames as string),
+          })
+        )
+      : []),
     ...includeIf(typeEntrypoint, input => ({
       input,
       output: {

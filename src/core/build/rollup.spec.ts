@@ -19,7 +19,7 @@ describe('rollupConfig', () => {
     const config = getRollupConfig({}, core)
     expect(Array.isArray(config)).toBeTruthy()
     expect(typeof config[0].input).toBe('string')
-    expect(config.length).toBe(2)
+    expect(config.length).toBe(3)
   })
   it('should generate builds for binaries', () => {
     const config = getRollupConfig({}, cli)
