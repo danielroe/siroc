@@ -1,3 +1,10 @@
+## [0.14.0](https://github.com/unjs/siroc/compare/v0.13.0...v0.14.0) (2021-07-17)
+
+
+### Features
+
+* add support for exports with patterns ([1b1cd59](https://github.com/unjs/siroc/commit/1b1cd59ec3bdbb5793f012c178b9a6824b8680f0))
+
 ## [0.13.0](https://github.com/nuxt-contrib/siroc/compare/v0.12.0...v0.13.0) (2021-07-15)
 
 
