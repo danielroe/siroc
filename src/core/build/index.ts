@@ -72,7 +72,8 @@ export const build = async (
   logRollupConfig(pkg, rollupConfig)
 
   await runInParallel(pkg.folderExports, folder => {
-    const { 1: distDir = folder } = folder.match(/^(.*[^*/])[*/]*$/) || []
+    const { 1: distDir = folder, 3: ext } =
+      folder.match(/^([^*]+[^*/])[*/]+(\.([a-z]+))?$/) || []
     const sourceFolder = pkg.resolveEntrypointFolder(distDir)
     if (!sourceFolder) return
 
@@ -84,6 +85,9 @@ export const build = async (
       srcDir,
       distDir: distDir.slice(2),
       rootDir: pkg.options.rootDir,
+      ext: ['mjs', 'ts', 'js'].includes(ext)
+        ? (ext as 'mjs' | 'ts' | 'js')
+        : undefined,
       ...pkg.options.mkdist,
     })
   })

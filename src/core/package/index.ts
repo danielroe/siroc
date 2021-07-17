@@ -423,7 +423,9 @@ export class Package {
         `./${this.pkg.main}`,
         `./${this.pkg.module}`,
         `./${this.pkg.browser}`,
-      ].includes(item) && !/[./*]$/.test(item)
+      ].includes(item) &&
+      !item.endsWith('/') &&
+      !item.includes('*')
 
     if (!exports) return []
     if (typeof exports === 'string') return [exports].filter(filterExports)
@@ -435,7 +437,7 @@ export class Package {
   get folderExports(): string[] {
     const { exports } = this.pkg
 
-    const filterExports = (item: string) => /[a-z]\/\*$/.test(item)
+    const filterExports = (item: string) => /[a-z]\/\*(\.[a-z]*)?$/.test(item)
 
     if (!exports) return []
     if (typeof exports === 'string') return [exports].filter(filterExports)
