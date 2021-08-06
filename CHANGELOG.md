@@ -1,3 +1,19 @@
+## [0.15.0](https://github.com/unjs/siroc/compare/v0.14.0...v0.15.0) (2021-08-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* major version changes in `@rollup/plugin-commonjs` and `@rollup/plugin-replace`
+
+### Bug Fixes
+
+* **core:** generate .d.ts files for .mjs exports ([#218](https://github.com/unjs/siroc/issues/218)) ([7a14d21](https://github.com/unjs/siroc/commit/7a14d21db3c1280036fc857f86aee1ac2a371a2c))
+
+
+### Miscellaneous Chores
+
+* upgrade dependencies ([b8c962a](https://github.com/unjs/siroc/commit/b8c962a42633d32ca0862ca5dd0e19a1184a443d))
+
 ## [0.14.0](https://github.com/unjs/siroc/compare/v0.13.0...v0.14.0) (2021-07-17)
 
 
