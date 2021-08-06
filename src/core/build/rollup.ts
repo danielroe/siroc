@@ -232,7 +232,7 @@ export function getRollupConfig(
         defu({}, options as RollupOptions, {
           input: pkg.resolveEntrypoint(outfile),
           output: {
-            file: resolvePath(outfile.replace(/(\.es)?\.js$/, '.d.ts')),
+            file: resolvePath(outfile.replace(/(\.es)?\.m?js$/, '.d.ts')),
             format: 'es',
             exports: 'auto',
           } as OutputOptions,
