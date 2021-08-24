@@ -1,3 +1,10 @@
+## [0.16.0](https://github.com/unjs/siroc/compare/v0.15.0...v0.16.0) (2021-08-24)
+
+
+### Bug Fixes
+
+* support cjs stubbing ([#220](https://github.com/unjs/siroc/issues/220)) ([c61f314](https://github.com/unjs/siroc/commit/c61f31475529834653a6cddbd76a1b5df9ffb9d0))
+
 ## [0.15.0](https://github.com/unjs/siroc/compare/v0.14.0...v0.15.0) (2021-08-06)
 
 
