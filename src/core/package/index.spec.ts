@@ -59,24 +59,33 @@ describe('package class', () => {
   // TODO: move to fixture
   test('should generate package stub', async () => {
     const defaultPath = getFixturePath('default')
-    const files = [
-      resolve(defaultPath, 'dist/index.js'),
-      resolve(defaultPath, 'dist/index.es.js'),
-      resolve(defaultPath, 'dist/index.d.ts'),
-    ]
-    for (const file of files) {
+    const files = {
+      [resolve(defaultPath, 'dist/index.js')]: [
+        `const jiti = require('jiti')()`,
+        `module.exports = jiti('./../src/index')`,
+      ].join('\n'),
+      [resolve(
+        defaultPath,
+        'dist/index.es.js'
+      )]: `export * from './../src/index'`,
+      [resolve(
+        defaultPath,
+        'dist/index.d.ts'
+      )]: `export * from './../src/index'`,
+    }
+    for (const file in files) {
       await remove(file)
       expect(existsSync(file)).toBeFalsy()
     }
 
     await core.createStubs()
 
-    for (const file of files) {
+    for (const file in files) {
       expect(
         readFileSync(file)
           .toString()
-          .replace(/from '.*\/fixture/, "from '/fixture")
-      ).toBe(`export * from './../src/index'`)
+          .replace(/'.*\/fixture/, "'/fixture")
+      ).toBe(files[file])
     }
   })
 

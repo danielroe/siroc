@@ -342,29 +342,40 @@ export class Package {
       const absPath = entrypoint.replace(/(\.[jt]s)$/, '')
       await writeFile(
         binary,
-        `#!/usr/bin/env node\nconst jiti = require('jiti')()\nmodule.exports = jiti('${absPath}')`
+        [
+          `#!/usr/bin/env node`,
+          `const jiti = require('jiti')()`,
+          `module.exports = jiti('${absPath}')`,
+        ].join('\n')
       )
       await this.setBinaryPermissions()
     })
   }
 
-  async createStub(path: string | undefined) {
+  async createStub(path: string | undefined, cjs = false) {
     if (!path || !this.entrypoint || !this.options.build) return
 
     const outFile = this.resolvePath(path)
     const outDir = dirname(outFile)
     if (!existsSync(outDir)) await mkdirp(outDir)
     const relativeEntrypoint = relative(outDir, this.entrypoint).replace(
-      /(\.[jt]s)$/,
+      /(\.[cm]?[jt]s)$/,
       ''
     )
-    await writeFile(outFile, `export * from './${relativeEntrypoint}'`)
+    const stub = cjs
+      ? [
+          `const jiti = require('jiti')()`,
+          `module.exports = jiti('./${relativeEntrypoint}')`,
+        ].join('\n')
+      : `export * from './${relativeEntrypoint}'`
+
+    await writeFile(outFile, stub)
   }
 
   async createStubs() {
     return Promise.all([
       this.createBinaryStubs(),
-      this.createStub(this.pkg.main),
+      this.createStub(this.pkg.main, true),
       this.createStub(this.pkg.module),
       this.createStub(this.pkg.types),
     ])
