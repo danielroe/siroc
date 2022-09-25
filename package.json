@@ -47,7 +47,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^3.0.0",
-    "cac": "^6.7.3",
+    "cac": "6.7.14",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
     "defu": "^5.0.0",

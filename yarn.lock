@@ -2809,10 +2809,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cac@npm:^6.7.3":
-  version: 6.7.3
-  resolution: "cac@npm:6.7.3"
-  checksum: 5fa95deb98467e41a5c1d84614077bc9c6dcb25caf5bdbfcbbc0a27bf9a4ba7b9505e2b22be7c755c99d70da5c4c3dbe1d2e9cc4c9035e1b752f103488f2802b
+"cac@npm:6.7.14":
+  version: 6.7.14
+  resolution: "cac@npm:6.7.14"
+  checksum: 45a2496a9443abbe7f52a49b22fbe51b1905eff46e03fd5e6c98e3f85077be3f8949685a1849b1a9cd2bc3e5567dfebcf64f01ce01847baf918f1b37c839791a
   languageName: node
   linkType: hard
 
@@ -8126,7 +8126,7 @@ __metadata:
     "@types/node": ^16.7.8
     "@typescript-eslint/eslint-plugin": ^4.30.0
     "@typescript-eslint/parser": ^4.30.0
-    cac: ^6.7.3
+    cac: 6.7.14
     chalk: ^4.1.2
     codecov: ^3.8.3
     consola: ^2.15.3
