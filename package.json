@@ -11,7 +11,10 @@
     "bundle",
     "package"
   ],
-  "repository": "danielroe/siroc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielroe/siroc.git"
+  },
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
