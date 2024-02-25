@@ -162,7 +162,7 @@ export const build = async (
           )
         })
         await pkg.callHook('build:done', { bundle })
-      } catch (err) {
+      } catch (err: any) {
         const formattedError = formatError(rootDir, err)
         throw pkg.logger.error(formattedError)
       }

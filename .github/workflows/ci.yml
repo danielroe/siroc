@@ -14,70 +14,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - uses: actions/cache@v2
-        id: cache
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
         with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            .yarn/*
-            !.yarn/releases
-            !.yarn/plugins
-            !.yarn/sdks
-            !.yarn/versions
-            .pnp.js
-          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('.pnp.js') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: 20
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
 
       - name: Lint project
-        run: yarn lint
+        run: pnpm lint
 
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12, 14, 16]
+        node: [16, 18]
 
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/checkout@v1
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            .yarn/*
-            !.yarn/releases
-            !.yarn/plugins
-            !.yarn/sdks
-            !.yarn/versions
-            .pnp.js
-          key: yarn-${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('.pnp.js') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-${{ matrix.node }}
-
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
 
       - name: Bootstrap project
-        run: yarn bootstrap
+        run: pnpm bootstrap
 
       - name: Test project
-        run: yarn test
+        run: pnpm test

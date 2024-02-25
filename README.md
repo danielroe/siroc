@@ -26,10 +26,10 @@ Just install `siroc`.
 
 ```bash
 # You can install siroc as a development dependency
-yarn add siroc --dev
+pnpm i siroc --dev
 
 # ... or install globally
-yarn global add siroc
+pnpm -g i siroc
 ```
 
 ## Configuration

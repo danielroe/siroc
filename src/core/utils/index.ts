@@ -6,7 +6,7 @@ import _jiti from 'jiti'
 
 import { loadAllSettled, loadFromEntries } from './polyfills'
 
-const jiti = _jiti()
+const jiti = _jiti(import.meta.url)
 
 if (!Object.fromEntries) loadFromEntries()
 if (!Promise.allSettled) loadAllSettled()
@@ -36,7 +36,9 @@ export const tryRequire = <T = unknown>(id: string) => {
   try {
     if (extname(id) === 'json') return tryJSON(id)
     const contents = jiti(id) as T | { default: T }
-    if ('default' in contents) return contents.default
+    if (contents && typeof contents === 'object' && 'default' in contents) {
+      return contents.default
+    }
     return contents
   } catch {
     return undefined
