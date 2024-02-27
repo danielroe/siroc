@@ -62,7 +62,7 @@
     "mkdist": "^0.3.3",
     "rollup": "^2.56.3",
     "rollup-plugin-dts": "^4.0.0",
-    "rollup-plugin-esbuild": "4.5.0",
+    "rollup-plugin-esbuild": "4.10.3",
     "sort-package-json": "^1.50.0",
     "typescript": "^4.4.2",
     "upath": "^2.0.1",
