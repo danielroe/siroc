@@ -180,7 +180,7 @@ Contributions are very welcome.
 [npm-version-href]: https://npmjs.com/package/siroc
 
 [npm-downloads-src]: https://img.shields.io/npm/dm/siroc?style=flat-square
-[npm-downloads-href]: https://npmjs.com/package/siroc
+[npm-downloads-href]: https://npm.chart.dev/siroc
 
 [github-actions-src]: https://img.shields.io/github/workflow/status/unjs/siroc/ci/main?style=flat-square
 [github-actions-href]: https://github.com/unjs/siroc/actions?query=workflow%3Aci
