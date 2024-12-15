@@ -182,8 +182,8 @@ Contributions are very welcome.
 [npm-downloads-src]: https://img.shields.io/npm/dm/siroc?style=flat-square
 [npm-downloads-href]: https://npm.chart.dev/siroc
 
-[github-actions-src]: https://img.shields.io/github/workflow/status/unjs/siroc/ci/main?style=flat-square
-[github-actions-href]: https://github.com/unjs/siroc/actions?query=workflow%3Aci
+[github-actions-src]: https://img.shields.io/github/actions/workflow/status/unjs/siroc/ci.yml?branch=main&style=flat-square
+[github-actions-href]: https://github.com/unjs/siroc/actions/workflows/ci.yml
 
 [alerts-src]: https://img.shields.io/lgtm/alerts/github/unjs/siroc?style=flat-square
 [alerts-href]: https://lgtm.com/projects/g/unjs/siroc
