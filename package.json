@@ -36,7 +36,7 @@
     "lint:all:eslint": "pnpm lint:eslint --ext .js,.ts,.vue .",
     "lint:all:prettier": "pnpm lint:prettier \"**/*.{js,json,ts,vue}\"",
     "lint:eslint": "eslint --fix",
-    "lint:prettier": "prettier --write --loglevel warn",
+    "lint:prettier": "prettier --write --log-level warn",
     "prepare": "pnpm husky install && pnpm bootstrap",
     "prepublishOnly": "pnpm lint && pnpm test",
     "release": "release-it",
