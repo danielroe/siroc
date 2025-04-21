@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:base",
+    "github>danielroe/renovate",
     "packages:linters",
     ":labels(dependencies,devops)",
     ":pinAllExceptPeerDependencies",
@@ -19,9 +19,12 @@
   },
   "packageRules": [
     {
-      "packagePatterns": ["lint"],
+      "packagePatterns": [
+        "lint"
+      ],
       "groupName": "all lint dependencies",
       "groupSlug": "all-lint"
     }
-  ]
+  ],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
 }

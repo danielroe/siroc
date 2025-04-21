@@ -4,11 +4,3 @@ packages/*/dist
 !dist/.gitkeep
 node_modules
 coverage
-
-# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
